@@ -146,8 +146,12 @@ Defensive error handling, isolated logo key, sandboxed iframes, native allowlist
 
 ### Pages Overflow & Widgets
 <p align="center">
-<img src="images/screenshot-overflow.png" alt="Pages Overflow" width="45%" />
-<img src="images/screenshot-widgets.png" alt="Widgets" width="45%" />
+<img src="https://i.imgur.com/7rsaU4j.png" alt="Pages Overflow" width="45%" />
+<img src="https://i.imgur.com/4iSEVrs.png" alt="Pages Overflow" width="45%" />
+<img src="https://i.imgur.com/Re9j0Ii.png" alt="Pages Overflow" width="45%" />
+<img src="https://i.imgur.com/Aj7vZMp.png" alt="Pages Overflow" width="45%" />
+<img src="https://i.imgur.com/jgy3DBS.png" alt="Pages Overflow" width="45%" />
+<img src="https://i.imgur.com/0TNFCvt.png" alt="Widgets" width="45%" />
 </p>
 
 
