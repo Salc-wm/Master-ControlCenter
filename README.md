@@ -3,7 +3,7 @@
 
 <!-- PROJECT SHIELDS -->
 <div align="center">
-  <a href="[repo-url]">
+  <a href="https://github.com/Salc-wm/Master-ControlCenter/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/status-active-success?style=for-the-badge" alt="Status" />
   </a>
   <a href="[issues-url]">
