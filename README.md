@@ -3,13 +3,13 @@
 
 <!-- PROJECT SHIELDS -->
 <div align="center">
-  <a href="https://github.com/Salc-wm/Master-ControlCenter/blob/main/LICENSE">
+  <a href="[repo-url]">
     <img src="https://img.shields.io/badge/status-active-success?style=for-the-badge" alt="Status" />
   </a>
   <a href="[issues-url]">
     <img src="https://img.shields.io/github/issues/YOUR_USERNAME/YOUR_REPO.svg?style=for-the-badge" alt="Issues" />
   </a>
-  <a href="[license-url]">
+  <a href="https://github.com/Salc-wm/Master-ControlCenter/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/YOUR_USERNAME/YOUR_REPO?style=for-the-badge" alt="License" />
   </a>
   <a href="[last-commit-url]">
