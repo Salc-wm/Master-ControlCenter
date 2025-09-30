@@ -362,15 +362,10 @@ to use the Software for personal or commercial purposes, subject to the followin
 [love-badge]: https://img.shields.io/badge/made%20with-%E2%9D%A4-red?style=flat-square
 [repo-url]: https://github.com/YOUR_USERNAME
 
-
-<a href="https://chromewebstore.google.com/detail/labdash/oadadaadglendanjlifbnlapdjoffceo">
-  <img src="https://img.shields.io/badge/🧪%20Other%20Project%3A%20LabDash-505050?style=flat&logoColor=white" alt="Idea Came from: LabDash">
-</a> 
-<br>  
+## Idea of Original Credit
 <a href="https://www.tiktok.com/@benjaminspowell">
-  <img src="https://img.shields.io/badge/Benjamin%20S%20Powell-000000?style=flat&logo=tiktok&logoColor=white" alt="TikTok - By: Benjamin S Powell">
+  <img src="https://img.shields.io/badge/By%3A%20Benjamin%20S%20Powell%20--%20Idea%20Came%20from%3A%20LabDash-000000?style=flat&logo=tiktok&logoColor=white" alt="TikTok - By: Benjamin S Powell - Idea Came from: LabDash">
 </a>
-
 
 <p align="right">
   <a href="#readme-top">
