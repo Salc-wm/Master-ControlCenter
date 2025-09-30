@@ -303,7 +303,11 @@ No license file currently. Add one (MIT, Apache-2.0, etc.) to clarify usage righ
 * Favicon & logo fallbacks (Google & Clearbit)
 * Community dashboard & homelab inspirations
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">
+<a href="#readme-top">
+<img src="https://img.shields.io/badge/back%20to%20top-000000?style=flat-square&logo=anchor&logoColor=white" alt="Back to top" />
+</a>
+</p>
 
 ---
 
