@@ -298,15 +298,6 @@ oh/
 
 **Good first contributions:** widget extraction, accessibility polish, performance measurement harness, new icon sources, additional program launch modes.
 
-## FAQ
-**Why an extension?** To use `chrome.storage.local` & optional native messaging, all local — no external backend.
-
-**Does it track me?** No analytics; only external calls are to APIs you configure (weather, RSS, uptime, logo service, etc.).
-
-**Do I need native launching?** No — schemes work fine alone.
-
-**Can I self-host as static files?** Yes, but extension-only APIs (chrome.*) gracefully degrade.
-
 ## License
 No license file currently. Add one (MIT, Apache-2.0, etc.) to clarify usage rights. Until then, all rights reserved by default.
 
