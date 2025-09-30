@@ -4,7 +4,7 @@
 <!-- PROJECT SHIELDS -->
 <div align="center">
 
-![Status][status-badge] [![Issues][issues-shield]][issues-url] [![License][license-shield]][license-url] [![Last Commit][last-commit-shield]][last-commit-url] [![Made With Love][love-badge]][repo-url]
+![Status][status-badge] [![Made With Love][love-badge]][repo-url]
 
 </div>
 
