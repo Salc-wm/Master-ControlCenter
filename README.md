@@ -3,22 +3,23 @@
 
 <!-- PROJECT SHIELDS -->
 <div align="center">
-  <a href="[repo-url]">
-    <img src="https://img.shields.io/badge/status-active-success?style=for-the-badge" alt="Status" />
+  <a href="https://github.com/Salc-wm/Master-ControlCenter">
+    <img src="https://img.shields.io/badge/ACTIVE-success?style=for-the-badge&label=%F0%9F%9F%A2%20STATUS&labelColor=000000&color=5C0010" alt="Status" />
   </a>
-  <a href="[issues-url]">
-    <img src="https://img.shields.io/github/issues/YOUR_USERNAME/YOUR_REPO.svg?style=for-the-badge" alt="Issues" />
+  <a href="https://github.com/Salc-wm/Master-ControlCenter/issues">
+    <img src="https://img.shields.io/github/issues/Salc-wm/Master-ControlCenter.svg?style=for-the-badge&label=%F0%9F%90%9E%20ISSUES&labelColor=000000&color=5C0010" alt="Issues" />
   </a>
   <a href="https://github.com/Salc-wm/Master-ControlCenter/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/Salc-wm/Master-ControlCenter/blob/main/LICENSE?style=for-the-badge" alt="License" />
+    <img src="https://img.shields.io/github/license/Salc-wm/Master-ControlCenter?style=for-the-badge&label=%E2%9A%96%EF%B8%8F%20LICENSE&labelColor=000000&color=444444" alt="License" />
   </a>
-  <a href="[last-commit-url]">
-    <img src="https://img.shields.io/github/last-commit/YOUR_USERNAME/YOUR_REPO?style=for-the-badge" alt="Last Commit" />
+  <a href="https://github.com/Salc-wm/Master-ControlCenter/commits/main">
+    <img src="https://img.shields.io/github/last-commit/Salc-wm/Master-ControlCenter?style=for-the-badge&label=%E2%8F%B3%20LAST%20COMMIT&labelColor=000000&color=5C0010" alt="Last Commit" />
   </a>
-  <a href="[repo-url]">
-    <img src="https://img.shields.io/badge/made%20with-%E2%9D%A4-red?style=for-the-badge" alt="Made with Love" />
+  <a href="https://github.com/Salc-wm/Master-ControlCenter">
+    <img src="https://img.shields.io/badge/LOVE-red?style=for-the-badge&label=%E2%9D%A4%20MADE%20WITH&labelColor=000000&color=5C0010" alt="Made with Love" />
   </a>
 </div>
+
 
 <!-- PROJECT LOGO -->
 <div align="center">
@@ -41,38 +42,38 @@
 ---
 
 <details>
-  <summary>Table of Contents</summary>
+  <summary><img src="https://img.shields.io/badge/📑-Table%20of%20Contents-1E1E1E?style=flat-square&labelColor=111111" /></summary>
   <ol>
-    <li><a href="#about-the-project">About the Project</a>
+    <li><a href="#about-the-project"><img src="https://img.shields.io/badge/📂-About%20the%20Project-3A6EA5?style=flat-square&labelColor=1E1E1E" /></a>
       <ul>
-        <li><a href="#core-structure">Core Structure</a></li>
-        <li><a href="#key-features">Key Features</a></li>
-        <li><a href="#tech-stack">Tech Stack</a></li>
-        <li><a href="#built-with">Built With</a></li>
-        <li><a href="#architecture-overview">Architecture Overview</a></li>
+        <li><a href="#core-structure"><img src="https://img.shields.io/badge/🧩-Core%20Structure-6C63FF?style=flat-square&labelColor=1E1E1E" /></a></li>
+        <li><a href="#key-features"><img src="https://img.shields.io/badge/✨-Key%20Features-D46A6A?style=flat-square&labelColor=1E1E1E" /></a></li>
+        <li><a href="#tech-stack"><img src="https://img.shields.io/badge/🛠️-Tech%20Stack-3A9188?style=flat-square&labelColor=1E1E1E" /></a></li>
+        <li><a href="#built-with"><img src="https://img.shields.io/badge/🏗️-Built%20With-C97E4E?style=flat-square&labelColor=1E1E1E" /></a></li>
+        <li><a href="#architecture-overview"><img src="https://img.shields.io/badge/📐-Architecture%20Overview-8C8C8C?style=flat-square&labelColor=1E1E1E" /></a></li>
       </ul>
     </li>
-    <li><a href="#screenshots--showcase">Screenshots / Showcase</a></li>
-    <li><a href="#getting-started">Getting Started</a>
+    <li><a href="#screenshots--showcase"><img src="https://img.shields.io/badge/🖼️-Screenshots%20%2F%20Showcase-4AA564?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#getting-started"><img src="https://img.shields.io/badge/🚀-Getting%20Started-B34747?style=flat-square&labelColor=1E1E1E" /></a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation-as-extension">Installation (Chrome Extension)</a></li>
-        <li><a href="#optional-native-launching">Optional: Native Launching</a></li>
-        <li><a href="#optional-custom-url-protocols-windows">Optional: Custom URL Protocols (Windows)</a></li>
+        <li><a href="#prerequisites"><img src="https://img.shields.io/badge/📋-Prerequisites-5C7285?style=flat-square&labelColor=1E1E1E" /></a></li>
+        <li><a href="#installation-as-extension"><img src="https://img.shields.io/badge/💻-Installation%20(Extension)-4C7BB4?style=flat-square&labelColor=1E1E1E" /></a></li>
+        <li><a href="#optional-native-launching"><img src="https://img.shields.io/badge/⚙️-Native%20Launching-A97155?style=flat-square&labelColor=1E1E1E" /></a></li>
+        <li><a href="#optional-custom-url-protocols-windows"><img src="https://img.shields.io/badge/🔗-Custom%20URL%20Protocols-855E99?style=flat-square&labelColor=1E1E1E" /></a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#widgets">Widgets</a></li>
-    <li><a href="#configuration">Configuration</a></li>
-    <li><a href="#data-export--import">Data Export / Import</a></li>
-    <li><a href="#performance-and-caching">Performance & Caching</a></li>
-    <li><a href="#security--privacy">Security & Privacy</a></li>
-    <li><a href="#directory-structure">Directory Structure</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#usage"><img src="https://img.shields.io/badge/📖-Usage-3B9C9C?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#widgets"><img src="https://img.shields.io/badge/🧸-Widgets-A569BD?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#configuration"><img src="https://img.shields.io/badge/⚙️-Configuration-9E9E51?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#data-export--import"><img src="https://img.shields.io/badge/📤-Export%20%2F%20Import-D4A017?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#performance-and-caching"><img src="https://img.shields.io/badge/⚡-Performance%20%26%20Caching-C0392B?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#security--privacy"><img src="https://img.shields.io/badge/🔒-Security%20%26%20Privacy-922B21?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#directory-structure"><img src="https://img.shields.io/badge/📂-Directory%20Structure-4B8B3B?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#roadmap"><img src="https://img.shields.io/badge/🗺️-Roadmap-3B5CA0?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#contributing"><img src="https://img.shields.io/badge/🤝-Contributing-D4AF37?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#faq"><img src="https://img.shields.io/badge/❓-FAQ-B45F9A?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#license"><img src="https://img.shields.io/badge/⚖️-License-555555?style=flat-square&labelColor=1E1E1E" /></a></li>
+    <li><a href="#acknowledgments"><img src="https://img.shields.io/badge/🙏-Acknowledgments-B45F9A?style=flat-square&labelColor=1E1E1E" /></a></li>
   </ol>
 </details>
 
@@ -337,28 +338,6 @@ oh/
 **Good first contributions:** widget extraction, accessibility polish, performance measurement harness, new icon sources, additional program launch modes.
 
 ---
-
----
-
-## License
-
-[![License](https://img.shields.io/badge/📜%20License-Restricted-red.svg)](#license)
-
-Copyright (c) 2025 Master-Control Center  
-
-Permission is hereby granted to any person obtaining a copy of this software  
-to use the Software for personal or commercial purposes, subject to the following conditions:  
-
-1. Modification of the Software is **not permitted**.  
-2. Redistribution of the Software, in whole or in part, is **not permitted**.  
-3. The Software is provided **"as is"**, without warranty of any kind, express or implied,  
-   including but not to the warranties of merchantability, fitness for a particular purpose,  
-   and noninfringement. In no event shall the authors be liable for any claim, damages,  
-   or other liability, whether in an action of contract, tort, or otherwise, arising from,  
-   out of, or in connection with the Software or the use of the Software.  
-
-
----
 ## Acknowledgments
 [![Acknowledgments](https://img.shields.io/badge/🙏%20Acknowledgments-Thanks-blue.svg)](#acknowledgments)
 
@@ -368,8 +347,6 @@ to use the Software for personal or commercial purposes, subject to the followin
 * disease.sh (COVID stats)
 * Favicon & logo fallbacks (Google & Clearbit)
 * Community dashboard and homelab inspirations
-
-
 
 ---
 
@@ -385,9 +362,7 @@ to use the Software for personal or commercial purposes, subject to the followin
 [repo-url]: https://github.com/YOUR_USERNAME
 
 ## Idea of Original Credit
-<div align="center">
-<div align="center">
-<div align="center">
+</a>
 <a href="https://www.tiktok.com/@benjaminspowell">
   <img src="https://img.shields.io/badge/By%3A%20Benjamin%20S%20Powell%20--%20Idea%20Came%20from%3A%20LabDash-000000?style=flat&logo=tiktok&logoColor=white" alt="TikTok - By: Benjamin S Powell - Idea Came from: LabDash">
 </a>
