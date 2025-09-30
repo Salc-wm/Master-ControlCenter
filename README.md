@@ -159,9 +159,10 @@ Defensive error handling, isolated logo key, sandboxed iframes, native allowlist
 
 ### Modals & Settings
 <p align="center">
-<img src="images/screenshot-link-modal.png" alt="Link Modal" width="30%" />
-<img src="images/screenshot-program-modal.png" alt="Program Modal" width="30%" />
-<img src="images/screenshot-settings.png" alt="Settings Panel" width="30%" />
+<img src="https://i.imgur.com/4tdMfHD.png" alt="General" width="30%" />
+<img src="https://i.imgur.com/wuRm6HH.png" alt="Data" width="30%" />
+<img src="https://i.imgur.com/whNVO9C.png" alt="APIS" width="30%" />
+<img src="https://i.imgur.com/DFdaXrf.png" alt="Advanced" width="30%" />
 </p>
 
 
