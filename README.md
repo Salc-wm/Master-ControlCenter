@@ -62,6 +62,9 @@
 ---
 
 ## About the Project
+
+[![About the Project](https://img.shields.io/badge/ℹ️%20About%20the%20Project-Details-blue.svg)](#about-the-project)
+
 **Master Control Center** is a modular, local-first dashboard for homelab, productivity and app-launching workflows. It provides:
 
 - Multi-page/tabbed layout
@@ -72,6 +75,7 @@
 - Optional native and custom protocol launching
 
 ### Core Structure
+[![Core Structure](https://img.shields.io/badge/🏗️%20Core%20Structure-Outlined-blue.svg)](#core-structure)
 | Layer | Purpose |
 |-------|---------|
 | UI (HTML/CSS/ES Modules) | Renders pages, groups, modals and settings |
@@ -102,14 +106,16 @@
 | APIs | Open-Meteo, logo.dev, UptimeRobot, disease.sh, RSS feeds |
 
 ### Built With
-* [![HTML5][html5-badge]][html5-url]
-* [![CSS3][css3-badge]][css3-url]
-* [![JavaScript ES Modules][js-badge]][js-url]
-* [![Chrome MV3][mv3-badge]][mv3-url]
-* [![Node.js][node-badge]][node-url]
-* [![PowerShell][ps-badge]][ps-url]
-* [![Python][python-badge]][python-url]
-* [![Batch][batch-badge]][batch-url]
+
+<p align="center">
+  <a href="https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5"></a>
+  <a href="https://developer.mozilla.org/docs/Web/CSS"><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3"></a>
+  <a href="https://developer.mozilla.org/docs/Web/JavaScript/Guide/Modules"><img src="https://img.shields.io/badge/JavaScript-ESM-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript"></a>
+  <a href="https://developer.chrome.com/docs/extensions/mv3/"><img src="https://img.shields.io/badge/Chrome%20MV3-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Chrome MV3"></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js"></a>
+  <a href="https://learn.microsoft.com/powershell/"><img src="https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white" alt="PowerShell"></a>
+</p>
+
 
 ### Architecture Overview
 1. Extension action opens the dashboard.
@@ -143,6 +149,7 @@
 <img src="https://i.imgur.com/0TNFCvt.png" alt="Widgets" width="45%" />
 </p>
 
+
 ### Modals & Settings
 <p align="center">
 <img src="https://i.imgur.com/4tdMfHD.png" alt="General" width="30%" />
@@ -154,6 +161,9 @@
 ---
 
 ## Getting Started
+
+[![Getting Started](https://img.shields.io/badge/🚀%20Getting%20Started-Guide-blue.svg)](#getting-started)
+
 Run as an unpacked Chromium extension (recommended) or open `dashboard.html` directly (reduced feature set outside extension context).
 
 ### Prerequisites
@@ -182,6 +192,7 @@ Run as an unpacked Chromium extension (recommended) or open `dashboard.html` dir
 ---
 
 ## Usage
+[![Usage](https://img.shields.io/badge/▶️%20Usage-Examples-blue.svg)](#usage)
 | Action | How |
 |--------|-----|
 | Add Page | Click the **Add Page** button (top bar) |
@@ -198,6 +209,7 @@ Run as an unpacked Chromium extension (recommended) or open `dashboard.html` dir
 ---
 
 ## Widgets
+[![Widgets](https://img.shields.io/badge/🧩%20Widgets-Available-blue.svg)](#widgets)
 | Widget | Summary | Notes |
 |--------|---------|-------|
 | Weather | Current conditions and details | Open-Meteo (no key) |
@@ -209,6 +221,7 @@ Run as an unpacked Chromium extension (recommended) or open `dashboard.html` dir
 ---
 
 ## Configuration
+[![Configuration](https://img.shields.io/badge/⚙️%20Configuration-Available-blue.svg)](#configuration)
 | Setting | Location | Description |
 |---------|----------|-------------|
 | Theme | Settings → General | System / Light / Dark / Crimson |
@@ -222,6 +235,7 @@ Run as an unpacked Chromium extension (recommended) or open `dashboard.html` dir
 ---
 
 ## Data Export / Import
+[![Data Export / Import](https://img.shields.io/badge/📥%20Data%20Export%20%2F%20Import-Supported-blue.svg)](#data-export--import)
 * Export: timestamped JSON (pages, groups, links, widgets, programs, settings)
 * Import: schema normalization (IDs, arrays, safety checks)
 * Compatible across future minor migrations
@@ -229,6 +243,7 @@ Run as an unpacked Chromium extension (recommended) or open `dashboard.html` dir
 ---
 
 ## Performance and Caching
+[![Performance & Caching](https://img.shields.io/badge/⚡%20Performance%20%26%20Caching-Optimized-green.svg)](#performance--caching)
 * Lazy loading for icons and images
 * Unified cache pool (RSS, weather, COVID, uptime)
 * TTL + max entries pruning (idle scheduled)
@@ -237,6 +252,7 @@ Run as an unpacked Chromium extension (recommended) or open `dashboard.html` dir
 ---
 
 ## Security & Privacy
+[![Security & Privacy](https://img.shields.io/badge/🔒%20Security%20%26%20Privacy-Important-red.svg)](#security--privacy)
 | Aspect | Approach |
 |--------|----------|
 | Storage | Local (extension and localStorage only) |
@@ -249,6 +265,7 @@ Run as an unpacked Chromium extension (recommended) or open `dashboard.html` dir
 ---
 
 ## Directory Structure
+[![Directory Structure](https://img.shields.io/badge/📂%20Directory%20Structure-Available-blue.svg)](#directory-structure)
 ```
 oh/
  ├─ dashboard.html
@@ -281,6 +298,7 @@ oh/
 ---
 
 ## Roadmap
+[![Roadmap](https://img.shields.io/badge/🗺️%20Roadmap-Planned-blue.svg)](#roadmap)
 - [ ] Extract widget code into modular sub-files
 - [ ] Unit tests for migrations and import
 - [ ] Additional widgets (Grafana / Prometheus)
@@ -292,6 +310,7 @@ oh/
 ---
 
 ## Contributing
+[![Contributing](https://img.shields.io/badge/🤝%20Contributing-Guidelines-blue.svg)](#contributing)
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feat/awesome`)
 3. Commit (`git commit -m "feat: add awesome"`)
@@ -302,27 +321,27 @@ oh/
 
 ---
 
-## FAQ
-**Does it work without the extension context?**  
-Yes. You can open `dashboard.html` directly. Some features such as persistence and native bridge are limited.
-
-**How do I add a new widget type?**  
-Start with the Widgets Engine in `js/` and follow the pattern used for existing widgets. Prefer modular sub-files.
-
-**Why does an iframe not load?**  
-Some sites set CSP headers that block embedding. Use a direct link tile instead.
-
-**Where is my data stored?**  
-Locally in extension storage and localStorage. Export provides a full backup.
-
----
-
 ## License
-No license file currently. Add one (MIT, Apache-2.0, etc.) to clarify usage rights. Until then, all rights reserved by default.
+
+[![License](https://img.shields.io/badge/📜%20License-Restricted-red.svg)](#license)
+
+Copyright (c) 2025 Master-Control Center  
+
+Permission is hereby granted to any person obtaining a copy of this software  
+to use the Software for personal or commercial purposes, subject to the following conditions:  
+
+1. Modification of the Software is **not permitted**.  
+2. Redistribution of the Software, in whole or in part, is **not permitted**.  
+3. The Software is provided **"as is"**, without warranty of any kind, express or implied,  
+   including but not limited to the warranties of merchantability, fitness for a particular purpose,  
+   and noninfringement. In no event shall the authors be liable for any claim, damages,  
+   or other liability, whether in an action of contract, tort, or otherwise, arising from,  
+   out of, or in connection with the Software or the use of the Software.  
+
 
 ---
-
 ## Acknowledgments
+[![Acknowledgments](https://img.shields.io/badge/🙏%20Acknowledgments-Thanks-blue.svg)](#acknowledgments)
 * logo.dev (logo resolution)
 * Open-Meteo (weather)
 * UptimeRobot (uptime API)
