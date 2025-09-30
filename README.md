@@ -314,7 +314,7 @@ _Replace badge / repo placeholders & add real screenshots before publishing._
 [repo-url]: https://github.com/your-username/your-repo
 
 <!-- SCREENSHOT PLACEHOLDERS -->
-[shot-dashboard]: images/screenshot-dashboard.png
+[shot-dashboard]: [images/screenshot-dashboard.png](https://i.imgur.com/F2Mp7Hu.png)
 [shot-overflow]: images/screenshot-overflow.png
 [shot-widgets]: images/screenshot-widgets.png
 [shot-link]: images/screenshot-link-modal.png
