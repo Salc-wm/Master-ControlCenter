@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/github/issues/YOUR_USERNAME/YOUR_REPO.svg?style=for-the-badge" alt="Issues" />
   </a>
   <a href="https://github.com/Salc-wm/Master-ControlCenter/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/YOUR_USERNAME/YOUR_REPO?style=for-the-badge" alt="License" />
+    <img src="https://img.shields.io/github/license/Salc-wm/Master-ControlCenter/blob/main/LICENSE?style=for-the-badge" alt="License" />
   </a>
   <a href="[last-commit-url]">
     <img src="https://img.shields.io/github/last-commit/YOUR_USERNAME/YOUR_REPO?style=for-the-badge" alt="Last Commit" />
