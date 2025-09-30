@@ -138,7 +138,7 @@ Defensive error handling, isolated logo key, sandboxed iframes, native allowlist
 <p align="center">
 <img src="https://i.imgur.com/F2Mp7Hu.png" alt="" width="80%" />
 <br/>
-<img src="https://i.imgur.com/mP1j5F.png" alt="" width="80%" />
+<img src="https://i.imgur.com/0vw3aV2.png" alt="" width="80%" />
 <br/>
 <img src="https://i.imgur.com/mMPiJ5F.png" alt="" width="80%" />
 </p>
