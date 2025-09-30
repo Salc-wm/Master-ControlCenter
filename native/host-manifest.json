@@ -1,0 +1,9 @@
+{
+  "name": "com.stackdash.launcher",
+  "description": "Master Control Dashboard Native Launcher (example NodeJS host)",
+  "path": "REPLACE_WITH_ABSOLUTE_PATH_TO_node_wrapper.bat",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://__EXTENSION_ID__/"
+  ]
+}

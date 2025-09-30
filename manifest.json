@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Master Control Center",
+  "version": "1.0.1",
+  "description": "Master Control Center is a privacy-first extension that launches a customizable dashboard for news, apps, games, and utilities, with all data stored locally fully customizable by the user",
+  "icons": {
+    "16": "icon/stackdash-16.png",
+    "32": "icon/stackdash-32.png",
+    "48": "icon/stackdash-48.png",
+    "64": "icon/stackdash-64.png",
+    "128": "icon/stackdash-128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icon/stackdash-16.png",
+      "32": "icon/stackdash-32.png",
+      "48": "icon/stackdash-48.png"
+    },
+  "default_title": "Master Control Center"
+  },
+  "permissions": ["storage"],
+  "background": { "service_worker": "service-worker.js" }
+}
