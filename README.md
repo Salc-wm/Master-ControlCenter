@@ -305,7 +305,7 @@ No license file currently. Add one (MIT, Apache-2.0, etc.) to clarify usage righ
 
 <p align="right">
   <a href="#readme-top">
-    <img src="https://img.shields.io/badge/⬆️_Back_to_Top-800020?style=flat&logoColor=white" alt="Back to top" />
+    <img src="https://img.shields.io/badge/⬆️%20Back_to_Top-burgundy?style=for-the-badge&color=800020&labelColor=5a0015" alt="Back to top" />
   </a>
 </p>
 
