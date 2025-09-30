@@ -133,19 +133,32 @@ Defensive error handling, isolated logo key, sandboxed iframes, native allowlist
 5. Program tiles launch via scheme or native host (if configured).
 
 ## Screenshots / Showcase
-> Replace placeholders with actual images in an `images/` folder.
+## Screenshots / Showcase
 
-| Dashboard | Pages Overflow | Widgets |
-|-----------|----------------|---------|
-| ![Dashboard][shot-dashboard-1] | ![Overflow][shot-overflow] | ![Widgets][shot-widgets] |
 
-| Dashboard 2 | Dashboard 3 |  |
-|-------------|-------------|--|
-| ![Dashboard 2][shot-dashboard-2] | ![Dashboard 3][shot-dashboard-3] |  |
+### Dashboard
+<p align="center">
+<img src="https://i.imgur.com/F2Mp7Hu.png" alt="Dashboard 1" width="80%" />
+<br/>
+<img src="https://i.imgur.com/mP1j5F.png" alt="Dashboard 2" width="80%" />
+<br/>
+<img src="https://i.imgur.com/0vw3aV2.png" alt="Dashboard 3" width="80%" />
+</p>
 
-| Link Modal | Program Modal | Settings Panel |
-|------------|---------------|----------------|
-| ![Link][shot-link] | ![Program][shot-program] | ![Settings][shot-settings] |
+
+### Pages Overflow & Widgets
+<p align="center">
+<img src="images/screenshot-overflow.png" alt="Pages Overflow" width="45%" />
+<img src="images/screenshot-widgets.png" alt="Widgets" width="45%" />
+</p>
+
+
+### Modals & Settings
+<p align="center">
+<img src="images/screenshot-link-modal.png" alt="Link Modal" width="30%" />
+<img src="images/screenshot-program-modal.png" alt="Program Modal" width="30%" />
+<img src="images/screenshot-settings.png" alt="Settings Panel" width="30%" />
+</p>
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
