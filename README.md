@@ -137,11 +137,16 @@ Defensive error handling, isolated logo key, sandboxed iframes, native allowlist
 
 | Dashboard | Pages Overflow | Widgets |
 |-----------|----------------|---------|
-| ![Dashboard][shot-dashboard] | ![Overflow][shot-overflow] | ![Widgets][shot-widgets] |
+| ![Dashboard][shot-dashboard-1] | ![Overflow][shot-overflow] | ![Widgets][shot-widgets] |
+
+| Dashboard 2 | Dashboard 3 |  |
+|-------------|-------------|--|
+| ![Dashboard 2][shot-dashboard-2] | ![Dashboard 3][shot-dashboard-3] |  |
 
 | Link Modal | Program Modal | Settings Panel |
 |------------|---------------|----------------|
 | ![Link][shot-link] | ![Program][shot-program] | ![Settings][shot-settings] |
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
