@@ -151,6 +151,8 @@ Defensive error handling, isolated logo key, sandboxed iframes, native allowlist
 <img src="https://i.imgur.com/Re9j0Ii.png" alt="Pages Overflow" width="45%" />
 <img src="https://i.imgur.com/Aj7vZMp.png" alt="Pages Overflow" width="45%" />
 <img src="https://i.imgur.com/jgy3DBS.png" alt="Pages Overflow" width="45%" />
+<img src="https://i.imgur.com/rZrp1wG.png" alt="Pages Overflow" width="45%" />
+<img src="https://i.imgur.com/SLUquLC.png" alt="Pages Overflow" width="45%" />
 <img src="https://i.imgur.com/0TNFCvt.png" alt="Widgets" width="45%" />
 </p>
 
