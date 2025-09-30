@@ -60,7 +60,7 @@
 </details>
 
 ## About the Project
-**Master Control Center (StackDash)** is a modular, local‑first dashboard for homelab, productivity and app launching workflows. It combines:
+**Master Control Center** is a modular, local‑first dashboard for homelab, productivity and app launching workflows. It combines:
 
 * Multi-page / tabbed layout
 * Grouped tiles for links, programs & widgets
