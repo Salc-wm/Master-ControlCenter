@@ -349,12 +349,6 @@ to use the Software for personal or commercial purposes, subject to the followin
 * Favicon & logo fallbacks (Google & Clearbit)
 * Community dashboard and homelab inspirations
 
-<p align="right">
-  <a href="#readme-top">
-    <img src="https://img.shields.io/badge/☝️%20Back_to_Top-%232c2c2c?style=for-the-badge&labelColor=%23141414" alt="Back to top" />
-  </a>
-</p>
-
 ---
 
 <!-- MARKDOWN LINKS & BADGES -->
@@ -367,3 +361,21 @@ to use the Software for personal or commercial purposes, subject to the followin
 [last-commit-url]: https://github.com/YOUR_USERNAME/YOUR_REPO/commits
 [love-badge]: https://img.shields.io/badge/made%20with-%E2%9D%A4-red?style=flat-square
 [repo-url]: https://github.com/YOUR_USERNAME
+
+
+<a href="https://chromewebstore.google.com/detail/labdash/oadadaadglendanjlifbnlapdjoffceo">
+  <img src="https://img.shields.io/badge/🧪%20Other%20Project%3A%20LabDash-505050?style=flat&logoColor=white" alt="Idea Came from: LabDash">
+</a> 
+<br>  
+<a href="https://www.tiktok.com/@benjaminspowell">
+  <img src="https://img.shields.io/badge/Benjamin%20S%20Powell-000000?style=flat&logo=tiktok&logoColor=white" alt="TikTok - By: Benjamin S Powell">
+</a>
+
+
+<p align="right">
+  <a href="#readme-top">
+    <img src="https://img.shields.io/badge/☝️%20Back_to_Top-%232c2c2c?style=for-the-badge&labelColor=%23141414" alt="Back to top" />
+  </a>
+</p>
+
+
