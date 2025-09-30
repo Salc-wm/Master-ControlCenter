@@ -306,7 +306,6 @@ No license file currently. Add one (MIT, Apache-2.0, etc.) to clarify usage righ
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
-_Replace badge / repo placeholders & add real screenshots before publishing._
 
 <!-- MARKDOWN LINKS & BADGES -->
 [status-badge]: https://img.shields.io/badge/status-active-success?style=flat-square
