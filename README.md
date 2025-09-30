@@ -4,8 +4,6 @@
 <!-- PROJECT SHIELDS -->
 <div align="center">
 
-![Status][status-badge] [![Made With Love][love-badge]][repo-url]
-
 </div>
 
 <!-- PROJECT LOGO -->
