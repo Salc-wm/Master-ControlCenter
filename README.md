@@ -2,10 +2,27 @@
 <a id="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
-
+<div align="center">
+  <a href="[repo-url]">
+    <img src="https://img.shields.io/badge/status-active-success?style=for-the-badge" alt="Status" />
+  </a>
+  <a href="[issues-url]">
+    <img src="https://img.shields.io/github/issues/YOUR_USERNAME/YOUR_REPO.svg?style=for-the-badge" alt="Issues" />
+  </a>
+  <a href="[license-url]">
+    <img src="https://img.shields.io/github/license/YOUR_USERNAME/YOUR_REPO?style=for-the-badge" alt="License" />
+  </a>
+  <a href="[last-commit-url]">
+    <img src="https://img.shields.io/github/last-commit/YOUR_USERNAME/YOUR_REPO?style=for-the-badge" alt="Last Commit" />
+  </a>
+  <a href="[repo-url]">
+    <img src="https://img.shields.io/badge/made%20with-%E2%9D%A4-red?style=for-the-badge" alt="Made with Love" />
+  </a>
+</div>
 
 <!-- PROJECT LOGO -->
 <div align="center">
+  <br />
   <img src="icon/stackdash-128.png" alt="Logo" width="110" height="110" />
   <h1 align="center">Master Control Center</h1>
   <p align="center">
@@ -88,13 +105,16 @@
 | Windows Helpers | Protocol registration and batch launchers |
 
 ### Key Features
-- **Layout & Interaction:** Multi-page tabs, per-page groups, drag and drop ordering, edit mode toggle.
-- **Customization:** Themes (system/light/dark/crimson), searchable font catalog, glow effect with safety controls.
-- **Link & Program Management:** Icon modes (favicon/logo.dev/URL/upload), domain guessing, and native/program launch support.
-- **Widgets:** Weather (Open-Meteo), RSS (proxy fallback + highlighting), UptimeRobot, sandboxed IFrame, COVID stats.
-- **Data & Persistence:** Local storage, timestamped export, migration-safe IDs.
-- **Performance:** Lazy icon loading, unified cache pool, idle scheduling, lean service worker.
-- **Reliability & Safety:** Defensive error handling, sandboxed iframes, native allowlist, CORS fallback.
+| Feature | Description |
+|-------|---------|
+| Layout & Interaction | Multi-page tabs, per-page groups, drag and drop ordering, edit mode toggle. |
+| Customization | Themes (system/light/dark/crimson), searchable font catalog, glow effect with safety controls. |
+| Link & Program Management | Icon modes (favicon/logo.dev/URL/upload), domain guessing, and native/program launch support. |
+| Widgets | Weather (Open-Meteo), RSS (proxy fallback + highlighting), UptimeRobot, sandboxed IFrame, COVID stats. |
+| Data & Persistence | Local storage, timestamped export, migration-safe IDs. |
+| Performance | Lazy icon loading, unified cache pool, idle scheduling, lean service worker. |
+| Reliability & Safety | Defensive error handling, sandboxed iframes, native allowlist, CORS fallback. |
+
 
 ### Tech Stack
 | Domain | Technologies |
@@ -110,10 +130,7 @@
 <p align="center">
   <a href="https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5"></a>
   <a href="https://developer.mozilla.org/docs/Web/CSS"><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3"></a>
-  <a href="https://developer.mozilla.org/docs/Web/JavaScript/Guide/Modules"><img src="https://img.shields.io/badge/JavaScript-ESM-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript"></a>
-  <a href="https://developer.chrome.com/docs/extensions/mv3/"><img src="https://img.shields.io/badge/Chrome%20MV3-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Chrome MV3"></a>
-  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js"></a>
-  <a href="https://learn.microsoft.com/powershell/"><img src="https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white" alt="PowerShell"></a>
+  <a href="https://developer.mozilla.org/docs/Web/JavaScript"><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript"></a>
 </p>
 
 
@@ -321,6 +338,8 @@ oh/
 
 ---
 
+---
+
 ## License
 
 [![License](https://img.shields.io/badge/📜%20License-Restricted-red.svg)](#license)
@@ -333,7 +352,7 @@ to use the Software for personal or commercial purposes, subject to the followin
 1. Modification of the Software is **not permitted**.  
 2. Redistribution of the Software, in whole or in part, is **not permitted**.  
 3. The Software is provided **"as is"**, without warranty of any kind, express or implied,  
-   including but not limited to the warranties of merchantability, fitness for a particular purpose,  
+   including but not to the warranties of merchantability, fitness for a particular purpose,  
    and noninfringement. In no event shall the authors be liable for any claim, damages,  
    or other liability, whether in an action of contract, tort, or otherwise, arising from,  
    out of, or in connection with the Software or the use of the Software.  
@@ -342,6 +361,7 @@ to use the Software for personal or commercial purposes, subject to the followin
 ---
 ## Acknowledgments
 [![Acknowledgments](https://img.shields.io/badge/🙏%20Acknowledgments-Thanks-blue.svg)](#acknowledgments)
+
 * logo.dev (logo resolution)
 * Open-Meteo (weather)
 * UptimeRobot (uptime API)
@@ -349,28 +369,34 @@ to use the Software for personal or commercial purposes, subject to the followin
 * Favicon & logo fallbacks (Google & Clearbit)
 * Community dashboard and homelab inspirations
 
+
+
 ---
 
 <!-- MARKDOWN LINKS & BADGES -->
-[status-badge]: https://img.shields.io/badge/status-active-success?style=flat-square
-[issues-shield]: https://img.shields.io/github/issues/YOUR_USERNAME/YOUR_REPO.svg?style=flat-square
+[status-badge]: https://img.shields.io/badge/status-active-success?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/YOUR_USERNAME/YOUR_REPO.svg?style=for-the-badge
 [issues-url]: https://github.com/YOUR_USERNAME/YOUR_REPO/issues
-[license-shield]: https://img.shields.io/github/license/YOUR_USERNAME/YOUR_REPO?style=flat-square
+[license-shield]: https://img.shields.io/github/license/YOUR_USERNAME/YOUR_REPO?style=for-the-badge
 [license-url]: LICENSE
-[last-commit-shield]: https://img.shields.io/github/last-commit/YOUR_USERNAME/YOUR_REPO?style=flat-square
+[last-commit-shield]: https://img.shields.io/github/last-commit/YOUR_USERNAME/YOUR_REPO?style=for-the-badge
 [last-commit-url]: https://github.com/YOUR_USERNAME/YOUR_REPO/commits
-[love-badge]: https://img.shields.io/badge/made%20with-%E2%9D%A4-red?style=flat-square
+[love-badge]: https://img.shields.io/badge/made%20with-%E2%9D%A4-red?style=for-the-badge
 [repo-url]: https://github.com/YOUR_USERNAME
 
 ## Idea of Original Credit
+<div align="center">
+<div align="center">
+<div align="center">
 <a href="https://www.tiktok.com/@benjaminspowell">
   <img src="https://img.shields.io/badge/By%3A%20Benjamin%20S%20Powell%20--%20Idea%20Came%20from%3A%20LabDash-000000?style=flat&logo=tiktok&logoColor=white" alt="TikTok - By: Benjamin S Powell - Idea Came from: LabDash">
 </a>
+</div>
+</div>
+</div>
 
 <p align="right">
   <a href="#readme-top">
     <img src="https://img.shields.io/badge/☝️%20Back_to_Top-%232c2c2c?style=for-the-badge&labelColor=%23141414" alt="Back to top" />
   </a>
 </p>
-
-
