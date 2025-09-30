@@ -7,7 +7,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
 	<img src="icon/stackdash-128.png" alt="Logo" width="110" height="110" />
-	<h1 align="center">Master Control Center</h1>
+	<h1 align="center">Master Control Center (StackDash)</h1>
 	<p align="center">
 		Multi‑page, local‑first dashboard for links, apps & live widgets — with optional native & custom protocol launching.
 		<br />
@@ -29,6 +29,7 @@
 				<li><a href="#core-structure">Core Structure</a></li>
 				<li><a href="#key-features">Key Features</a></li>
 				<li><a href="#tech-stack">Tech Stack</a></li>
+				<li><a href="#built-with">Built With</a></li>
 				<li><a href="#architecture-overview">Architecture Overview</a></li>
 			</ul>
 		</li>
@@ -108,6 +109,17 @@ Defensive error handling, isolated logo key, sandboxed iframes, native allowlist
 | Scripts | PowerShell, Batch (.bat), Python (utility GUI), Node (native host example) |
 | Data | JSON state + in-memory caches |
 | APIs | Open-Meteo, logo.dev, UptimeRobot, disease.sh, RSS feeds |
+
+### Built With
+* [![HTML5][html5-badge]][html5-url]
+* [![CSS3][css3-badge]][css3-url]
+* [![JavaScript ES Modules][js-badge]][js-url]
+* [![Chrome MV3][mv3-badge]][mv3-url]
+* [![Node.js][node-badge]][node-url]
+* [![PowerShell][ps-badge]][ps-url]
+* [![Python][python-badge]][python-url]
+* [![Batch][batch-badge]][batch-url]
+
 
 ### Architecture Overview
 1. Extension action opens dashboard.
@@ -304,4 +316,22 @@ _Replace badge / repo placeholders & add real screenshots before publishing._
 [shot-link]: images/screenshot-link-modal.png
 [shot-program]: images/screenshot-program-modal.png
 [shot-settings]: images/screenshot-settings.png
+
+<!-- BUILT WITH BADGES -->
+[html5-badge]: https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white&style=flat-square
+[html5-url]: https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5
+[css3-badge]: https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white&style=flat-square
+[css3-url]: https://developer.mozilla.org/docs/Web/CSS
+[js-badge]: https://img.shields.io/badge/JavaScript-ESM-F7DF1E?logo=javascript&logoColor=black&style=flat-square
+[js-url]: https://developer.mozilla.org/docs/Web/JavaScript/Guide/Modules
+[mv3-badge]: https://img.shields.io/badge/Chrome%20Extension-MV3-4285F4?logo=googlechrome&logoColor=white&style=flat-square
+[mv3-url]: https://developer.chrome.com/docs/extensions/mv3/
+[node-badge]: https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white&style=flat-square
+[node-url]: https://nodejs.org/
+[ps-badge]: https://img.shields.io/badge/PowerShell-5391FE?logo=powershell&logoColor=white&style=flat-square
+[ps-url]: https://learn.microsoft.com/powershell/
+[python-badge]: https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white&style=flat-square
+[python-url]: https://www.python.org/
+[batch-badge]: https://img.shields.io/badge/Windows-Batch-0078D6?logo=windows&logoColor=white&style=flat-square
+[batch-url]: https://learn.microsoft.com/windows-server/administration/windows-commands/windows-commands
  
