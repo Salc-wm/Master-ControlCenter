@@ -9,7 +9,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
 	<img src="icon/stackdash-128.png" alt="Logo" width="110" height="110" />
-	<h1 align="center">Master Control Center (StackDash)</h1>
+	<h1 align="center">Master Control Center</h1>
 	<p align="center">
 		Multi‑page, local‑first dashboard for links, apps & live widgets — with optional native & custom protocol launching.
 		<br />
