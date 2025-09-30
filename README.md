@@ -163,9 +163,6 @@ Defensive error handling, isolated logo key, sandboxed iframes, native allowlist
 <img src="https://i.imgur.com/DFdaXrf.png" alt="Advanced" width="30%" />
 </p>
 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ## Getting Started
 Run as an unpacked Chromium extension (recommended) or open `dashboard.html` directly (reduced feature set outside extension context).
 
@@ -190,8 +187,6 @@ Run as an unpacked Chromium extension (recommended) or open `dashboard.html` dir
 1. Run PowerShell: `CommandManager/Register-ExecutableProtocols.ps1 -Force`
 2. Test: `start someprogramx:`
 3. Batch launchers stored under `helpers/windows/`
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Usage
 | Action | How |
@@ -287,7 +282,6 @@ oh/
 - [ ] Auto theme schedule
 - [ ] Profiles / multi-config switcher
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Contributing
 1. Fork repository
