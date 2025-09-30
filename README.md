@@ -304,9 +304,9 @@ No license file currently. Add one (MIT, Apache-2.0, etc.) to clarify usage righ
 * Community dashboard & homelab inspirations
 
 <p align="right">
-<a href="#readme-top">
-<img src="https://img.shields.io/badge/back%20to%20top-000000?style=flat-square&logo=anchor&logoColor=white" alt="Back to top" />
-</a>
+  <a href="#readme-top">
+    <img src="https://img.shields.io/badge/Back_to_Top-1E90FF?style=for-the-badge&logo=anchor&logoColor=white" alt="Back to top" />
+  </a>
 </p>
 
 ---
