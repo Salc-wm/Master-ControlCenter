@@ -133,8 +133,6 @@ Defensive error handling, isolated logo key, sandboxed iframes, native allowlist
 5. Program tiles launch via scheme or native host (if configured).
 
 ## Screenshots / Showcase
-## Screenshots / Showcase
-
 
 ### Dashboard
 <p align="center">
@@ -331,15 +329,7 @@ _Replace badge / repo placeholders & add real screenshots before publishing._
 [love-badge]: https://img.shields.io/badge/made%20with-%E2%9D%A4-red?style=flat-square
 [repo-url]: https://github.com/your-username/your-repo
 
-<!-- SCREENSHOT PLACEHOLDERS -->
-[shot-dashboard-1]: https://i.imgur.com/F2Mp7Hu.png
-[shot-dashboard-2]:https://i.imgur.com/mMPiJ5F.png
-[shot-dashboard-3]:https://i.imgur.com/0vw3aV2.png
-[shot-overflow]: images/screenshot-overflow.png
-[shot-widgets]: images/screenshot-widgets.png
-[shot-link]: images/screenshot-link-modal.png
-[shot-program]: images/screenshot-program-modal.png
-[shot-settings]: images/screenshot-settings.png
+
 
 <!-- BUILT WITH BADGES -->
 [html5-badge]: https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white&style=flat-square
