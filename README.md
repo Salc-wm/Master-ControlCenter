@@ -1,251 +1,307 @@
-# Dashboard Core: User Instruction Manual
+<!-- Improved compatibility of back to top link -->
+<a id="readme-top"></a>
 
-*A fast, customizable home for links, apps, and widgets in your browser.*
+<!-- PROJECT SHIELDS -->
+![Status][status-badge] [![Issues][issues-shield]][issues-url] [![License][license-shield]][license-url] [![Last Commit][last-commit-shield]][last-commit-url] [![Made With Love][love-badge]][repo-url]
 
-<p align="center">
-  <a href="#install" title="Install">
-    <img alt="INSTALL" src="https://img.shields.io/badge/INSTALL-111827?style=for-the-badge&labelColor=111827&logoColor=fff">
-  </a>
-  <a href="#install" title="Now">
-    <img alt="NOW" src="https://img.shields.io/badge/NOW-1D4ED8?style=for-the-badge&labelColor=1D4ED8&logoColor=fff">
-  </a>
-  <a href="#first-run-and-setup" title="First Run & Setup">
-    <img alt="FIRST RUN & SETUP" src="https://img.shields.io/badge/FIRST%20RUN%20%26%20SETUP-22C55E?style=for-the-badge&labelColor=22C55E">
-  </a>
-  <a href="#troubleshooting" title="Troubleshooting">
-    <img alt="TROUBLESHOOTING" src="https://img.shields.io/badge/TROUBLESHOOTING-374151?style=for-the-badge&labelColor=374151&logoColor=ffffff">
-  </a>
-  <a href="#support-and-feedback" title="Help">
-    <img alt="HELP" src="https://img.shields.io/badge/HELP-F59E0B?style=for-the-badge&labelColor=F59E0B">
-  </a>
-</p>
+<!-- PROJECT LOGO -->
+<div align="center">
+	<img src="icon/stackdash-128.png" alt="Logo" width="110" height="110" />
+	<h1 align="center">Master Control Center (StackDash)</h1>
+	<p align="center">
+		Multi‑page, local‑first dashboard for links, apps & live widgets — with optional native & custom protocol launching.
+		<br />
+		<a href="#about-the-project"><strong>Explore the docs »</strong></a>
+		·
+		<a href="#getting-started">Get Started</a>
+		·
+		<a href="#roadmap">Roadmap</a>
+		·
+		<a href="#contributing">Contribute</a>
+	</p>
+</div>
 
-[Chrome Web Store](https://example.com/store) • [Support](https://github.com/OWNER/REPO/issues) • Version `<x.y.z>`
+<details>
+	<summary>Table of Contents</summary>
+	<ol>
+		<li><a href="#about-the-project">About the Project</a>
+			<ul>
+				<li><a href="#core-structure">Core Structure</a></li>
+				<li><a href="#key-features">Key Features</a></li>
+				<li><a href="#tech-stack">Tech Stack</a></li>
+				<li><a href="#architecture-overview">Architecture Overview</a></li>
+			</ul>
+		</li>
+		<li><a href="#screenshots--showcase">Screenshots / Showcase</a></li>
+		<li><a href="#getting-started">Getting Started</a>
+			<ul>
+				<li><a href="#prerequisites">Prerequisites</a></li>
+				<li><a href="#installation-as-extension">Installation (Chrome Extension)</a></li>
+				<li><a href="#optional-native-launching">Optional: Native Launching</a></li>
+				<li><a href="#optional-custom-url-protocols">Optional: Custom URL Protocols (Windows)</a></li>
+			</ul>
+		</li>
+		<li><a href="#usage">Usage</a></li>
+		<li><a href="#widgets">Widgets</a></li>
+		<li><a href="#configuration">Configuration</a></li>
+		<li><a href="#data-export--import">Data Export / Import</a></li>
+		<li><a href="#performance-and-caching">Performance & Caching</a></li>
+		<li><a href="#security--privacy">Security & Privacy</a></li>
+		<li><a href="#directory-structure">Directory Structure</a></li>
+		<li><a href="#roadmap">Roadmap</a></li>
+		<li><a href="#contributing">Contributing</a></li>
+		<li><a href="#faq">FAQ</a></li>
+		<li><a href="#license">License</a></li>
+		<li><a href="#acknowledgments">Acknowledgments</a></li>
+	</ol>
+</details>
 
----
+## About the Project
+**Master Control Center (StackDash)** is a modular, local‑first dashboard for homelab, productivity and app launching workflows. It combines:
 
-## Contents
+* Multi-page / tabbed layout
+* Grouped tiles for links, programs & widgets
+* Live data widgets (weather, RSS, uptime, iframe, covid)
+* Visual customization (themes, fonts, glow accent)
+* Fast local persistence & backup/restore
+* Optional native + custom protocol launching
 
-* [Install](#install)
-* [First run and setup](#first-run-and-setup)
-* [Pages](#pages)
-* [Groups](#groups)
-* [Tiles](#tiles)
-* [Edit mode and drag and drop](#edit-mode-and-drag-and-drop)
-* [Widgets](#widgets)
+### Core Structure
+| Layer | Purpose |
+|-------|---------|
+| UI (HTML/CSS/ES Modules) | Renders pages, groups, modals, settings |
+| State Manager | Loads, migrates & persists data to extension storage |
+| Renderers | Pages bar & groups/widgets orchestration |
+| Widgets Engine | Weather, RSS, UptimeRobot, IFrame, COVID |
+| Settings Panel | Theme / font / glow / cache / backup / APIs |
+| Actions & Events | Export/import/reset & delegated interactions |
+| Native Bridge (MV3) | Optional messaging for local program launch |
+| Windows Helpers | Protocol registration & batch launchers |
 
-  * [Weather](#weather)
-  * [RSS](#rss)
-  * [Uptime](#uptime)
-  * [IFrame](#iframe)
-* [Data and backups](#data-and-backups)
-* [Navigation and menus](#navigation-and-menus)
-* [Keyboard shortcuts](#keyboard-shortcuts)
-* [Troubleshooting](#troubleshooting)
-* [FAQ](#faq)
-* [Support and feedback](#support-and-feedback)
-* [Changelog](#changelog)
+### Key Features
+**Layout & Interaction**  
+Multi-page tabs (overflow adaptive), per-page groups, drag & drop ordering, edit mode toggle.
 
----
+**Customization**  
+Themes (system/light/dark/crimson), searchable font catalog, glow effect (color + contrast safety), responsive overflow.
 
-## Install
+**Link & Program Management**  
+Icon modes (favicon / logo.dev / URL / upload), domain guessing, program launch via scheme or optional native method, notes & arguments.
 
-**Chrome Web Store**
+**Widgets**  
+Weather (Open-Meteo, keyless), RSS (proxy fallback + new highlight), UptimeRobot (status + uptime tiers), IFrame (sandboxed), COVID stats.
 
-1. Open `https://example.com/store`.
-2. Click **Add to Chrome**.
-3. Approve permissions.
+**Data & Persistence**  
+Local extension storage, timestamped export, schema-normalized import, migration-safe IDs.
 
-**From source**
+**Performance**  
+Lazy icon loading, unified cache pool (TTL + pruning), idle scheduling, lean service worker.
 
-1. Clone the repo.
+**Reliability & Safety**  
+Defensive error handling, isolated logo key, sandboxed iframes, native allowlist, CORS fallback cascade.
 
-```bash
-git clone https://github.com/OWNER/REPO.git
-cd REPO
-```
+### Tech Stack
+| Domain | Technologies |
+|--------|--------------|
+| Frontend | HTML5, CSS3, ES Modules |
+| Browser Extension | Chrome MV3 (service worker + storage) |
+| Scripts | PowerShell, Batch (.bat), Python (utility GUI), Node (native host example) |
+| Data | JSON state + in-memory caches |
+| APIs | Open-Meteo, logo.dev, UptimeRobot, disease.sh, RSS feeds |
 
-2. Build if needed.
+### Architecture Overview
+1. Extension action opens dashboard.
+2. `main.js` loads & migrates state → initial render.
+3. User edits update in-memory STATE → debounced persist.
+4. Widgets hydrate from cache or network (proxy fallback logic for RSS).
+5. Program tiles launch via scheme or native host (if configured).
 
-```bash
-npm install
-npm run build
-```
+## Screenshots / Showcase
+> Replace placeholders with actual images in an `images/` folder.
 
-3. Open `chrome://extensions`.
-4. Enable **Developer mode**.
-5. Click **Load unpacked** and select the folder that contains `manifest.json`.
+| Dashboard | Pages Overflow | Widgets |
+|-----------|----------------|---------|
+| ![Dashboard][shot-dashboard] | ![Overflow][shot-overflow] | ![Widgets][shot-widgets] |
 
-Tip: if there is no build step, select the root that contains `manifest.json`.
+| Link Modal | Program Modal | Settings Panel |
+|------------|---------------|----------------|
+| ![Link][shot-link] | ![Program][shot-program] | ![Settings][shot-settings] |
 
----
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## First run and setup
+## Getting Started
+Run as an unpacked Chromium extension (recommended) or open `dashboard.html` directly (reduced feature set outside extension context).
 
-1. Open a new tab to launch Dashboard Core, or click the extension icon.
-2. Toggle **Edit** in the top bar.
-3. Create a **Page** for each context like Home or Work.
-4. Inside a page, add **Groups** such as News, Dev Tools, Streaming.
-5. Add **Tiles** to each group for links, programs, or widgets.
-6. Turn **Edit** off to lock the layout.
+### Prerequisites
+* Chromium-based browser (Chrome / Edge / Brave)
+* (Optional) Node.js ≥ 18 (native host example)
+* (Optional) PowerShell (Windows) for protocol registration
 
-All changes save automatically in extension storage.
+### Installation (as Extension)
+1. Clone repo
+2. Open `chrome://extensions` → Enable Developer Mode
+3. “Load unpacked” → select project root
+4. Click extension icon → dashboard opens
 
----
+### Optional Native Launching
+1. Edit `native/host-manifest.json` path
+2. Adapt `native/stackdash-native.js` (whitelist commands)
+3. Register native host per Chrome docs
+4. Set program tiles to native launch method
 
-## Pages
+### Optional Custom URL Protocols (Windows)
+1. Run PowerShell: `CommandManager/Register-ExecutableProtocols.ps1 -Force`
+2. Test: `start someprogramx:`
+3. Batch launchers stored under `helpers/windows/`
 
-Pages are top level workspaces.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-* **Add**: Pages menu then **New Page**.
-* **Rename**: Page tab menu then **Rename**.
-* **Delete**: Page tab menu then **Delete** and confirm.
-* **Reorder**: Drag page tabs.
-* **Overflow**: Many pages collapse into a dropdown.
-
-Config example
-
-
-## Groups
-
-Groups cluster tiles inside a page.
-
-* **Add**: **Edit** then **Add Group**.
-* **Rename**: Click title and type.
-* **Move**: Drag the group header.
-* **Delete**: Group menu then **Delete**.
-
-Group options
-
-
-
-## Tiles
-
-Tiles are the clickable units. Types are `link`, `program`, `widget`, and `folder`.
-
-* **Add**: **Add Tile** then choose a type.
-* **Move**: Drag between positions or groups.
-* **Edit**: Tile menu then **Edit**.
-* **Delete**: Tile menu then **Delete**.
-
-Common fields
-
-
-
-Folder tile
-
-
-
-
-## Edit mode and drag and drop
-
-* Turn **Edit** on to rearrange, add, or remove content.
-* Drag tiles or groups to reposition.
-* Turn **Edit** off to prevent accidental changes.
-
----
+## Usage
+| Action | How |
+|--------|-----|
+| Add Page | “Add Page” button (top bar) |
+| Add Group | “Create Group” card at end of groups |
+| Add Link / Program / Widget | Group menu / edit mode buttons |
+| Rearrange Tiles | Drag & drop (edit mode) |
+| Theme / Font | Settings → General |
+| Glow | Settings → General |
+| Backup | Settings → Data → Export JSON |
+| Restore | Settings → Data → Import JSON |
+| Reset Pages | Settings → Advanced (Danger) |
+| Toggle Edit Mode | Settings panel switch |
 
 ## Widgets
+| Widget | Summary | Notes |
+|--------|---------|-------|
+| Weather | Current conditions + details | Open-Meteo (no key) |
+| RSS | Feed items + new highlighting | Multi-proxy fallback |
+| UptimeRobot | Uptime % + status | API key required |
+| IFrame | Embed external page | Subject to X-Frame/CSP |
+| COVID | Basic statistics | disease.sh API |
 
-### Weather
+## Configuration
+| Setting | Location | Description |
+|---------|----------|-------------|
+| Theme | Settings → General | System / Light / Dark / Crimson |
+| Font | Settings → General | Searchable catalog |
+| Glow | Settings → General | Enable + color + reset |
+| Cache Max Age | Settings → Advanced | Hours before pruning |
+| Cache Max Entries | Settings → Advanced | Per-cache cap |
+| Perf Flag | Settings → Advanced | Internal diagnostics toggle |
+| Logo.dev Key | Settings → APIs | Enables logo fetching |
 
-1. Add tile then **Widget → Weather**.
-2. Pick City or GPS.
-3. Save.
+## Data Export / Import
+* Export: timestamped JSON (pages, groups, links, widgets, programs, settings).
+* Import: schema normalization (IDs, arrays, safety checks).
+* Compatible across future minor migrations.
 
-### RSS
+## Performance and Caching
+* Lazy loading for icons & images
+* Unified cache pool (RSS / weather / covid / uptime)
+* TTL + max entries pruning (idle scheduled)
+* Lightweight full re-render model (low state size)
 
-1. Add tile then **Widget → RSS**.
-2. Paste feed URL and set item count.
-3. Save.
+## Security & Privacy
+| Aspect | Approach |
+|--------|---------|
+| Storage | Local (extension & localStorage only) |
+| Native Exec | Explicit command allowlist sample |
+| Logo API Key | Kept only in settings (not serialized per item) |
+| IFrames | Sandbox with opt-in permissions |
+| RSS | Proxy fallback avoids noisy CORS errors |
+| Uploads | Size-limited; never auto-exfiltrated |
 
-### Uptime
+## Directory Structure
+```
+oh/
+ ├─ dashboard.html
+ ├─ dashboard.css
+ ├─ manifest.json
+ ├─ service-worker.js
+ ├─ js/
+ │   ├─ main.js
+ │   ├─ state.js
+ │   ├─ render-pages.js
+ │   ├─ render-groups.js
+ │   ├─ settings.js
+ │   ├─ actions.js
+ │   ├─ modals.js
+ │   ├─ utils.js
+ │   ├─ events.js
+ │   ├─ fonts.js
+ │   └─ favicon.js
+ ├─ CommandManager/
+ │   └─ Register-ExecutableProtocols.ps1
+ ├─ helpers/windows/*.bat
+ ├─ native/
+ │   ├─ host-manifest.json
+ │   └─ stackdash-native.js
+ ├─ icon/
+ │   └─ stackdash-*.png / .svg
+ └─ README.md
+```
 
-1. Add tile then **Widget → Uptime**.
-2. Add your API key in **Settings → APIs**.
-3. Enter monitor ID.
-4. Save.
+## Roadmap
+- [ ] Extract widget code into modular sub-files
+- [ ] Unit tests for migrations & import
+- [ ] Additional widgets (Grafana / Prometheus)
+- [ ] Optional encrypted cloud sync
+- [ ] Perf metrics panel UI
+- [ ] Auto theme schedule
+- [ ] Profiles / multi-config switcher
 
-### IFrame
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-1. Add tile then **Widget → IFrame**.
-2. Paste the target URL.
-3. Save. Some sites block embedding. Use a Link tile if that happens.
+## Contributing
+1. Fork repository
+2. Create feature branch (`git checkout -b feat/awesome`)
+3. Commit (`git commit -m "feat: add awesome"`)
+4. Push (`git push origin feat/awesome`)
+5. Open Pull Request
 
----
-
-## Data and backups
-
-* **Export**: **Settings → Data → Export** to download a JSON backup.
-* **Import**: **Settings → Data → Import** and choose a backup file.
-* Imported data is validated and normalized when possible.
-
----
-
-## Navigation and menus
-
-* Extra pages go into an overflow dropdown.
-* Page tab menus let you rename or delete.
-* The Settings panel has tabs for General, Data, APIs, and Advanced.
-
----
-
-## Keyboard shortcuts
-
-| Command        | Default | Scope          |
-| -------------- | ------- | -------------- |
-| Open Dashboard | custom  | Browser        |
-| Toggle Edit    | custom  | Dashboard Core |
-| Focus Search   | custom  | Dashboard Core |
-
-Set shortcuts in `chrome://extensions/shortcuts`.
-
----
-
-## Troubleshooting
-
-* **Blank IFrame**: The site blocks embedding. Switch to a Link tile.
-* **RSS not loading**: Try another feed. Some sites block direct requests.
-* **Uptime empty**: Add or refresh your API key in **Settings → APIs**.
-* **Slow page**: Remove heavy widgets or reduce counts.
-* **Lost layout**: Restore a JSON backup in **Settings → Data**.
-
-Diagnostics
-
-1. Open `chrome://extensions`.
-2. Enable **Developer mode**.
-3. Open the extension service worker console and check errors.
-
----
+**Good first contributions:** widget extraction, accessibility polish, performance measurement harness, new icon sources, additional program launch modes.
 
 ## FAQ
+**Why an extension?** To use `chrome.storage.local` & optional native messaging, all local — no external backend.
 
-**Incognito support**
-Yes. Enable **Allow in Incognito** on the extension details page.
+**Does it track me?** No analytics; only external calls are to APIs you configure (weather, RSS, uptime, logo service, etc.).
 
-**Sync between devices**
-Export on one device and import on another.
+**Do I need native launching?** No — schemes work fine alone.
 
-**Custom icons**
-Upload PNG, JPG, or WebP. Square images at 128×128 px or higher look best.
+**Can I self-host as static files?** Yes, but extension-only APIs (chrome.*) gracefully degrade.
+
+## License
+No license file currently. Add one (MIT, Apache-2.0, etc.) to clarify usage rights. Until then, all rights reserved by default.
+
+## Acknowledgments
+* logo.dev (logo resolution)
+* Open-Meteo (weather)
+* UptimeRobot (uptime API)
+* disease.sh (COVID stats)
+* Favicon & logo fallbacks (Google & Clearbit)
+* Community dashboard & homelab inspirations
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
+_Replace badge / repo placeholders & add real screenshots before publishing._
 
-## Support and feedback
+<!-- MARKDOWN LINKS & BADGES -->
+[status-badge]: https://img.shields.io/badge/status-active-success?style=flat-square
+[issues-shield]: https://img.shields.io/github/issues/your-username/your-repo.svg?style=flat-square
+[issues-url]: https://github.com/your-username/your-repo/issues
+[license-shield]: https://img.shields.io/badge/license-TBD-lightgrey?style=flat-square
+[license-url]: LICENSE
+[last-commit-shield]: https://img.shields.io/github/last-commit/your-username/your-repo?style=flat-square
+[last-commit-url]: https://github.com/your-username/your-repo/commits
+[love-badge]: https://img.shields.io/badge/made%20with-%E2%9D%A4-red?style=flat-square
+[repo-url]: https://github.com/your-username/your-repo
 
-* Issues: [https://github.com/OWNER/REPO/issues](https://github.com/OWNER/REPO/issues)
-* Discussions: [https://github.com/OWNER/REPO/discussions](https://github.com/OWNER/REPO/discussions)
-* Email: mailto:hello@example.com
-
----
-
-## Changelog
-
-Keep a `CHANGELOG.md` with entries like:
-
-```
-v<x.y.z> - <YYYY-MM-DD>
-- Added: <feature>
-- Changed: <change>
-- Fixed: <bug>
-```
+<!-- SCREENSHOT PLACEHOLDERS -->
+[shot-dashboard]: images/screenshot-dashboard.png
+[shot-overflow]: images/screenshot-overflow.png
+[shot-widgets]: images/screenshot-widgets.png
+[shot-link]: images/screenshot-link-modal.png
+[shot-program]: images/screenshot-program-modal.png
+[shot-settings]: images/screenshot-settings.png
+ 
