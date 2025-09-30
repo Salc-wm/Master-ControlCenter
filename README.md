@@ -136,11 +136,11 @@ Defensive error handling, isolated logo key, sandboxed iframes, native allowlist
 
 ### Dashboard
 <p align="center">
-<img src="https://i.imgur.com/F2Mp7Hu.png" alt="Dashboard 1" width="80%" />
+<img src="https://i.imgur.com/F2Mp7Hu.png" alt="" width="80%" />
 <br/>
-<img src="https://i.imgur.com/mP1j5F.png" alt="Dashboard 2" width="80%" />
+<img src="https://i.imgur.com/mP1j5F.png" alt="" width="80%" />
 <br/>
-<img src="https://i.imgur.com/0vw3aV2.png" alt="Dashboard 3" width="80%" />
+<img src="https://i.imgur.com/0vw3aV2.png" alt="" width="80%" />
 </p>
 
 
