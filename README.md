@@ -156,25 +156,26 @@
 </p>
 
 ### Pages Overflow & Widgets
-<p align="center">
-<img src="https://i.imgur.com/7rsaU4j.png" alt="Pages Overflow" width="45%" />
-<img src="https://i.imgur.com/4iSEVrs.png" alt="Pages Overflow" width="45%" />
-<img src="https://i.imgur.com/Re9j0Ii.png" alt="Pages Overflow" width="45%" />
-<img src="https://i.imgur.com/Aj7vZMp.png" alt="Widgets" width="45%" />
-<img src="https://i.imgur.com/jgy3DBS.png" alt="Settings" width="45%" />
-<img src="https://i.imgur.com/rZrp1wG.png" alt="Settings" width="45%" />
-<img src="https://i.imgur.com/SLUquLC.png" alt="Settings" width="45%" />
-<img src="https://i.imgur.com/0TNFCvt.png" alt="Widgets" width="45%" />
-</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+  <img src="https://i.imgur.com/7rsaU4j.png" alt="Pages Overflow" style="width: 48%; object-fit: contain;"/>
+  <img src="https://i.imgur.com/4iSEVrs.png" alt="Pages Overflow" style="width: 47%; object-fit: contain;"/>
+  <img src="https://i.imgur.com/Re9j0Ii.png" alt="Pages Overflow" style="width: 45%; object-fit: contain;"/>
+  <img src="https://i.imgur.com/Aj7vZMp.png" alt="Widgets" style="width: 54.5%; object-fit: contain;"/>
+  <img src="https://i.imgur.com/jgy3DBS.png" alt="Settings" style="width: 45%; object-fit: contain;"/>
+  <img src="https://i.imgur.com/rZrp1wG.png" alt="Settings" style="width: 54%; object-fit: contain;"/>
+  <img src="https://i.imgur.com/SLUquLC.png" alt="Settings" style="width: 45%; object-fit: contain;"/>
+  <img src="https://i.imgur.com/0TNFCvt.png" alt="Widgets" style="width: 54%; object-fit: contain;"/>
+</div>
 
 
 ### Modals & Settings
-<p align="center">
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
 <img src="https://i.imgur.com/4tdMfHD.png" alt="General" width="30%" />
-<img src="https://i.imgur.com/wuRm6HH.png" alt="Data" width="30%" />
+<img src="https://i.imgur.com/wuRm6HH.png" alt="Data" width="42%" />
+
 <img src="https://i.imgur.com/whNVO9C.png" alt="APIs" width="30%" />
-<img src="https://i.imgur.com/DFdaXrf.png" alt="Advanced" width="30%" />
-</p>
+<img src="https://i.imgur.com/DFdaXrf.png" alt="Advanced" width="34%" />
+</div>
 
 ---
 
@@ -287,9 +288,10 @@ Run as an unpacked Chromium extension (recommended) or open `dashboard.html` dir
 ```
 oh/
  ├─ dashboard.html
- ├─ dashboard.css
  ├─ manifest.json
  ├─ service-worker.js
+ ├─ css/
+     └─ dashboard.css
  ├─ js/
  │   ├─ main.js
  │   ├─ state.js
@@ -302,14 +304,16 @@ oh/
  │   ├─ events.js
  │   ├─ fonts.js
  │   └─ favicon.js
- ├─ CommandManager/
+ **├─ CommandManager/**
  │   └─ Register-ExecutableProtocols.ps1
- ├─ helpers/windows/*.bat
+ **├─ helpers/windows/*.bat**
  ├─ native/
  │   ├─ host-manifest.json
  │   └─ stackdash-native.js
- ├─ icon/
- │   └─ stackdash-*.png / .svg
+ ├─ assets/
+     ├─ images/
+     └─ icon/
+ │     └─ stackdash-*.png / .svg
  └─ README.md
 ```
 
