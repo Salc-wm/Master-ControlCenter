@@ -160,7 +160,7 @@
   <img src="https://i.imgur.com/7rsaU4j.png" alt="Pages Overflow" style="width: 48%; object-fit: contain;"/>
   <img src="https://i.imgur.com/4iSEVrs.png" alt="Pages Overflow" style="width: 47%; object-fit: contain;"/>
   <img src="https://i.imgur.com/Re9j0Ii.png" alt="Pages Overflow" style="width: 45%; object-fit: contain;"/>
-  <img src="https://i.imgur.com/Aj7vZMp.png" alt="Widgets" style="width: 54.5%; object-fit: contain;"/>
+  <img src="https://i.imgur.com/Aj7vZMp.png" alt="Widgets" style="width: 54%; object-fit: contain;"/>
   <img src="https://i.imgur.com/jgy3DBS.png" alt="Settings" style="width: 45%; object-fit: contain;"/>
   <img src="https://i.imgur.com/rZrp1wG.png" alt="Settings" style="width: 54%; object-fit: contain;"/>
   <img src="https://i.imgur.com/SLUquLC.png" alt="Settings" style="width: 45%; object-fit: contain;"/>
