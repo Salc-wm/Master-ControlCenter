@@ -5,7 +5,7 @@ const setLinkPlace = (name, url, icon) => {
   return {
     id: `lnk_${Math.random().toString(36).slice(2, 8)}`,
     title: name, url: url,
-    iconType: icon[0], iconUrl: icon[1]
+    iconType: 'url', iconUrl: icon
 }};
 
 export const DEFAULT_STATE = {
@@ -20,19 +20,19 @@ export const DEFAULT_STATE = {
           name: "General",
           links: [
             // Router (TP-Link logo)
-            setLinkPlace("Router", "http://192.168.1.1", ["url", "https://pub-4864254888164cbeb1a8e4282a00434c.r2.dev/TP-Link%20Logo.jpeg"]),
+            setLinkPlace("Router", "http://192.168.1.1", "https://pub-4864254888164cbeb1a8e4282a00434c.r2.dev/TP-Link%20Logo.jpeg"),
 
             // Unraid (official logo)
-            setLinkPlace("Unraid", "http://192.168.1.95", ["url", "https://pub-4864254888164cbeb1a8e4282a00434c.r2.dev/Logo%20API%20Unraid.jpeg"]),
+            setLinkPlace("Unraid", "http://192.168.1.95", "https://pub-4864254888164cbeb1a8e4282a00434c.r2.dev/Logo%20API%20Unraid.jpeg"),
 
             // Plex (you provided the logo.dev URL)
-            setLinkPlace("Plex", "https://plex.tv", ["url", "https://pub-4864254888164cbeb1a8e4282a00434c.r2.dev/Logo%20API%20Plex.jpeg"]),
+            setLinkPlace("Plex", "https://plex.tv", "https://pub-4864254888164cbeb1a8e4282a00434c.r2.dev/Logo%20API%20Plex.jpeg"),
 
             // BusinessDaddy (use provided Cloudinary image)
-            setLinkPlace("BusinessDaddy", "https://businessdaddy.org/", ["url", "https://res.cloudinary.com/bettercast/image/upload/v1728737295/businessdaddy/fezm6dxyqnbscofnz8el.png"]),
+            setLinkPlace("BusinessDaddy", "https://businessdaddy.org/", "https://res.cloudinary.com/bettercast/image/upload/v1728737295/businessdaddy/fezm6dxyqnbscofnz8el.png"),
 
             // Donate (Stripe link with your StackDash image)
-            setLinkPlace("Donate", "https://buy.stripe.com/cNi14oeVFaj7639avb5AQ0e", ["url", "https://pub-4864254888164cbeb1a8e4282a00434c.r2.dev/stackdash.png"])
+            setLinkPlace("Donate", "https://buy.stripe.com/cNi14oeVFaj7639avb5AQ0e", "assets/icon/stackdash.svg")
           ],
             widgets: [],
             programs: []

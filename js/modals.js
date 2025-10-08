@@ -10,14 +10,26 @@ import { renderGroups } from "./render-groups.js";
 import { renderPagesBar } from "./render-pages.js";
 import { performResetAll } from "./actions.js";
 
+import { handleBrowseFolderClick } from './API/fileSystemAccess.js';
+
 // Generic modal
 export function openModal({ title, body, footer }) {
   $("#modalTitle").textContent = title || "";
+
   const bodyEl = $("#modalBody"); bodyEl.innerHTML = ""; bodyEl.appendChild(body);
   const footEl = $("#modalFooter"); footEl.innerHTML = ""; if (footer) footEl.appendChild(footer);
+
   $("#modal").hidden = false;
 }
+
 export function closeModal() { $("#modal").hidden = true; }
+
+const refreshPage = (close) => {
+  renderPagesBar();
+  renderGroups();
+
+  if (close) closeModal()
+}
 
 // Pages
 export function openPageModal(pageId = null) {
@@ -33,6 +45,7 @@ export function openPageModal(pageId = null) {
 
   const footer = document.createElement("div");
   const btnCancel = document.createElement("button");
+
   btnCancel.className = "btn"; btnCancel.textContent = "Cancel";
   btnCancel.addEventListener("click", closeModal);
 
@@ -40,18 +53,18 @@ export function openPageModal(pageId = null) {
   btnSave.className = "btn"; btnSave.textContent = isEdit ? "Save" : "Add";
   btnSave.addEventListener("click", async () => {
     const name = $("#pgName").value.trim() || "Untitled";
+
     if (isEdit) {
       page.name = name;
     } else {
       const p = { id: uid("page"), name, groups: [] };
+
       STATE.pages.push(p);
       STATE.selectedPageId = p.id;
     }
+
     await saveStateNow();
-    // Refresh BOTH the pages bar and groups immediately
-    renderPagesBar();
-    renderGroups();
-    closeModal();
+    refreshPage(true)
   });
 
   footer.append(btnCancel, btnSave);
@@ -66,28 +79,32 @@ export function openPagesSwitcher() {
   STATE.pages.forEach(p => {
     const btn = document.createElement("button");
     btn.type = "button";
+
     btn.className = `page-switcher-item${p.id === STATE.selectedPageId ? " active" : ""}`;
     btn.textContent = p.name || "Untitled";
+
     btn.addEventListener("click", async () => {
       STATE.selectedPageId = p.id;
+
       await saveStateNow();
-      renderPagesBar();
-      renderGroups();
-      closeModal();
+      refreshPage(true)
     });
+
     body.appendChild(btn);
   });
 
   const addBtn = document.createElement("button");
   addBtn.type = "button";
+
   addBtn.className = "page-switcher-item add";
   addBtn.textContent = "+ Add Page";
+
   addBtn.addEventListener("click", () => {
     closeModal();
     openPageModal();
   });
-  body.appendChild(addBtn);
 
+  body.appendChild(addBtn);
   openModal({ title: "All Pages", body, footer: null });
 }
 
@@ -104,8 +121,7 @@ export async function handleDeletePage(pageId) {
   }
 
   await saveStateNow();
-  renderPagesBar();
-  renderGroups();
+  refreshPage()
 }
 
 // Groups
@@ -127,14 +143,17 @@ export function openGroupModal() {
 
   const footer = document.createElement("div");
   const btnCancel = document.createElement("button");
+
   btnCancel.className = "btn"; btnCancel.textContent = "Cancel";
   btnCancel.addEventListener("click", closeModal);
+
 
   const btnAdd = document.createElement("button");
   btnAdd.className = "btn"; btnAdd.textContent = "Add";
   btnAdd.addEventListener("click", async () => {
     const page = getSelectedPage(); if (!page) return;
     const group = { id: uid("grp"), name: $("#grpName").value.trim() || "Group", links: [], centered: !!$("#grpCenterNew")?.checked };
+
     page.groups.push(group);
     await saveStateNow(); closeModal(); renderGroups();
   });
@@ -616,8 +635,8 @@ export function openWidgetModal(groupId, widgetId = null) {
   // Dynamic field visibility based on widget type
   const typeSel = body.querySelector('#wdgType');
   const apiKeyInput = body.querySelector('#wdgApiKey');
-  const locLabel = body.querySelector('.ow-only[label]') || body.querySelector('label[for="wdgLocation"]');
-  const locInput = body.querySelector('#wdgLocation');
+//   const locLabel = body.querySelector('.ow-only[label]') || body.querySelector('label[for="wdgLocation"]');
+//   const locInput = body.querySelector('#wdgLocation');
   const urLabel = body.querySelector('[data-wlbl-ur]');
   const urNote = body.querySelector('.ur-note');
   const owNote = body.querySelector('.ow-note');
@@ -751,6 +770,7 @@ export function openWidgetModal(groupId, widgetId = null) {
   openModal({ title: isEdit ? 'Edit Widget' : 'Add Widget', body, footer });
 }
 
+
 // Programs (local or protocol schemes; launching native executables requires a helper outside MV3)
 export function openProgramModal(groupId, programId = null) {
   const page = getSelectedPage(); if (!page) return;
@@ -759,7 +779,7 @@ export function openProgramModal(groupId, programId = null) {
 
   const isEdit = !!programId;
   const program = isEdit ? group.programs.find(p => p.id === programId)
-  : { title: '', schemeOrCommand: '', launchMethod: 'scheme', nativeCommand:'', nativeArgs:[], iconType: 'logo', iconUrl: '', iconData: '', logoDomain: '', notes: '' };
+    : { title: '', schemeOrCommand: '', launchMethod: 'scheme', typeMethod: 'exe', groupPath: '', nativeCommand: '', nativeArgs: [], iconType: 'logo', iconUrl: '', iconData: '', logoDomain: '', notes: '' };
 
   const body = document.createElement('div');
   body.className = 'form-grid';
@@ -775,20 +795,31 @@ export function openProgramModal(groupId, programId = null) {
 
     <label for="prgLaunchMethod">Launch method</label>
     <select id="prgLaunchMethod">
+      <option value="puff">Puff / Protocol</option>
       <option value="scheme">URL Scheme / Protocol</option>
       <option value="native">Native Command (helper)</option>
+    </select>
+
+    <label for="typeMethod">Type method</label>
+    <select id="typeMethod">
+      <option value="exe">Executable</option>
+      <option value="group_exe">Group executables</option>
     </select>
 
     <label for="prgScheme" class="prgSchemeLabel">URL Scheme / Protocol</label>
     <input id="prgScheme" type="text" value="${program.schemeOrCommand || ''}" placeholder="e.g. spotify:// or code://" />
 
-  <label for="prgNativeCmd" class="prgNativeCmdLabel">Native command</label>
-  <input id="prgNativeCmd" type="text" value="${program.nativeCommand || ''}" placeholder="e.g. wireshark" />
+    <label for="prgGroupPath" class="prgGroupPathLabel" style="display: none;">Folder Path</label>
+    <div id="prgGroupPathRow" class="row" style="grid-column: 2; width: 100%; display: none;">
+        <input id="prgGroupPath" type="text" placeholder="e.g. C:\\Program Files\\Steam\\steamapps\\common" style="flex:1" value="${program.groupPath || ''}" readonly />
+        <button class="btn" type="button" id="btnBrowseFolder">Browse</button>
+    </div>
 
-  <label for="prgNativeArgs" class="prgNativeArgsLabel">Arguments (space separated)</label>
-  <input id="prgNativeArgs" type="text" value="${(program.nativeArgs||[]).join(' ')}" placeholder="--foo bar" />
+    <label for="prgNativeCmd" class="prgNativeCmdLabel">Native command</label>
+    <input id="prgNativeCmd" type="text" value="${program.nativeCommand || ''}" placeholder="e.g. wireshark" />
 
-
+    <label for="prgNativeArgs" class="prgNativeArgsLabel">Arguments (space separated)</label>
+    <input id="prgNativeArgs" type="text" value="${(program.nativeArgs || []).join(' ')}" placeholder="--foo bar" />
 
     <label for="prgIconType">Icon</label>
     <select id="prgIconType">
@@ -804,7 +835,7 @@ export function openProgramModal(groupId, programId = null) {
     </div>
 
     <label for="prgIconUrl" class="prgIconUrlLabel">Image URL</label>
-    <input id="prgIconUrl" type="url" value="${program.iconType==='url' ? (program.iconUrl||'') : ''}" placeholder="https://example.com/icon.png" style="width:100%;" />
+    <input id="prgIconUrl" type="url" value="${program.iconType === 'url' ? (program.iconUrl || '') : ''}" placeholder="https://example.com/icon.png" style="width:100%;" />
 
     <label for="prgIconFile" class="prgIconFileLabel">Upload PNG/JPG</label>
     <input id="prgIconFile" type="file" accept="image/png,image/jpeg,image/webp" style="width:100%;" />
@@ -813,11 +844,50 @@ export function openProgramModal(groupId, programId = null) {
     <textarea id="prgNotes" rows="2" placeholder="Optional description or instructions">${program.notes || ''}</textarea>
   `;
 
+  const typeMethodSelect = body.querySelector('#typeMethod');
+  const schemeLabel = body.querySelector('.prgSchemeLabel');
+  const schemeInput = body.querySelector('#prgScheme');
+
+  const groupPathLabel = body.querySelector('.prgGroupPathLabel');
+  const groupPathRow = body.querySelector('#prgGroupPathRow');
+
+  const updateTypeMethodView = () => {
+    if (typeMethodSelect.value === 'group_exe') {
+      schemeLabel.style.display = 'none';
+      schemeInput.style.display = 'none';
+      groupPathLabel.style.display = 'block';
+      groupPathRow.style.display = 'flex';
+    } else {
+      schemeLabel.style.display = 'block';
+      schemeInput.style.display = 'block';
+      groupPathLabel.style.display = 'none';
+      groupPathRow.style.display = 'none';
+    }
+  };
+
+  let foundExecutablesList = [];
+  const browseButton = body.querySelector('#btnBrowseFolder');
+
+  browseButton.addEventListener('click', async () => {
+    const executables = await handleBrowseFolderClick('#prgGroupPath', body);
+
+    console.log(executables)
+    if (executables && executables.length > 0) {
+      foundExecutablesList = executables;
+      alert(`${executables.length} executáveis foram encontrados e estão prontos para serem adicionados.`);
+    }
+  });
+
+  typeMethodSelect.value = program.typeMethod || 'exe';
+  updateTypeMethodView();
+  typeMethodSelect.addEventListener('change', updateTypeMethodView);
+
   let uploadedDataUrl = program.iconType === 'upload' ? (program.iconData || '') : '';
 
   function updatePreview() {
     const box = body.querySelector('#prgIconPreview .tile-icon'); box.innerHTML='';
     let src='';
+
     const t = body.querySelector('#prgIconType').value;
     if (t==='logo') {
       const key = STATE.settings?.logoDevApiKey?.trim();
@@ -831,6 +901,7 @@ export function openProgramModal(groupId, programId = null) {
       src = uploadedDataUrl;
       body.querySelector('#prgIconInfo').textContent = src ? 'Uploaded image' : '';
     }
+
     if (src) {
       const img = document.createElement('img'); img.src = src; img.alt=''; img.style.width='86%'; img.style.height='86%'; img.style.objectFit='contain'; box.appendChild(img);
     }
@@ -850,6 +921,7 @@ export function openProgramModal(groupId, programId = null) {
   function toggleLaunchMethodInputs(){
     const lm = body.querySelector('#prgLaunchMethod').value;
     const showScheme = lm === 'scheme';
+
     body.querySelector('.prgSchemeLabel').style.display = showScheme ? '' : 'none';
     body.querySelector('#prgScheme').style.display = showScheme ? '' : 'none';
     body.querySelector('.prgNativeCmdLabel').style.display = !showScheme ? '' : 'none';
@@ -863,6 +935,7 @@ export function openProgramModal(groupId, programId = null) {
     if (e.target.id==='prgLaunchMethod') toggleLaunchMethodInputs();
     // no auto mode now
   });
+
   // Auto logo detection from title (similar to link modal)
   async function tryProgramTitleLogoLookup() {
     const key = STATE.settings?.logoDevApiKey?.trim();
@@ -880,14 +953,16 @@ export function openProgramModal(groupId, programId = null) {
       }
     }
   }
-  body.querySelector('#prgTitle').addEventListener('blur', tryProgramTitleLogoLookup);
 
+  body.querySelector('#prgTitle').addEventListener('blur', tryProgramTitleLogoLookup);
   body.querySelector('#btnProgramFindLogo').addEventListener('click', async () => {
     const dom = body.querySelector('#prgLogoDomain').value.trim(); if(!dom) return;
     const key = STATE.settings?.logoDevApiKey?.trim();
     const url = logoDevUrlForDomain(dom, key);
+
     if (!url) { body.querySelector('#prgIconInfo').textContent = 'Add your logo.dev key in Settings first.'; return; }
     const ok = await checkImage(url);
+
     if (ok) {
       body.querySelector('#prgIconType').value = 'logo';
       toggleIconInputs();
@@ -896,6 +971,7 @@ export function openProgramModal(groupId, programId = null) {
       body.querySelector('#prgIconInfo').textContent = 'No logo for that domain.';
     }
   });
+
   // no auto mode title live update required
   body.querySelector('#prgIconFile').addEventListener('change', (e)=>{
     const file = e.target.files?.[0]; if(!file) return;
@@ -903,7 +979,7 @@ export function openProgramModal(groupId, programId = null) {
     const fr = new FileReader(); fr.onload=()=>{ uploadedDataUrl = fr.result; updatePreview(); }; fr.readAsDataURL(file);
   });
 
-  setTimeout(()=>{
+  setTimeout(() => {
     body.querySelector('#prgIconType').value = program.iconType || 'logo';
     body.querySelector('#prgLaunchMethod').value = program.launchMethod || 'scheme';
     toggleIconInputs(); toggleLaunchMethodInputs(); updatePreview();
@@ -912,47 +988,78 @@ export function openProgramModal(groupId, programId = null) {
   const footer = document.createElement('div');
   const btnCancel = document.createElement('button'); btnCancel.className='btn'; btnCancel.textContent='Cancel'; btnCancel.addEventListener('click', closeModal);
   const btnDelete = document.createElement('button'); btnDelete.className='btn danger'; btnDelete.textContent='Delete'; if(!isEdit) btnDelete.classList.add('hidden');
-  btnDelete.addEventListener('click', async ()=>{
-    if(!confirm('Delete this program?')) return;
-    const idx = group.programs.findIndex(p=>p.id===programId); if(idx>=0) group.programs.splice(idx,1);
-    await saveStateNow(); closeModal(); renderGroups();
-  });
-  const btnSave = document.createElement('button'); btnSave.className='btn'; btnSave.textContent = isEdit ? 'Save' : 'Add';
-  btnSave.addEventListener('click', async ()=>{
-    const title = body.querySelector('#prgTitle').value.trim() || 'Program';
-    const launchMethod = body.querySelector('#prgLaunchMethod').value;
-    const schemeOrCommand = body.querySelector('#prgScheme').value.trim();
-  const nativeCommand = body.querySelector('#prgNativeCmd').value.trim();
-  const nativeArgs = body.querySelector('#prgNativeArgs').value.trim().split(/\s+/).filter(Boolean);
 
-    const iconType = body.querySelector('#prgIconType').value;
-    const notes = body.querySelector('#prgNotes').value.trim();
-    const payload = { title, launchMethod, iconType, notes };
-    if (launchMethod === 'scheme') {
-      payload.schemeOrCommand = schemeOrCommand;
-      delete payload.nativeCommand; delete payload.nativeArgs;
-    } else if (launchMethod === 'native') {
-      payload.nativeCommand = nativeCommand;
-      payload.nativeArgs = nativeArgs;
-      delete payload.schemeOrCommand;
-    } else {
-      payload.nativeCommand = nativeCommand;
-      payload.nativeArgs = nativeArgs;
-      delete payload.schemeOrCommand;
-    }
-    if (iconType==='logo') {
-      payload.logoDomain = body.querySelector('#prgLogoDomain').value.trim();
-      delete payload.iconUrl; delete payload.iconData;
-    } else if (iconType==='url') {
-      payload.iconUrl = body.querySelector('#prgIconUrl').value.trim();
-      delete payload.iconData; delete payload.logoDomain;
-    } else if (iconType==='upload') {
-      payload.iconData = uploadedDataUrl;
-      delete payload.iconUrl; delete payload.logoDomain;
-    }
-  if (isEdit) Object.assign(program, payload); else group.programs.push({ id: uid('prg'), ...payload });
+  btnDelete.addEventListener('click', async ()=> {
+    if(!confirm('Delete this program?')) return;
+
+    const idx = group.programs.findIndex(p => p.id === programId); if (idx>=0) group.programs.splice(idx,1);
     await saveStateNow(); closeModal(); renderGroups();
   });
+
+  const btnSave = document.createElement('button'); btnSave.className='btn'; btnSave.textContent = isEdit ? 'Save' : 'Add';
+  btnSave.addEventListener('click', async () => {
+    const typeMethod = body.querySelector('#typeMethod').value;
+
+    if (typeMethod === 'group_exe') {
+      if (foundExecutablesList.length === 0) return
+
+      foundExecutablesList.forEach(executable => {
+        const newProgram = {
+          id: uid('prg'),
+
+          title: executable.name.replace(/\.exe$/i, ''),
+          launchMethod: 'native',
+          nativeCommand: executable.path,
+
+          nativeArgs: [],
+          iconType: 'logo',
+          notes: ''
+        };
+
+        group.programs.push(newProgram);
+      });
+    } else {
+      const title = body.querySelector('#prgTitle').value.trim() || 'Program';
+      const launchMethod = body.querySelector('#prgLaunchMethod').value;
+      const schemeOrCommand = body.querySelector('#prgScheme').value.trim();
+
+      const nativeCommand = body.querySelector('#prgNativeCmd').value.trim();
+      const nativeArgs = body.querySelector('#prgNativeArgs').value.trim().split(/\s+/).filter(Boolean);
+
+      const iconType = body.querySelector('#prgIconType').value;
+      const notes = body.querySelector('#prgNotes').value.trim();
+      const payload = { title, launchMethod, iconType, notes };
+
+      if (launchMethod === 'scheme') {
+        payload.schemeOrCommand = schemeOrCommand;
+        delete payload.nativeCommand; delete payload.nativeArgs;
+      } else if (launchMethod === 'native') {
+        payload.nativeCommand = nativeCommand;
+        payload.nativeArgs = nativeArgs;
+        delete payload.schemeOrCommand;
+      } else {
+        payload.nativeCommand = nativeCommand;
+        payload.nativeArgs = nativeArgs;
+        delete payload.schemeOrCommand;
+      }
+
+      if (iconType==='logo') {
+        payload.logoDomain = body.querySelector('#prgLogoDomain').value.trim();
+        delete payload.iconUrl; delete payload.iconData;
+      } else if (iconType==='url') {
+        payload.iconUrl = body.querySelector('#prgIconUrl').value.trim();
+        delete payload.iconData; delete payload.logoDomain;
+      } else if (iconType==='upload') {
+        payload.iconData = uploadedDataUrl;
+        delete payload.iconUrl; delete payload.logoDomain;
+      }
+
+      if (isEdit) Object.assign(program, payload); else group.programs.push({ id: uid('prg'), ...payload });
+    }
+
+    await saveStateNow(); closeModal(); renderGroups();
+  });
+
   footer.append(btnCancel, btnDelete, btnSave);
   openModal({ title: isEdit ? 'Edit Program' : 'Add Program', body, footer });
 }
