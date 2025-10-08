@@ -306,9 +306,13 @@ oh/
  │   ├─ events.js
  │   ├─ fonts.js
  │   └─ favicon.js
+
  **├─ CommandManager/**
  │   └─ Register-ExecutableProtocols.ps1
  **├─ helpers/windows/*.bat**
+
+ ├─ dashboard-natives/
+ │   ├─ homelab.json
  ├─ native/
  │   ├─ host-manifest.json
  │   └─ stackdash-native.js
