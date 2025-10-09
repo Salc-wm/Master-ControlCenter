@@ -78,21 +78,19 @@ export async function handleBrowseFolderClick(query, modalBody) {
       window.removeEventListener('focus', onFocusHandler);
 
       if (!fileList || fileList.length === 0)
-        throw new Error('Nenhuma pasta selecionada ou a pasta está vazia.');
+        throw new Error('No folder selected or folder is empty.');
 
       groupPathInput.value = fileList[0].webkitRelativePath.split('/')[0];
       const foundExecutables = findExecutables(fileList);
 
       if (foundExecutables.length > 0) return foundExecutables
 
-      // alert('Nenhum arquivo .exe foi encontrado na pasta selecionada.');
       return []
   } catch (error) {
     selectionMade = true;
     window.removeEventListener('focus', onFocusHandler);
 
     groupPathInput.value = '';
-    // console.error(error)
     return []
   }
 }
