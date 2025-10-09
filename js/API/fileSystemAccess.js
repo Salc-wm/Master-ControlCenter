@@ -1,11 +1,25 @@
+const PATH_BLACKLIST_SEGMENTS = [
+  'bin/x64/CrashReporter',
+  'commonredist',
+
+  '/_redist/',
+  '/redist/',
+  '/_installer/',
+  '/support/',
+  '/tools/',
+  '/utils/',
+  '/binaries/win32/',
+  '/binaries/win64/',
+  '/directx/',
+  '/vcredist/'
+]
+
 const EXECUTABLE_BLACKLIST = new Set([
   'crashpad_handler.exe',
-  'crashreport.exe',
-  'dxsetup.exe',
-  'installermessage.exe',
-  'unitycrashhandler64.exe',
   'vc_redist.x64.exe',
+  'crashreport.exe',
   'vconsole2.exe',
+  'dxsetup.exe',
 
   'unins000.exe',
   'unins001.exe',
@@ -17,12 +31,17 @@ const EXECUTABLE_BLACKLIST = new Set([
   'vcredist.exe',
   'vcredist_x86.exe',
   'vcredist_x64.exe',
-  'dotnetfx.exe',
+
   'dxwebsetup.exe',
+  'dotnetfx.exe',
   'oalinst.exe',
+  'setup.exe',
+
+  'REDEngineErrorReporter.exe',
   'physx_systemsoftware.exe',
   'ue4prereqsetup_x64.exe',
-  'setup.exe',
+  'unitycrashhandler64.exe',
+  'installermessage.exe',
 
   'crashhandler.exe',
   'crashreporter.exe',
@@ -33,7 +52,7 @@ const EXECUTABLE_BLACKLIST = new Set([
   'activation.exe',
   'updater.exe',
   'autoupdater.exe'
-]);
+])
 
 
 /**
@@ -94,9 +113,15 @@ function findExecutables(fileList) {
     });
   }
 
-  const filteredExecutables = executables.filter(exe =>
-    !EXECUTABLE_BLACKLIST.has(exe.name.toLowerCase())
-  );
+  const filteredExecutables = executables.filter(exe => {
+    const isNameBlacklisted = EXECUTABLE_BLACKLIST.has(exe.name.toLowerCase());
+    if (isNameBlacklisted) return false;
+
+    const doubleCheck = EXECUTABLE_BLACKLIST.has(exe.name);
+    if (doubleCheck) return false;
+
+    return !PATH_BLACKLIST_SEGMENTS.some(part => exe.path.includes(part));
+  });
 
   return filteredExecutables.sort((a, b) => a.name.localeCompare(b.name));
 }
