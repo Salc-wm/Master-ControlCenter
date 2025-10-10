@@ -784,7 +784,7 @@ export function openProgramModal(groupId, programId = null) {
   const body = document.createElement('div');
   body.className = 'form-grid';
   body.innerHTML = `
-    <label>Icon preview</label>
+    <p>Icon preview</p>
     <div id="prgIconPreview" style="display:flex;align-items:center;gap:12px;">
       <div class="tile-icon" style="width:64px;height:64px;border-radius:12px;display:grid;place-items:center;overflow:hidden;border:1px solid var(--border);background:var(--panel-2)"></div>
       <small class="muted" id="prgIconInfo"></small>
@@ -806,14 +806,14 @@ export function openProgramModal(groupId, programId = null) {
       <option value="group_exe">Group executables</option>
     </select>
 
-    <label for="prgScheme" class="prgSchemeLabel">URL Scheme / Protocol</label>
-    <input id="prgScheme" type="text" value="${program.schemeOrCommand || ''}" placeholder="e.g. spotify:// or code://" />
-
     <label for="prgGroupPath" class="prgGroupPathLabel" style="display: none;">Folder Path</label>
-    <div id="prgGroupPathRow" class="row" style="grid-column: 2; width: 100%; display: none;">
+    <div id="prgGroupPathRow" class="row" display: none;">
         <input id="prgGroupPath" type="text" placeholder="e.g. C:\\Program Files\\Steam\\steamapps\\common" style="flex:1" value="${program.groupPath || ''}" readonly />
         <button class="btn" type="button" id="btnBrowseFolder">Browse</button>
     </div>
+
+    <label for="prgScheme" class="prgSchemeLabel">URL Scheme / Protocol</label>
+    <input id="prgScheme" type="text" value="${program.schemeOrCommand || ''}" placeholder="e.g. spotify:// or code://" />
 
     <label for="prgNativeCmd" class="prgNativeCmdLabel">Native command</label>
     <input id="prgNativeCmd" type="text" value="${program.nativeCommand || ''}" placeholder="e.g. wireshark" />
@@ -853,13 +853,17 @@ export function openProgramModal(groupId, programId = null) {
 
   const updateTypeMethodView = () => {
     if (typeMethodSelect.value === 'group_exe') {
-      schemeLabel.style.display = 'none';
-      schemeInput.style.display = 'none';
+      schemeInput.readOnly = true;
+
+      schemeInput.value = '';
+      schemeInput.placeholder = 'Auto Protocol, based on name: .exe(puffl://cs puffl://Spotify puffl://re8)...';
+
       groupPathLabel.style.display = 'block';
       groupPathRow.style.display = 'flex';
     } else {
-      schemeLabel.style.display = 'block';
-      schemeInput.style.display = 'block';
+      schemeInput.readOnly = false;
+      schemeInput.placeholder = 'e.g. spotify:// or code://';
+
       groupPathLabel.style.display = 'none';
       groupPathRow.style.display = 'none';
     }
@@ -871,10 +875,8 @@ export function openProgramModal(groupId, programId = null) {
   browseButton.addEventListener('click', async () => {
     const executables = await handleBrowseFolderClick('#prgGroupPath', body);
 
-    console.log(executables)
     if (executables && executables.length > 0) {
       foundExecutablesList = executables;
-      alert(`${executables.length} executáveis foram encontrados e estão prontos para serem adicionados.`);
     }
   });
 
@@ -915,6 +917,7 @@ export function openProgramModal(groupId, programId = null) {
     body.querySelector('#prgIconUrl').style.display = t==='url' ? '' : 'none';
     body.querySelector('.prgIconFileLabel').style.display = t==='upload' ? '' : 'none';
     body.querySelector('#prgIconFile').style.display = t==='upload' ? '' : 'none';
+
     updatePreview();
   }
 
@@ -941,6 +944,7 @@ export function openProgramModal(groupId, programId = null) {
     const key = STATE.settings?.logoDevApiKey?.trim();
     const title = body.querySelector('#prgTitle').value.trim();
     if (!title || !key) return;
+
     const candidates = guessDomainCandidates(title);
     for (const dom of candidates) {
       const testUrl = logoDevUrlForDomain(dom, key);
@@ -948,6 +952,7 @@ export function openProgramModal(groupId, programId = null) {
         body.querySelector('#prgIconType').value = 'logo';
         body.querySelector('#prgLogoDomain').value = dom;
         toggleIconInputs();
+
         body.querySelector('#prgIconInfo').textContent = `Auto from logo.dev (${dom})`;
         return;
       }
@@ -996,6 +1001,28 @@ export function openProgramModal(groupId, programId = null) {
     await saveStateNow(); closeModal(); renderGroups();
   });
 
+  const createPuffProtocol = (filename) => {
+    if (!filename || typeof filename !== 'string') return ''
+
+    const nameWithoutExe = filename.replace(/\.exe$/i, '');
+    return `puffl://${nameWithoutExe}`;
+  }
+
+  const formatTitle = (filename) => {
+    if (!filename) return ''
+
+    let result = filename.replace(/\.exe$/i, '').replace(/_|-|\./g, ' ');
+    result = result
+        .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+        .replace(/([a-z\d])([A-Z])/g, '$1 $2')
+
+    return result.replace(/\s+/g, ' ')
+        .trim()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+  }
+
   const btnSave = document.createElement('button'); btnSave.className='btn'; btnSave.textContent = isEdit ? 'Save' : 'Add';
   btnSave.addEventListener('click', async () => {
     const typeMethod = body.querySelector('#typeMethod').value;
@@ -1004,19 +1031,19 @@ export function openProgramModal(groupId, programId = null) {
       if (foundExecutablesList.length === 0) return
 
       foundExecutablesList.forEach(executable => {
-        const newProgram = {
+        const modal = {
           id: uid('prg'),
 
-          title: executable.name.replace(/\.exe$/i, ''),
-          launchMethod: 'native',
-          nativeCommand: executable.path,
+          title: formatTitle(executable.name),
+          launchMethod: 'scheme',
+          schemeOrCommand: createPuffProtocol(executable.name),
 
           nativeArgs: [],
           iconType: 'logo',
           notes: ''
         };
 
-        group.programs.push(newProgram);
+        group.programs.push(modal);
       });
     } else {
       const title = body.querySelector('#prgTitle').value.trim() || 'Program';
@@ -1033,28 +1060,32 @@ export function openProgramModal(groupId, programId = null) {
       if (launchMethod === 'scheme') {
         payload.schemeOrCommand = schemeOrCommand;
         delete payload.nativeCommand; delete payload.nativeArgs;
+
       } else if (launchMethod === 'native') {
         payload.nativeCommand = nativeCommand;
         payload.nativeArgs = nativeArgs;
+
         delete payload.schemeOrCommand;
       } else {
         payload.nativeCommand = nativeCommand;
         payload.nativeArgs = nativeArgs;
+
         delete payload.schemeOrCommand;
       }
 
-      if (iconType==='logo') {
+      if (iconType === 'logo') {
         payload.logoDomain = body.querySelector('#prgLogoDomain').value.trim();
         delete payload.iconUrl; delete payload.iconData;
-      } else if (iconType==='url') {
+      } else if (iconType === 'url') {
         payload.iconUrl = body.querySelector('#prgIconUrl').value.trim();
         delete payload.iconData; delete payload.logoDomain;
-      } else if (iconType==='upload') {
+      } else if (iconType === 'upload') {
         payload.iconData = uploadedDataUrl;
         delete payload.iconUrl; delete payload.logoDomain;
       }
 
-      if (isEdit) Object.assign(program, payload); else group.programs.push({ id: uid('prg'), ...payload });
+      if (isEdit) Object.assign(program, payload)
+      else group.programs.push({ id: uid('prg'), ...payload });
     }
 
     await saveStateNow(); closeModal(); renderGroups();
