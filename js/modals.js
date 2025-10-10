@@ -884,22 +884,24 @@ export function openProgramModal(groupId, programId = null) {
     }
   };
 
-  let foundExecutablesList = [];
+  let foundExecutablesList = []
+
   const groupPathInput = body.querySelector('#prgGroupPath')
-  const browseButton = body.querySelector('#btnBrowseFolder');
+  const browseButton = body.querySelector('#btnBrowseFolder')
 
   browseButton.addEventListener('click', async () => {
-    errorNote.textContent = '';
-    groupPathInput.style.outline = '';
+    errorNote.textContent = ''
+    groupPathInput.style.outline = ''
 
-    const executables = await handleBrowseFolderClick('#prgGroupPath', body);
+    const executables = await handleBrowseFolderClick('#prgGroupPath', body)
     if (executables && executables.length > 0) {
-      foundExecutablesList = executables;
+      foundExecutablesList = executables
+      return
     }
 
-    errorNote.style.display = 'inline';
-    groupPathInput.style.outline = '1px solid #7f0000';
-    errorNote.textContent = 'No executable apps were found in the selected folder.';
+    errorNote.style.display = 'inline'
+    groupPathInput.style.outline = '1px solid #7f0000'
+    errorNote.textContent = 'No executable apps were found in the selected folder.'
   });
 
   typeMethodSelect.value = program.typeMethod || 'exe';
@@ -1139,3 +1141,4 @@ export function openProgramModal(groupId, programId = null) {
   footer.append(errorNote, btnCancel, btnDelete, btnSave);
   openModal({ title: isEdit ? 'Edit Program' : 'Add Program', body, footer });
 }
+
