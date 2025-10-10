@@ -844,8 +844,23 @@ export function openProgramModal(groupId, programId = null) {
     <textarea id="prgNotes" rows="2" placeholder="Optional description or instructions">${program.notes || ''}</textarea>
   `;
 
+  const errorNote = document.createElement('span');
+  errorNote.id = 'modalErrorNote'
+  errorNote.style.display = 'none';
+
+  errorNote.style.color = '#787878'
+  errorNote.style.fontSize = '12px'
+
+  errorNote.style.marginRight = 'auto'
+  errorNote.style.alignSelf = 'center'
+
+  errorNote.style.padding = '4px 8px'
+  errorNote.style.borderRadius = '6px'
+  errorNote.style.border = '1px solid #080808'
+  errorNote.style.backgroundColor = '#121212';
+
+
   const typeMethodSelect = body.querySelector('#typeMethod');
-  const schemeLabel = body.querySelector('.prgSchemeLabel');
   const schemeInput = body.querySelector('#prgScheme');
 
   const groupPathLabel = body.querySelector('.prgGroupPathLabel');
@@ -870,14 +885,21 @@ export function openProgramModal(groupId, programId = null) {
   };
 
   let foundExecutablesList = [];
+  const groupPathInput = body.querySelector('#prgGroupPath')
   const browseButton = body.querySelector('#btnBrowseFolder');
 
   browseButton.addEventListener('click', async () => {
-    const executables = await handleBrowseFolderClick('#prgGroupPath', body);
+    errorNote.textContent = '';
+    groupPathInput.style.outline = '';
 
+    const executables = await handleBrowseFolderClick('#prgGroupPath', body);
     if (executables && executables.length > 0) {
       foundExecutablesList = executables;
     }
+
+    errorNote.style.display = 'inline';
+    groupPathInput.style.outline = '1px solid #7f0000';
+    errorNote.textContent = 'No executable apps were found in the selected folder.';
   });
 
   typeMethodSelect.value = program.typeMethod || 'exe';
@@ -1001,6 +1023,7 @@ export function openProgramModal(groupId, programId = null) {
     await saveStateNow(); closeModal(); renderGroups();
   });
 
+
   const createPuffProtocol = (filename) => {
     if (!filename || typeof filename !== 'string') return ''
 
@@ -1028,7 +1051,28 @@ export function openProgramModal(groupId, programId = null) {
     const typeMethod = body.querySelector('#typeMethod').value;
 
     if (typeMethod === 'group_exe') {
+        console.log(foundExecutablesList)
       if (foundExecutablesList.length === 0) return
+
+      const iconType = body.querySelector('#prgIconType').value;
+      const payload = { iconType };
+
+      if (iconType === 'logo') {
+        payload.logoDomain = body.querySelector('#prgLogoDomain').value.trim()
+
+        delete payload.iconUrl
+        delete payload.iconData
+      } else if (iconType === 'url') {
+        payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
+
+        delete payload.iconData
+        delete payload.logoDomain
+      } else if (iconType === 'upload') {
+        payload.iconData = uploadedDataUrl
+
+        delete payload.iconUrl
+        delete payload.logoDomain
+      }
 
       foundExecutablesList.forEach(executable => {
         const modal = {
@@ -1038,9 +1082,10 @@ export function openProgramModal(groupId, programId = null) {
           launchMethod: 'scheme',
           schemeOrCommand: createPuffProtocol(executable.name),
 
-          nativeArgs: [],
-          iconType: 'logo',
-          notes: ''
+          iconType: iconType,
+          ...payload,
+
+          notes: body.querySelector('#prgNotes').value.trim()
         };
 
         group.programs.push(modal);
@@ -1091,6 +1136,6 @@ export function openProgramModal(groupId, programId = null) {
     await saveStateNow(); closeModal(); renderGroups();
   });
 
-  footer.append(btnCancel, btnDelete, btnSave);
+  footer.append(errorNote, btnCancel, btnDelete, btnSave);
   openModal({ title: isEdit ? 'Edit Program' : 'Add Program', body, footer });
 }
