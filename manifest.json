@@ -27,7 +27,7 @@
     }
   ],
 
-  "permissions": ["storage"],
+  "permissions": ["storage", "activeTab"],
   "host_permissions": [
     "https://api.rawg.io/*",
     "https://api.allorigins.win/*",

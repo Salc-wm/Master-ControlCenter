@@ -888,25 +888,6 @@ export function openProgramModal(groupId, programId = null) {
 
   let foundExecutablesList = [];
   const groupPathInput = body.querySelector('#prgGroupPath')
-  const browseButton = body.querySelector('#btnBrowseFolder')
-
-  browseButton.addEventListener('click', async () => {
-    footerNote.textContent = ''
-    groupPathInput.style.outline = ''
-
-    const executables = await handleBrowseFolderClick('#prgGroupPath', body)
-    footerNote.style.display = 'inline'
-
-    if (executables && executables.length > 0) {
-      foundExecutablesList = executables;
-      footerNote.textContent = executables.length + ': games found'
-
-      return
-    }
-
-    groupPathInput.style.outline = '1px solid #7f0000'
-    footerNote.textContent = 'No executable apps were found in the selected folder.'
-  });
 
   typeMethodSelect.value = program.typeMethod || 'exe'
   updateTypeMethodView()
@@ -998,25 +979,9 @@ export function openProgramModal(groupId, programId = null) {
   }
 
   body.querySelector('#prgTitle').addEventListener('blur', tryProgramTitleLogoLookup);
-  body.querySelector('#btnProgramFindLogo').addEventListener('click', async () => {
-    const dom = body.querySelector('#prgLogoDomain').value.trim(); if(!dom) return;
-    const key = STATE.settings?.logoDevApiKey?.trim();
-    const url = logoDevUrlForDomain(dom, key);
-
-    if (!url) { body.querySelector('#prgIconInfo').textContent = 'Add your logo.dev key in Settings first.'; return; }
-    const ok = await checkImage(url);
-
-    if (ok) {
-      body.querySelector('#prgIconType').value = 'logo';
-      toggleIconInputs();
-      body.querySelector('#prgIconInfo').textContent = `From logo.dev (${dom})`;
-    } else {
-      body.querySelector('#prgIconInfo').textContent = 'No logo for that domain.';
-    }
-  });
 
   // no auto mode title live update required
-  body.querySelector('#prgIconFile').addEventListener('change', (e)=>{
+  body.querySelector('#prgIconFile').addEventListener('change', (e) => {
     const file = e.target.files?.[0]; if(!file) return;
     if (file.size > 512*1024) { alert('Icon too large (max 512KB)'); e.target.value=''; return; }
     const fr = new FileReader(); fr.onload=()=>{ uploadedDataUrl = fr.result; updatePreview(); }; fr.readAsDataURL(file);
@@ -1031,13 +996,10 @@ export function openProgramModal(groupId, programId = null) {
   const footer = document.createElement('div');
   const btnCancel = document.createElement('button'); btnCancel.className='btn'; btnCancel.textContent='Cancel'; btnCancel.addEventListener('click', closeModal);
   const btnDelete = document.createElement('button'); btnDelete.className='btn danger'; btnDelete.textContent='Delete'; if(!isEdit) btnDelete.classList.add('hidden');
+  btnDelete.dataset.action = 'delete';
 
-  btnDelete.addEventListener('click', async ()=> {
-    if(!confirm('Delete this program?')) return;
-
-    const idx = group.programs.findIndex(p => p.id === programId); if (idx>=0) group.programs.splice(idx,1);
-    await saveStateNow(); closeModal(); renderGroups();
-  });
+  const btnSave = document.createElement('button'); btnSave.className='btn'; btnSave.textContent = isEdit ? 'Save' : 'Add';
+  btnSave.dataset.action = 'save';
 
 
   const createPuffProtocol = (filename) => {
@@ -1062,119 +1024,162 @@ export function openProgramModal(groupId, programId = null) {
         .join(' ')
   }
 
-  const btnSave = document.createElement('button'); btnSave.className='btn'; btnSave.textContent = isEdit ? 'Save' : 'Add';
-  btnSave.addEventListener('click', async () => {
-    const typeMethod = body.querySelector('#typeMethod').value;
+  body.addEventListener('click', async (e) => {
+    if (e.target.id === 'btnBrowseFolder') {
+      footerNote.textContent = ''
+      groupPathInput.style.outline = ''
 
-    if (typeMethod === 'group_exe') {
-      if (foundExecutablesList.length === 0) {
-        footerNote.textContent = ''
-        footerNote.style.display = 'inline'
+      const executables = await handleBrowseFolderClick('#prgGroupPath', body)
+      footerNote.style.display = 'inline'
 
-        footerNote.textContent = 'with the group option it is not possible to add empty frames.'
+      if (executables && executables.length > 0) {
+        foundExecutablesList = executables;
+        footerNote.textContent = executables.length + ': games found'
+
         return
       }
 
-      const iconType = body.querySelector('#prgIconType').value;
-      const payload = { iconType };
+      groupPathInput.style.outline = '1px solid #7f0000'
+      footerNote.textContent = 'No executable apps were found in the selected folder.'
+    } else if (e.target.id === 'btnProgramFindLogo') {
+      const dom = body.querySelector('#prgLogoDomain').value.trim(); if(!dom) return;
+      const key = STATE.settings?.logoDevApiKey?.trim();
+      const url = logoDevUrlForDomain(dom, key);
 
-      if (iconType === 'logo') {
-        payload.logoDomain = body.querySelector('#prgLogoDomain').value.trim()
+      if (!url) { body.querySelector('#prgIconInfo').textContent = 'Add your logo.dev key in Settings first.'; return; }
+      const ok = await checkImage(url);
 
-        delete payload.iconUrl
-        delete payload.iconData
-      } else if (iconType === 'url' || iconType === 'auto') {
-        if (iconType === 'url') {
-            payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
+      if (ok) {
+        body.querySelector('#prgIconType').value = 'logo';
+        toggleIconInputs();
+        body.querySelector('#prgIconInfo').textContent = `From logo.dev (${dom})`;
+      } else {
+        body.querySelector('#prgIconInfo').textContent = 'No logo for that domain.';
+      }
+    }
+  })
+
+  footer.addEventListener('click', async (event) => {
+    const action = event.target.dataset.action
+
+    if (action === 'delete') {
+      if (!confirm('Delete this program?')) return
+
+      const idx = group.programs.findIndex(p => p.id === programId); if (idx>=0) group.programs.splice(idx,1)
+      await saveStateNow(); closeModal(); renderGroups()
+    } else if (action === 'save') {
+      const typeMethod = body.querySelector('#typeMethod').value;
+
+      if (typeMethod === 'group_exe') {
+        if (foundExecutablesList.length === 0) {
+          footerNote.textContent = ''
+          footerNote.style.display = 'inline'
+
+          footerNote.textContent = 'with the group option it is not possible to add empty frames.'
+          return
         }
 
-        delete payload.iconData
-        delete payload.logoDomain
-      } else if (iconType === 'upload') {
-        payload.iconData = uploadedDataUrl
+        const iconType = body.querySelector('#prgIconType').value;
+        const payload = { iconType };
 
-        delete payload.iconUrl
-        delete payload.logoDomain
-      }
+        if (iconType === 'logo') {
+          payload.logoDomain = body.querySelector('#prgLogoDomain').value.trim()
 
-      const programPromises = foundExecutablesList.map(async (executable) => {
-        const name = formatTitle(executable.name);
+          delete payload.iconUrl
+          delete payload.iconData
+        } else if (iconType === 'url' || iconType === 'auto') {
+          if (iconType === 'url') {
+            payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
+          }
 
-        if (iconType === 'auto') {
+          delete payload.iconData
+          delete payload.logoDomain
+        } else if (iconType === 'upload') {
+          payload.iconData = uploadedDataUrl
+
+          delete payload.iconUrl
+          delete payload.logoDomain
+        }
+
+        const programPromises = foundExecutablesList.map(async (executable) => {
+          const name = formatTitle(executable.name);
+
+          if (iconType === 'auto') {
             const iconUrl = await getBestIcon(name)
 
             payload.iconType = 'url'
             payload.iconUrl = iconUrl
-        }
+          }
 
-        return {
-          id: uid('prg'),
+          return {
+            id: uid('prg'),
 
-          title: name,
-          launchMethod: 'scheme',
-          schemeOrCommand: createPuffProtocol(executable.name),
+            title: name,
+            launchMethod: 'scheme',
+            schemeOrCommand: createPuffProtocol(executable.name),
 
-          iconType: iconType,
-          ...payload,
+            iconType: iconType,
+            ...payload,
 
-          notes: body.querySelector('#prgNotes').value.trim()
-        }
-      })
+            notes: body.querySelector('#prgNotes').value.trim()
+          }
+        })
 
-      const modals = await Promise.all(programPromises);
-      group.programs.push(...modals);
-    } else {
-      const title = body.querySelector('#prgTitle').value.trim() || 'Program';
-      const launchMethod = body.querySelector('#prgLaunchMethod').value;
-      const schemeOrCommand = body.querySelector('#prgScheme').value.trim();
-
-      const nativeCommand = body.querySelector('#prgNativeCmd').value.trim();
-      const nativeArgs = body.querySelector('#prgNativeArgs').value.trim().split(/\s+/).filter(Boolean);
-
-      const iconType = body.querySelector('#prgIconType').value;
-      const notes = body.querySelector('#prgNotes').value.trim();
-      const payload = { title, launchMethod, iconType, notes };
-
-      if (launchMethod === 'scheme') {
-        payload.schemeOrCommand = schemeOrCommand;
-        delete payload.nativeCommand
-        delete payload.nativeArgs
-
-      } else if (launchMethod === 'native') {
-        payload.nativeCommand = nativeCommand
-        payload.nativeArgs = nativeArgs
-
-        delete payload.schemeOrCommand
+        const modals = await Promise.all(programPromises);
+        group.programs.push(...modals);
       } else {
-        payload.nativeCommand = nativeCommand
-        payload.nativeArgs = nativeArgs
+        const title = body.querySelector('#prgTitle').value.trim() || 'Program';
+        const launchMethod = body.querySelector('#prgLaunchMethod').value;
+        const schemeOrCommand = body.querySelector('#prgScheme').value.trim();
 
-        delete payload.schemeOrCommand
-      }
+        const nativeCommand = body.querySelector('#prgNativeCmd').value.trim();
+        const nativeArgs = body.querySelector('#prgNativeArgs').value.trim().split(/\s+/).filter(Boolean);
 
-      if (iconType === 'logo') {
-        payload.logoDomain = body.querySelector('#prgLogoDomain').value.trim()
-        delete payload.iconUrl; delete payload.iconData;
-      } else if (iconType === 'url' || iconType === 'auto') {
-        if (iconType === 'url') {
-            payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
+        const iconType = body.querySelector('#prgIconType').value;
+        const notes = body.querySelector('#prgNotes').value.trim();
+        const payload = { title, launchMethod, iconType, notes };
+
+        if (launchMethod === 'scheme') {
+          payload.schemeOrCommand = schemeOrCommand;
+          delete payload.nativeCommand
+          delete payload.nativeArgs
+
+        } else if (launchMethod === 'native') {
+          payload.nativeCommand = nativeCommand
+          payload.nativeArgs = nativeArgs
+
+          delete payload.schemeOrCommand
         } else {
+          payload.nativeCommand = nativeCommand
+          payload.nativeArgs = nativeArgs
+
+          delete payload.schemeOrCommand
+        }
+
+        if (iconType === 'logo') {
+          payload.logoDomain = body.querySelector('#prgLogoDomain').value.trim()
+          delete payload.iconUrl; delete payload.iconData;
+        } else if (iconType === 'url' || iconType === 'auto') {
+          if (iconType === 'url') {
+            payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
+          } else {
             const iconUrl = getBestIcon(title)
             payload.iconUrl = iconUrl
+          }
+
+          payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
+          delete payload.iconData; delete payload.logoDomain
+        } else if (iconType === 'upload') {
+          payload.iconData = uploadedDataUrl
+          delete payload.iconUrl; delete payload.logoDomain
         }
 
-        payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
-        delete payload.iconData; delete payload.logoDomain
-      } else if (iconType === 'upload') {
-        payload.iconData = uploadedDataUrl
-        delete payload.iconUrl; delete payload.logoDomain
+        if (isEdit) Object.assign(program, payload)
+        else group.programs.push({ id: uid('prg'), ...payload })
       }
 
-      if (isEdit) Object.assign(program, payload)
-      else group.programs.push({ id: uid('prg'), ...payload })
+      await saveStateNow(); closeModal(); renderGroups();
     }
-
-    await saveStateNow(); closeModal(); renderGroups();
   });
 
   footer.append(footerNote, btnCancel, btnDelete, btnSave);
