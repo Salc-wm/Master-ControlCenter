@@ -10,6 +10,7 @@ import { renderGroups } from "./render-groups.js";
 import { renderPagesBar } from "./render-pages.js";
 import { performResetAll } from "./actions.js";
 
+import { getBestIcon } from './API/findBestIcon.js';
 import { handleBrowseFolderClick } from './API/fileSystemAccess.js';
 
 // Generic modal
@@ -823,6 +824,7 @@ export function openProgramModal(groupId, programId = null) {
 
     <label for="prgIconType">Icon</label>
     <select id="prgIconType">
+      <option value="auto">Auto</option>
       <option value="logo">Logo.dev (by domain)</option>
       <option value="url">Image URL</option>
       <option value="upload">Upload</option>
@@ -844,20 +846,20 @@ export function openProgramModal(groupId, programId = null) {
     <textarea id="prgNotes" rows="2" placeholder="Optional description or instructions">${program.notes || ''}</textarea>
   `;
 
-  const errorNote = document.createElement('span');
-  errorNote.id = 'modalErrorNote'
-  errorNote.style.display = 'none';
+  const footerNote = document.createElement('span');
+  footerNote.id = 'modalErrorNote'
+  footerNote.style.display = 'none';
 
-  errorNote.style.color = '#787878'
-  errorNote.style.fontSize = '12px'
+  footerNote.style.color = '#787878'
+  footerNote.style.fontSize = '12px'
 
-  errorNote.style.marginRight = 'auto'
-  errorNote.style.alignSelf = 'center'
+  footerNote.style.marginRight = 'auto'
+  footerNote.style.alignSelf = 'center'
 
-  errorNote.style.padding = '4px 8px'
-  errorNote.style.borderRadius = '6px'
-  errorNote.style.border = '1px solid #080808'
-  errorNote.style.backgroundColor = '#121212';
+  footerNote.style.padding = '4px 8px'
+  footerNote.style.borderRadius = '6px'
+  footerNote.style.border = '1px solid #080808'
+  footerNote.style.backgroundColor = '#121212';
 
 
   const typeMethodSelect = body.querySelector('#typeMethod');
@@ -884,40 +886,44 @@ export function openProgramModal(groupId, programId = null) {
     }
   };
 
-  let foundExecutablesList = []
-
+  let foundExecutablesList = [];
   const groupPathInput = body.querySelector('#prgGroupPath')
   const browseButton = body.querySelector('#btnBrowseFolder')
 
   browseButton.addEventListener('click', async () => {
-    errorNote.textContent = ''
+    footerNote.textContent = ''
     groupPathInput.style.outline = ''
 
     const executables = await handleBrowseFolderClick('#prgGroupPath', body)
+    footerNote.style.display = 'inline'
+
     if (executables && executables.length > 0) {
-      foundExecutablesList = executables
+      foundExecutablesList = executables;
+      footerNote.textContent = executables.length + ': games found'
+
       return
     }
 
-    errorNote.style.display = 'inline'
     groupPathInput.style.outline = '1px solid #7f0000'
-    errorNote.textContent = 'No executable apps were found in the selected folder.'
+    footerNote.textContent = 'No executable apps were found in the selected folder.'
   });
 
-  typeMethodSelect.value = program.typeMethod || 'exe';
-  updateTypeMethodView();
-  typeMethodSelect.addEventListener('change', updateTypeMethodView);
+  typeMethodSelect.value = program.typeMethod || 'exe'
+  updateTypeMethodView()
+  typeMethodSelect.addEventListener('change', updateTypeMethodView)
 
-  let uploadedDataUrl = program.iconType === 'upload' ? (program.iconData || '') : '';
+  let uploadedDataUrl = program.iconType === 'upload' ? (program.iconData || '') : ''
 
   function updatePreview() {
-    const box = body.querySelector('#prgIconPreview .tile-icon'); box.innerHTML='';
-    let src='';
+    const box = body.querySelector('#prgIconPreview .tile-icon')
+    box.innerHTML=''
+    let src=''
 
     const t = body.querySelector('#prgIconType').value;
     if (t==='logo') {
       const key = STATE.settings?.logoDevApiKey?.trim();
       const dom = body.querySelector('#prgLogoDomain').value.trim();
+
       if (key && dom) src = logoDevUrlForDomain(dom, key);
       body.querySelector('#prgIconInfo').textContent = dom ? `Logo.dev: ${dom}` : 'Enter domain for logo';
     } else if (t==='url') {
@@ -929,7 +935,15 @@ export function openProgramModal(groupId, programId = null) {
     }
 
     if (src) {
-      const img = document.createElement('img'); img.src = src; img.alt=''; img.style.width='86%'; img.style.height='86%'; img.style.objectFit='contain'; box.appendChild(img);
+      const img = document.createElement('img');
+      img.src = src
+      img.alt=''
+
+      img.style.width='86%'
+      img.style.height='86%'
+
+      img.style.objectFit='contain'
+      box.appendChild(img)
     }
   }
 
@@ -1053,8 +1067,13 @@ export function openProgramModal(groupId, programId = null) {
     const typeMethod = body.querySelector('#typeMethod').value;
 
     if (typeMethod === 'group_exe') {
-        console.log(foundExecutablesList)
-      if (foundExecutablesList.length === 0) return
+      if (foundExecutablesList.length === 0) {
+        footerNote.textContent = ''
+        footerNote.style.display = 'inline'
+
+        footerNote.textContent = 'with the group option it is not possible to add empty frames.'
+        return
+      }
 
       const iconType = body.querySelector('#prgIconType').value;
       const payload = { iconType };
@@ -1064,8 +1083,10 @@ export function openProgramModal(groupId, programId = null) {
 
         delete payload.iconUrl
         delete payload.iconData
-      } else if (iconType === 'url') {
-        payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
+      } else if (iconType === 'url' || iconType === 'auto') {
+        if (iconType === 'url') {
+            payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
+        }
 
         delete payload.iconData
         delete payload.logoDomain
@@ -1076,11 +1097,20 @@ export function openProgramModal(groupId, programId = null) {
         delete payload.logoDomain
       }
 
-      foundExecutablesList.forEach(executable => {
-        const modal = {
+      const programPromises = foundExecutablesList.map(async (executable) => {
+        const name = formatTitle(executable.name);
+
+        if (iconType === 'auto') {
+            const iconUrl = await getBestIcon(name)
+
+            payload.iconType = 'url'
+            payload.iconUrl = iconUrl
+        }
+
+        return {
           id: uid('prg'),
 
-          title: formatTitle(executable.name),
+          title: name,
           launchMethod: 'scheme',
           schemeOrCommand: createPuffProtocol(executable.name),
 
@@ -1088,10 +1118,11 @@ export function openProgramModal(groupId, programId = null) {
           ...payload,
 
           notes: body.querySelector('#prgNotes').value.trim()
-        };
+        }
+      })
 
-        group.programs.push(modal);
-      });
+      const modals = await Promise.all(programPromises);
+      group.programs.push(...modals);
     } else {
       const title = body.querySelector('#prgTitle').value.trim() || 'Program';
       const launchMethod = body.querySelector('#prgLaunchMethod').value;
@@ -1106,39 +1137,46 @@ export function openProgramModal(groupId, programId = null) {
 
       if (launchMethod === 'scheme') {
         payload.schemeOrCommand = schemeOrCommand;
-        delete payload.nativeCommand; delete payload.nativeArgs;
+        delete payload.nativeCommand
+        delete payload.nativeArgs
 
       } else if (launchMethod === 'native') {
-        payload.nativeCommand = nativeCommand;
-        payload.nativeArgs = nativeArgs;
+        payload.nativeCommand = nativeCommand
+        payload.nativeArgs = nativeArgs
 
-        delete payload.schemeOrCommand;
+        delete payload.schemeOrCommand
       } else {
-        payload.nativeCommand = nativeCommand;
-        payload.nativeArgs = nativeArgs;
+        payload.nativeCommand = nativeCommand
+        payload.nativeArgs = nativeArgs
 
-        delete payload.schemeOrCommand;
+        delete payload.schemeOrCommand
       }
 
       if (iconType === 'logo') {
-        payload.logoDomain = body.querySelector('#prgLogoDomain').value.trim();
+        payload.logoDomain = body.querySelector('#prgLogoDomain').value.trim()
         delete payload.iconUrl; delete payload.iconData;
-      } else if (iconType === 'url') {
-        payload.iconUrl = body.querySelector('#prgIconUrl').value.trim();
-        delete payload.iconData; delete payload.logoDomain;
+      } else if (iconType === 'url' || iconType === 'auto') {
+        if (iconType === 'url') {
+            payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
+        } else {
+            const iconUrl = getBestIcon(title)
+            payload.iconUrl = iconUrl
+        }
+
+        payload.iconUrl = body.querySelector('#prgIconUrl').value.trim()
+        delete payload.iconData; delete payload.logoDomain
       } else if (iconType === 'upload') {
-        payload.iconData = uploadedDataUrl;
-        delete payload.iconUrl; delete payload.logoDomain;
+        payload.iconData = uploadedDataUrl
+        delete payload.iconUrl; delete payload.logoDomain
       }
 
       if (isEdit) Object.assign(program, payload)
-      else group.programs.push({ id: uid('prg'), ...payload });
+      else group.programs.push({ id: uid('prg'), ...payload })
     }
 
     await saveStateNow(); closeModal(); renderGroups();
   });
 
-  footer.append(errorNote, btnCancel, btnDelete, btnSave);
+  footer.append(footerNote, btnCancel, btnDelete, btnSave);
   openModal({ title: isEdit ? 'Edit Program' : 'Add Program', body, footer });
 }
-

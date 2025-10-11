@@ -3,6 +3,7 @@
   "name": "Master Control Center",
   "version": "1.0.2",
   "description": "Master Control Center is a privacy-first extension that launches a customizable dashboard for news, apps, games, and utilities, with all data stored locally fully customizable by the user",
+
   "icons": {
     "16": "assets/icon/stackdash-16.png",
     "32": "assets/icon/stackdash-32.png",
@@ -19,17 +20,26 @@
   "default_title": "Master Control Center"
   },
 
+  "protocol_handlers": [
+    {
+      "protocol": "web+puffl",
+      "url": "/launcher?game=%s"
+    }
+  ],
+
   "permissions": ["storage"],
   "host_permissions": [
+    "https://api.rawg.io/*",
     "https://api.allorigins.win/*",
     "https://api.uptimerobot.com/*",
     "https://api.brandfetch.io/v2/brands/microsoft.com/*",
 
-    "https://status.openai.com/*",
     "https://www.steamgriddb.com/*",
-    "https://cors.isomorphic-git.org/*",
+    "https://www.google.com/s2/*",
 
-    "https://logo.clearbit.com/visualstudio.com/*"
+    "https://status.openai.com/*",
+    "https://logo.clearbit.com/*",
+    "https://cors.isomorphic-git.org/*"
   ],
   "background": { "service_worker": "service-worker.js" }
 }
