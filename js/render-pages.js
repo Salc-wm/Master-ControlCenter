@@ -4,6 +4,7 @@ import { $, $$ } from "./utils.js";
 import { STATE, saveState } from "./state.js";
 import { renderGroups } from "./render-groups.js";
 import { openPageModal, handleDeletePage } from "./modals.js";
+import { t } from "./languages/i18n.js";
 
 // =============================
 // Module state / shared caches
@@ -29,8 +30,8 @@ function renderFullCollapse(bar, pagesData, globalEdit) {
   trigger.className = "page-pill full-collapse-trigger";
   trigger.setAttribute("aria-haspopup", "true");
   trigger.setAttribute("aria-expanded", "false");
-  trigger.title = "Select page";
-  trigger.innerHTML = `<span class="page-name">${selected?.name || "Untitled"}</span><span class="caret" aria-hidden="true">▾</span>`;
+  trigger.title = t("Select page");
+  trigger.innerHTML = `<span class="page-name">${selected?.name || t("Untitled")}</span><span class="caret" aria-hidden="true">▾</span>`;
   bar.appendChild(trigger);
 
   trigger.addEventListener("click", (e) => {
@@ -47,12 +48,12 @@ function renderFullCollapse(bar, pagesData, globalEdit) {
       const row = document.createElement("div");
       row.className = `overflow-item-row${id === STATE.selectedPageId ? " active" : ""}`;
       row.innerHTML = globalEdit ? `
-        <button type="button" class="overflow-item main" data-act="select">${(page?.name || "Untitled")}</button>
+        <button type="button" class="overflow-item main" data-act="select">${(page?.name || t("Untitled"))}</button>
         <div class="overflow-mini-actions">
-          <button type="button" class="mini rename" title="Rename" data-act="rename">✎</button>
-          <button type="button" class="mini delete" title="Delete" data-act="delete">✕</button>
+          <button type="button" class="mini rename" title="${t("Rename")}" data-act="rename">✎</button>
+          <button type="button" class="mini delete" title="${t("Delete")}" data-act="delete">✕</button>
         </div>` : `
-        <button type="button" class="overflow-item main" data-act="select" style="width:100%;text-align:left;">${(page?.name || "Untitled")}</button>`;
+        <button type="button" class="overflow-item main" data-act="select" style="width:100%;text-align:left;">${(page?.name || t("Untitled"))}</button>`;
       row.addEventListener("click", async (evt) => {
         const act = evt.target?.dataset?.act; if (!act) return; evt.stopPropagation();
         if (act === "select") {
@@ -112,8 +113,8 @@ function openFlyout(bar, btn, page) {
   fly.id = FLYOUT_ID;
   fly.className = "pill-flyout";
   fly.innerHTML = `
-    <button class="pill-item" data-cmd="rename" data-page-id="${page.id}">Rename</button>
-    <button class="pill-item danger" data-cmd="delete" data-page-id="${page.id}">Delete</button>
+    <button class="pill-item" data-cmd="rename" data-page-id="${page.id}">${t("Rename")}</button>
+    <button class="pill-item danger" data-cmd="delete" data-page-id="${page.id}">${t("Delete")}</button>
   `;
   document.body.appendChild(fly);
 
@@ -190,7 +191,7 @@ export function renderPagesBar() {
     pill.dataset.pageId = p.id;
     pill.innerHTML = `
       <span class="page-name">${p.name}</span>
-      ${globalEdit ? `<button class="pill-menu-btn" type="button" aria-label="Page options" aria-haspopup="menu" aria-expanded="false" title="Options">⋮</button>` : ""}
+      ${globalEdit ? `<button class="pill-menu-btn" type="button" aria-label="${t("Page options")}" aria-haspopup="menu" aria-expanded="false" title="${t("Options")}">⋮</button>` : ""}
     `;
     if (!globalEdit) pill.style.paddingRight = "12px"; // tighten padding when no menu
 

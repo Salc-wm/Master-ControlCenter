@@ -12,6 +12,7 @@ import { performResetAll } from "./actions.js";
 
 import { getBestIcon } from './API/findBestIcon.js';
 import { handleBrowseFolderClick } from './API/fileSystemAccess.js';
+import { t, applyTranslations } from "./languages/i18n.js";
 
 // Generic modal
 export function openModal({ title, body, footer }) {
@@ -21,6 +22,7 @@ export function openModal({ title, body, footer }) {
   const footEl = $("#modalFooter"); footEl.innerHTML = ""; if (footer) footEl.appendChild(footer);
 
   $("#modal").hidden = false;
+  applyTranslations(document);
 }
 
 export function closeModal() { $("#modal").hidden = true; }
@@ -40,20 +42,20 @@ export function openPageModal(pageId = null) {
   const body = document.createElement("div");
   body.className = "form-grid";
   body.innerHTML = `
-    <label for="pgName">Page name</label>
-    <input id="pgName" type="text" value="${page?.name || ""}" placeholder="e.g. Media" />
+    <label for="pgName">${t("Page name")}</label>
+    <input id="pgName" type="text" value="${page?.name || ""}" placeholder="${t("e.g. Media")}" />
   `;
 
   const footer = document.createElement("div");
   const btnCancel = document.createElement("button");
 
-  btnCancel.className = "btn"; btnCancel.textContent = "Cancel";
+  btnCancel.className = "btn"; btnCancel.textContent = t("Cancel");
   btnCancel.addEventListener("click", closeModal);
 
   const btnSave = document.createElement("button");
-  btnSave.className = "btn"; btnSave.textContent = isEdit ? "Save" : "Add";
+  btnSave.className = "btn"; btnSave.textContent = isEdit ? t("Save") : t("Add");
   btnSave.addEventListener("click", async () => {
-    const name = $("#pgName").value.trim() || "Untitled";
+    const name = $("#pgName").value.trim() || t("Untitled");
 
     if (isEdit) {
       page.name = name;
@@ -69,7 +71,7 @@ export function openPageModal(pageId = null) {
   });
 
   footer.append(btnCancel, btnSave);
-  openModal({ title: isEdit ? "Rename Page" : "Add Page", body, footer });
+  openModal({ title: isEdit ? t("Rename Page") : t("Add Page"), body, footer });
 }
 
 // Collage style page switcher (appears when many pages)
@@ -82,7 +84,7 @@ export function openPagesSwitcher() {
     btn.type = "button";
 
     btn.className = `page-switcher-item${p.id === STATE.selectedPageId ? " active" : ""}`;
-    btn.textContent = p.name || "Untitled";
+    btn.textContent = p.name || t("Untitled");
 
     btn.addEventListener("click", async () => {
       STATE.selectedPageId = p.id;
@@ -98,7 +100,7 @@ export function openPagesSwitcher() {
   addBtn.type = "button";
 
   addBtn.className = "page-switcher-item add";
-  addBtn.textContent = "+ Add Page";
+  addBtn.textContent = `+ ${t("Add Page")}`;
 
   addBtn.addEventListener("click", () => {
     closeModal();
@@ -106,13 +108,13 @@ export function openPagesSwitcher() {
   });
 
   body.appendChild(addBtn);
-  openModal({ title: "All Pages", body, footer: null });
+  openModal({ title: t("All Pages"), body, footer: null });
 }
 
 export async function handleDeletePage(pageId) {
   const idx = STATE.pages.findIndex(p => p.id === pageId);
   if (idx < 0) return;
-  if (!confirm(`Delete page "${STATE.pages[idx].name}"?`)) return;
+  if (!confirm(t('Delete page "{name}"?', { name: STATE.pages[idx].name }))) return;
 
   STATE.pages.splice(idx, 1);
   if (!STATE.pages.length) {
@@ -130,44 +132,44 @@ export function openGroupModal() {
   const body = document.createElement("div");
   body.className = "form-grid";
   body.innerHTML = `
-    <label for="grpName">Group name</label>
-    <input id="grpName" type="text" value="New Group" />
-    <label for="grpCenterNew" style="margin-top:6px;">Center this group</label>
+    <label for="grpName">${t("Group name")}</label>
+    <input id="grpName" type="text" value="${t("New Group")}" />
+    <label for="grpCenterNew" style="margin-top:6px;">${t("Center this group")}</label>
     <label class="switch" style="justify-self:start;">
       <input id="grpCenterNew" type="checkbox" />
       <span class="switch-track" aria-hidden="true"></span>
-      <span class="switch-label-on" aria-hidden="true">On</span>
-      <span class="switch-label-off" aria-hidden="true">Off</span>
+      <span class="switch-label-on" aria-hidden="true">${t("On")}</span>
+      <span class="switch-label-off" aria-hidden="true">${t("Off")}</span>
     </label>
-    <small class="muted" style="grid-column:2;">If checked, the group will be horizontally centered on its own row.</small>
+    <small class="muted" style="grid-column:2;">${t("If checked, the group will be horizontally centered on its own row.")}</small>
   `;
 
   const footer = document.createElement("div");
   const btnCancel = document.createElement("button");
 
-  btnCancel.className = "btn"; btnCancel.textContent = "Cancel";
+  btnCancel.className = "btn"; btnCancel.textContent = t("Cancel");
   btnCancel.addEventListener("click", closeModal);
 
 
   const btnAdd = document.createElement("button");
-  btnAdd.className = "btn"; btnAdd.textContent = "Add";
+  btnAdd.className = "btn"; btnAdd.textContent = t("Add");
   btnAdd.addEventListener("click", async () => {
     const page = getSelectedPage(); if (!page) return;
-    const group = { id: uid("grp"), name: $("#grpName").value.trim() || "Group", links: [], centered: !!$("#grpCenterNew")?.checked };
+    const group = { id: uid("grp"), name: $("#grpName").value.trim() || t("Group"), links: [], centered: !!$("#grpCenterNew")?.checked };
 
     page.groups.push(group);
     await saveStateNow(); closeModal(); renderGroups();
   });
 
   footer.append(btnCancel, btnAdd);
-  openModal({ title: "Add Group", body, footer });
+  openModal({ title: t("Add Group"), body, footer });
 }
 
 export function deleteGroup(groupId) {
   const page = getSelectedPage(); if (!page) return;
   const idx = page.groups.findIndex(g => g.id === groupId);
   if (idx < 0) return;
-  if (!confirm(`Delete group "${page.groups[idx].name}"?`)) return;
+  if (!confirm(t('Delete group "{name}"?', { name: page.groups[idx].name }))) return;
   page.groups.splice(idx, 1);
   saveState(); renderGroups();
 }
@@ -181,39 +183,39 @@ export function openGroupSizeModal(groupId){
   const body = document.createElement('div');
   body.className = 'form-grid';
   body.innerHTML = `
-    <label>Group</label>
+    <label>${t("Group")}</label>
     <div style="display:flex;align-items:center;gap:8px;">
-      <strong>${group.name || 'Group'}</strong>
+      <strong>${group.name || t("Group")}</strong>
     </div>
-    <label for="grpTileSize">Tile size</label>
+    <label for="grpTileSize">${t("Tile size")}</label>
     <select id="grpTileSize">
-      <option value="110">Compact</option>
-      <option value="120">Normal</option>
-      <option value="150">Large</option>
-      <option value="180">X-Large</option>
-      <option value="220">XX-Large</option>
+      <option value="110">${t("Compact")}</option>
+      <option value="120">${t("Normal")}</option>
+      <option value="150">${t("Large")}</option>
+      <option value="180">${t("X-Large")}</option>
+      <option value="220">${t("XX-Large")}</option>
     </select>
-    <label for="grpSpan" style="margin-top:6px;">Column span</label>
+    <label for="grpSpan" style="margin-top:6px;">${t("Column span")}</label>
     <select id="grpSpan">
-      <option value="1">Span 1 (default)</option>
-      <option value="2">Span 2</option>
-      <option value="3">Span 3</option>
-      <option value="4">Span 4</option>
+      <option value="1">${t("Span 1 (default)")}</option>
+      <option value="2">${t("Span 2")}</option>
+      <option value="3">${t("Span 3")}</option>
+      <option value="4">${t("Span 4")}</option>
     </select>
-    <small class="muted" style="grid-column:2;">Span makes this group card occupy multiple columns in the groups grid to appear wider. Actual width depends on screen size and other groups.</small>
-    <label for="grpCenterExisting" style="margin-top:10px;">Center this group</label>
+    <small class="muted" style="grid-column:2;">${t("Span makes this group card occupy multiple columns in the groups grid to appear wider. Actual width depends on screen size and other groups.")}</small>
+    <label for="grpCenterExisting" style="margin-top:10px;">${t("Center this group")}</label>
     <label class="switch" style="justify-self:start;">
       <input id="grpCenterExisting" type="checkbox" ${group.centered ? 'checked' : ''} />
       <span class="switch-track" aria-hidden="true"></span>
-      <span class="switch-label-on" aria-hidden="true">On</span>
-      <span class="switch-label-off" aria-hidden="true">Off</span>
+      <span class="switch-label-on" aria-hidden="true">${t("On")}</span>
+      <span class="switch-label-off" aria-hidden="true">${t("Off")}</span>
     </label>
-    <small class="muted" style="grid-column:2;">Places this group on its own row and centers it. Ignores span.</small>
+    <small class="muted" style="grid-column:2;">${t("Places this group on its own row and centers it. Ignores span.")}</small>
   `;
   setTimeout(()=>{ const sel = body.querySelector('#grpTileSize'); if(sel) sel.value = String(current); const sp = body.querySelector('#grpSpan'); if (sp) sp.value = String(currentSpan); },0);
   const footer = document.createElement('div');
-  const btnCancel = document.createElement('button'); btnCancel.className='btn'; btnCancel.textContent='Cancel'; btnCancel.addEventListener('click', closeModal);
-  const btnSave = document.createElement('button'); btnSave.className='btn'; btnSave.textContent='Save'; btnSave.addEventListener('click', async ()=>{
+  const btnCancel = document.createElement('button'); btnCancel.className='btn'; btnCancel.textContent=t('Cancel'); btnCancel.addEventListener('click', closeModal);
+  const btnSave = document.createElement('button'); btnSave.className='btn'; btnSave.textContent=t('Save'); btnSave.addEventListener('click', async ()=>{
     const val = parseInt(body.querySelector('#grpTileSize').value,10);
     if(!isNaN(val) && [110,120,150,180,220].includes(val)) { group.tileMin = val; }
     const spanVal = parseInt(body.querySelector('#grpSpan').value,10);
@@ -224,7 +226,7 @@ export function openGroupSizeModal(groupId){
     await saveStateNow(); closeModal(); renderGroups();
   });
   footer.append(btnCancel, btnSave);
-  openModal({ title: 'Group Size', body, footer });
+  openModal({ title: t('Group Size'), body, footer });
 }
 
 // Reset confirmation (blank wipe)
@@ -233,31 +235,31 @@ export function openResetConfirmModal() {
   body.style.display = 'grid';
   body.style.gap = '12px';
   body.innerHTML = `
-  <p style="margin:0;line-height:1.5;">This will <strong>permanently delete</strong> all pages, groups and links stored locally for Master Control Dashboard. There is no undo.</p>
+  <p style="margin:0;line-height:1.5;">${t("This will {strongOpen}permanently delete{strongClose} all pages, groups and links stored locally for Master Control Dashboard. There is no undo.", { strongOpen: "<strong>", strongClose: "</strong>" })}</p>
     <ul style="margin:0 0 4px 18px;padding:0;line-height:1.4;font-size:.9rem;opacity:.85;">
-      <li>Pages list will become completely blank</li>
-      <li>All groups and app tiles are removed</li>
-      <li>Your settings (theme, logo.dev key, edit toggle) are kept</li>
+      <li>${t("Pages list will become completely blank")}</li>
+      <li>${t("All groups and app tiles are removed")}</li>
+      <li>${t("Your settings (theme, logo.dev key, edit toggle) are kept")}</li>
     </ul>
-    <p style="margin:0;font-size:.85rem;opacity:.75;">If you have an export, you can re-import it later via Backup &gt; Import JSON.</p>
+    <p style="margin:0;font-size:.85rem;opacity:.75;">${t("If you have an export, you can re-import it later via Backup > Import JSON.")}</p>
   `;
 
   const footer = document.createElement('div');
   const btnCancel = document.createElement('button');
   btnCancel.className = 'btn';
-  btnCancel.textContent = 'Cancel';
+  btnCancel.textContent = t('Cancel');
   btnCancel.addEventListener('click', () => closeModal());
 
   const btnYes = document.createElement('button');
   btnYes.className = 'btn danger';
-  btnYes.textContent = 'Yes, wipe everything';
+  btnYes.textContent = t('Yes, wipe everything');
   btnYes.addEventListener('click', async () => {
     await performResetAll();
     closeModal();
   });
 
   footer.append(btnCancel, btnYes);
-  openModal({ title: 'Confirm Reset', body, footer });
+  openModal({ title: t('Confirm Reset'), body, footer });
 }
 
 /**
@@ -286,40 +288,40 @@ export function openLinkModal(groupId, linkId = null) {
   const body = document.createElement("div");
   body.className = "form-grid";
   body.innerHTML = `
-    <label>Icon preview</label>
+    <label>${t("Icon preview")}</label>
     <div id="lnkIconPreview" style="display:flex;align-items:center;gap:12px;">
       <div class="tile-icon" style="width:64px;height:64px;border-radius:12px;display:grid;place-items:center;overflow:hidden;border:1px solid var(--border);background:var(--panel-2)"></div>
       <small class="muted" id="lnkIconInfo"></small>
     </div>
 
-    <label for="lnkTitle">Title</label>
-    <input id="lnkTitle" type="text" value="${link.title || ""}" placeholder="e.g. Plex" />
+    <label for="lnkTitle">${t("Title")}</label>
+    <input id="lnkTitle" type="text" value="${link.title || ""}" placeholder="${t("e.g. Plex")}" />
 
-    <label for="lnkUrl">URL</label>
+    <label for="lnkUrl">${t("URL")}</label>
     <input id="lnkUrl" type="url" value="${link.url || ""}" placeholder="https://..." />
 
-    <label for="lnkIconType">Icon</label>
+    <label for="lnkIconType">${t("Icon")}</label>
     <select id="lnkIconType">
-      <option value="auto">Auto (favicon)</option>
-      <option value="logo">Logo.dev (by domain)</option>
-      <option value="url">Image URL</option>
-      <option value="upload">Upload</option>
+      <option value="auto">${t("Auto (favicon)")}</option>
+      <option value="logo">${t("Logo.dev (by domain)")}</option>
+      <option value="url">${t("Image URL")}</option>
+      <option value="upload">${t("Upload")}</option>
     </select>
 
     <!-- LOGO.DEV (no token shown) -->
-    <label for="lnkLogoDomain" class="lnkLogoDomainLabel">Company domain for logo.dev</label>
+    <label for="lnkLogoDomain" class="lnkLogoDomainLabel">${t("Company domain for logo.dev")}</label>
     <div class="row" id="lnkLogoDomainRow" style="grid-column:2; width:100%;">
-      <input id="lnkLogoDomain" type="text" placeholder="e.g. plex.tv" style="flex:1" value="${uiLogoDomain || ""}" />
-      <button class="btn" type="button" id="btnFindCompanyLogo">Find logo</button>
+      <input id="lnkLogoDomain" type="text" placeholder="${t("e.g. plex.tv")}" style="flex:1" value="${uiLogoDomain || ""}" />
+      <button class="btn" type="button" id="btnFindCompanyLogo">${t("Find logo")}</button>
     </div>
 
     <!-- Plain URL image -->
-    <label for="lnkIconUrl" class="lnkIconUrlLabel">Image URL <small>(no secrets)</small></label>
+    <label for="lnkIconUrl" class="lnkIconUrlLabel">${t("Image URL")} <small>(${t("no secrets")})</small></label>
     <input id="lnkIconUrl" type="url" value="${link.iconType === "url" ? (link.iconUrl || "") : ""}"
            placeholder="https://example.com/icon.png" style="width:100%;" />
 
     <!-- Upload -->
-    <label for="lnkIconFile" class="lnkIconFileLabel">Upload PNG/JPG</label>
+    <label for="lnkIconFile" class="lnkIconFileLabel">${t("Upload PNG/JPG")}</label>
     <input id="lnkIconFile" type="file" accept="image/png,image/jpeg,image/webp" style="width:100%;" />
   `;
 
@@ -365,17 +367,17 @@ export function openLinkModal(groupId, linkId = null) {
       const key = STATE.settings?.logoDevApiKey?.trim();
       const dom = $("#lnkLogoDomain").value.trim();
       src = (key && dom) ? logoDevUrlForDomain(dom, key) : "";
-      $("#lnkIconInfo").textContent = dom ? `Logo.dev: ${dom}` : "Enter a domain to fetch a logo";
+      $("#lnkIconInfo").textContent = dom ? t("Logo.dev: {domain}", { domain: dom }) : t("Enter a domain to fetch a logo");
     } else if (t === "url") {
       src = $("#lnkIconUrl").value.trim();
-      $("#lnkIconInfo").textContent = src ? "Custom image URL" : "";
+      $("#lnkIconInfo").textContent = src ? t("Custom image URL") : "";
     } else if (t === "upload") {
       src = uploadedDataUrl || "";
-      $("#lnkIconInfo").textContent = src ? "Uploaded image" : "";
+      $("#lnkIconInfo").textContent = src ? t("Uploaded image") : "";
     } else {
       const u = $("#lnkUrl").value.trim();
       src = u ? faviconFor(u) : "";
-      $("#lnkIconInfo").textContent = src ? "Auto favicon" : "Enter URL to fetch favicon";
+      $("#lnkIconInfo").textContent = src ? t("Auto favicon") : t("Enter URL to fetch favicon");
     }
 
     if (src) {
@@ -390,7 +392,7 @@ export function openLinkModal(groupId, linkId = null) {
     const key = STATE.settings?.logoDevApiKey?.trim();
     const title = $("#lnkTitle").value.trim();
     if (!title || !key) {
-      if (!key) $("#lnkIconInfo").textContent = "Tip: add your logo.dev key in Settings to enable automatic logos.";
+      if (!key) $("#lnkIconInfo").textContent = t("Tip: add your logo.dev key in Settings to enable automatic logos.");
       return;
     }
     const candidates = guessDomainCandidates(title);
@@ -400,14 +402,14 @@ export function openLinkModal(groupId, linkId = null) {
         $("#lnkIconType").value = "logo";
         $("#lnkLogoDomain").value = dom;
         toggleIconInputs(); // calls updatePreview
-        $("#lnkIconInfo").textContent = `Auto from logo.dev (${dom})`;
+        $("#lnkIconInfo").textContent = t("Auto from logo.dev ({domain})", { domain: dom });
         return;
       }
     }
     $("#lnkIconType").value = "logo";
     $("#lnkLogoDomain").value = candidates[0] || "";
     toggleIconInputs();
-    $("#lnkIconInfo").textContent = "No logo from title. Try entering a company domain.";
+    $("#lnkIconInfo").textContent = t("No logo from title. Try entering a company domain.");
   }
 
   // Events
@@ -428,7 +430,7 @@ export function openLinkModal(groupId, linkId = null) {
               $("#lnkIconType").value = "logo";
               $("#lnkLogoDomain").value = dom;
               toggleIconInputs();
-              $("#lnkIconInfo").textContent = "Auto from logo.dev (URL)";
+              $("#lnkIconInfo").textContent = t("Auto from logo.dev (URL)");
             }
           });
         }
@@ -443,21 +445,21 @@ export function openLinkModal(groupId, linkId = null) {
     if (!dom) return;
     const key = STATE.settings?.logoDevApiKey?.trim();
     const url = logoDevUrlForDomain(dom, key);
-    if (!url) { $("#lnkIconInfo").textContent = "Add your logo.dev key in Settings first."; return; }
+    if (!url) { $("#lnkIconInfo").textContent = t("Add your logo.dev key in Settings first."); return; }
     const ok = await checkImage(url);
     if (ok) {
       $("#lnkIconType").value = "logo";
       toggleIconInputs();
-      $("#lnkIconInfo").textContent = `From logo.dev (${dom})`;
+      $("#lnkIconInfo").textContent = t("From logo.dev ({domain})", { domain: dom });
     } else {
-      $("#lnkIconInfo").textContent = "No logo found for that domain.";
+      $("#lnkIconInfo").textContent = t("No logo found for that domain.");
     }
   });
 
   let uploadedDataUrl = link.iconType === "upload" ? (link.iconData || "") : "";
   $("#lnkIconFile", body)?.addEventListener("change", async (e) => {
     const file = e.target.files?.[0]; if (!file) return;
-    if (file.size > 512 * 1024) { alert("Icon too large. Keep it under 512 KB."); e.target.value = ""; return; }
+    if (file.size > 512 * 1024) { alert(t("Icon too large. Keep it under 512 KB.")); e.target.value = ""; return; }
     const fr = new FileReader();
     fr.onload = () => { uploadedDataUrl = fr.result; updatePreview(); };
     fr.readAsDataURL(file);
@@ -482,23 +484,23 @@ export function openLinkModal(groupId, linkId = null) {
   // Footer
   const footer = document.createElement("div");
   const btnCancel = document.createElement("button");
-  btnCancel.className = "btn"; btnCancel.textContent = "Cancel";
+  btnCancel.className = "btn"; btnCancel.textContent = t("Cancel");
   btnCancel.addEventListener("click", closeModal);
 
   const btnDelete = document.createElement("button");
-  btnDelete.className = "btn danger"; btnDelete.textContent = "Delete";
+  btnDelete.className = "btn danger"; btnDelete.textContent = t("Delete");
   if (!isEdit) btnDelete.classList.add("hidden");
   btnDelete.addEventListener("click", async () => {
-    if (!confirm(`Delete "${link.title || "link"}"?`)) return;
+    if (!confirm(t('Delete "{title}"?', { title: link.title || t("link") }))) return;
     const idx = group.links.findIndex(l => l.id === linkId);
     if (idx >= 0) group.links.splice(idx, 1);
     await saveStateNow(); closeModal(); renderGroups();
   });
 
   const btnSave = document.createElement("button");
-  btnSave.className = "btn"; btnSave.textContent = isEdit ? "Save" : "Add";
+  btnSave.className = "btn"; btnSave.textContent = isEdit ? t("Save") : t("Add");
   btnSave.addEventListener("click", async () => {
-    const title = $("#lnkTitle").value.trim() || "Untitled";
+    const title = $("#lnkTitle").value.trim() || t("Untitled");
     const url = normaliseUrl($("#lnkUrl").value.trim());
     const iconType = $("#lnkIconType").value;
 
@@ -524,7 +526,7 @@ export function openLinkModal(groupId, linkId = null) {
   });
 
   footer.append(btnCancel, btnDelete, btnSave);
-  openModal({ title: isEdit ? "Edit Link" : "Add Link", body, footer });
+  openModal({ title: isEdit ? t("Edit Link") : t("Add Link"), body, footer });
 }
 
 // Widgets

@@ -29,7 +29,6 @@ export async function getBestIcon(name, apiKeys = {}) {
     if (apiKeys.steamGridDB) {
       const iconUrl = await searchSteamGridDB(name, apiKeys.steamGridDB)
       if (iconUrl) {
-        console.log('Ícone encontrado na SteamGridDB!')
         return iconUrl;
       }
     }
@@ -37,7 +36,6 @@ export async function getBestIcon(name, apiKeys = {}) {
     if (apiKeys.rawg) {
       const iconUrl = await searchRawg(name, apiKeys.rawg)
       if (iconUrl) {
-        console.log('Ícone encontrado na RAWG!')
         return iconUrl
       }
     }
@@ -48,18 +46,15 @@ export async function getBestIcon(name, apiKeys = {}) {
   if (domain) {
     const iconUrlClearbit = await searchClearbit(domain)
     if (iconUrlClearbit) {
-      console.log('Ícone encontrado no Clearbit (logo.dev)!')
       return iconUrlClearbit
     }
 
     const iconUrlGF = await searchGoogleFavicon(domain);
     if (iconUrlGF) {
-      console.log('Ícone encontrado via Google Favicons!')
       return iconUrlGF
     }
   }
 
-  console.log(`Nenhum ícone encontrado para: ${name}`)
   return null
 }
 
@@ -92,7 +87,7 @@ async function searchSteamGridDB(name, key) {
 
     return null
   } catch (error) {
-    console.error('Erro na SteamGridDB:', error)
+    console.error('SteamGridDB:', error)
     return null
   }
 }
@@ -110,7 +105,7 @@ async function searchRawg(name, key) {
 
     return null
   } catch (error) {
-    console.error('Erro na RAWG:', error);
+    console.error('RAWG:', error);
     return null
   }
 }

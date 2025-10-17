@@ -1,5 +1,6 @@
 // actions.js — global actions (export/import/reset)
 import { STATE, DEFAULT_STATE, saveStateNow } from "./state.js"; // DEFAULT_STATE kept for possible extended reset flows
+import { t } from "./languages/i18n.js";
 
 /** Export current dashboard state (merging persisted + in‑memory). */
 export async function exportJson() {
@@ -40,7 +41,7 @@ export async function exportJson() {
   a.href = dataUri; a.download = jsonFilename; a.click();
 
   if (pageCount === 0 || (programCount === 0 && widgetCount === 0)) {
-    alert('Exported file appears empty: no pages or no programs/widgets found. Check that changes were saved before exporting.');
+    alert(t('Exported file appears empty: no pages or no programs/widgets found. Check that changes were saved before exporting.'));
   }
 }
 
@@ -66,7 +67,7 @@ export async function handleResetAll() {
       return;
     }
   } catch {}
-  if (confirm('This will erase all pages, groups and links. Continue?')) {
+  if (confirm(t('This will erase all pages, groups and links. Continue?'))) {
     await performResetAll();
   }
 }

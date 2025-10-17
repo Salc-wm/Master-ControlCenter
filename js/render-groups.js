@@ -7,6 +7,7 @@ import {
 
 import { STATE, saveState, getSelectedPage } from "./state.js";
 import { openLinkModal, deleteGroup, openGroupSizeModal } from "./modals.js";
+import { t } from "./languages/i18n.js";
 
 let groupFlyoutBound = false;
 
@@ -237,15 +238,15 @@ export function renderGroups() {
     fly.id = "group-flyout";
     fly.className = "pill-flyout"; // reuse pill flyout styling
     fly.innerHTML = `
-      <button class="pill-item" data-cmd="add" data-group-id="${group.id}">Add link</button>
-      <button class="pill-item" data-cmd="addWidget" data-group-id="${group.id}">Add widget</button>
-      <button class="pill-item" data-cmd="addProgram" data-group-id="${group.id}">Add program</button>
+      <button class="pill-item" data-cmd="add" data-group-id="${group.id}">${t("Add link")}</button>
+      <button class="pill-item" data-cmd="addWidget" data-group-id="${group.id}">${t("Add widget")}</button>
+      <button class="pill-item" data-cmd="addProgram" data-group-id="${group.id}">${t("Add program")}</button>
 
-      <button class="pill-item" data-cmd="size" data-group-id="${group.id}">Group size</button>
+      <button class="pill-item" data-cmd="size" data-group-id="${group.id}">${t("Group size")}</button>
       <button class="pill-item" data-cmd="toggle" data-group-id="${group.id}">
-        ${editing ? "Done editing" : "Edit apps"}
+        ${editing ? t("Done editing") : t("Edit apps")}
       </button>
-      <button class="pill-item danger" data-cmd="delete" data-group-id="${group.id}">Delete group</button>
+      <button class="pill-item danger" data-cmd="delete" data-group-id="${group.id}">${t("Delete group")}</button>
     `;
     document.body.appendChild(fly);
 
@@ -310,10 +311,10 @@ export function renderGroups() {
        data-action="editGroupTitle" data-group-id="${g.id}">${g.name}</div>
   ${ globalEdit ? `<button class="pill-menu-btn group-menu-btn"
     type="button"
-    aria-label="Group options"
+    aria-label="${t("Group options")}"
     aria-haspopup="menu"
     aria-expanded="false"
-    title="Options">⋮</button>` : '' }
+    title="${t("Options")}">⋮</button>` : '' }
    </div>
     ${ !globalEdit ? `<style>
       /* inline scoping to just this group header instance */
@@ -425,10 +426,10 @@ export function renderGroups() {
 
       tile.innerHTML = `
         <div class="tile-icon">${iconSrc ? `<img data-icon-src="${iconSrc}" alt="" loading="lazy" style="opacity:0;transition:opacity .35s ease" />` : ""}</div>
-        <div class="tile-title" ${editing ? 'contenteditable="true" data-inline-edit="link"' : ''} style="text-align:center;outline:none;">${l.title || "Untitled"}</div>
+        <div class="tile-title" ${editing ? 'contenteditable="true" data-inline-edit="link"' : ''} style="text-align:center;outline:none;">${l.title || t("Untitled")}</div>
         ${ editing ? `
           <div class="tile-edit-hint"
-               style="position:top;inset:auto 8px 8px auto; padding:4px 8px;border-radius:8px;border:1px solid var(--border); background:var(--panel);font-size:.7rem;opacity:.85;">Enter to save</div>` : "" }
+               style="position:top;inset:auto 8px 8px auto; padding:4px 8px;border-radius:8px;border:1px solid var(--border); background:var(--panel);font-size:.7rem;opacity:.85;">${t("Enter to save")}</div>` : "" }
       `;
 
       tile.addEventListener("click", (ev) => {
@@ -452,7 +453,7 @@ export function renderGroups() {
         titleEl.addEventListener('mousedown', (e) => e.stopPropagation());
         titleEl.addEventListener('blur', () => {
           let txt = titleEl.textContent.trim();
-          if (!txt) txt = 'Untitled';
+          if (!txt) txt = t('Untitled');
           if (txt !== l.title) { l.title = txt; saveState(); }
           titleEl.textContent = txt; // normalize whitespace
         });
@@ -491,10 +492,10 @@ export function renderGroups() {
         const iconHtml = iconSrc ? `<img data-icon-src="${iconSrc}" alt="" loading="lazy" style="opacity:0;transition:opacity .35s ease" />` : `<div style="font-weight:700;font-size:1.4rem;">${(p.title||'?')[0]?.toUpperCase()||'?'}<\/div>`;
         tile.innerHTML = `
           <div class="tile-icon">${iconHtml}</div>
-          <div class="tile-title" ${editing ? 'contenteditable="true" data-inline-edit="program"' : ''} style="text-align:center;outline:none;">${p.title || 'Program'}</div>
+          <div class="tile-title" ${editing ? 'contenteditable="true" data-inline-edit="program"' : ''} style="text-align:center;outline:none;">${p.title || t('Program')}</div>
           ${ editing ? `
             <div class="tile-edit-hint"
-                 style="position:top;inset:auto 8px 8px auto; padding:4px 8px;border-radius:8px;border:1px solid var(--border); background:var(--panel);font-size:.7rem;opacity:.85;">Enter to save</div>` : '' }
+                 style="position:top;inset:auto 8px 8px auto; padding:4px 8px;border-radius:8px;border:1px solid var(--border); background:var(--panel);font-size:.7rem;opacity:.85;">${t('Enter to save')}</div>` : '' }
         `;
         tile.addEventListener('click', (ev) => {
           const sel = window.getSelection(); if (sel && sel.toString()) return;
@@ -509,23 +510,23 @@ export function renderGroups() {
               if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(schemeVal)) {
                 window.location.href = schemeVal;
               } else {
-                alert('Not a valid URL scheme. Edit the program to adjust.');
+                alert(t('Not a valid URL scheme. Edit the program to adjust.'));
               }
-            } catch { alert('Unable to launch scheme.'); }
+            } catch { alert(t('Unable to launch scheme.')); }
           } else if (method === 'native') {
-            if (!p.nativeCommand) { alert('No native command set. Edit the program to add one.'); return; }
+            if (!p.nativeCommand) { alert(t('No native command set. Edit the program to add one.')); return; }
             try {
               chrome.runtime.sendMessage({ type:'launchProgram', mode:'native', command:p.nativeCommand, args: p.nativeArgs||[], programId:p.id }, (resp) => {
                 if (chrome.runtime.lastError) {
-                  alert('Native host not reachable. Install the helper.');
+                  alert(t('Native host not reachable. Install the helper.'));
                   return;
                 }
                 if (!resp || !resp.ok) {
-                  alert(resp?.error || 'Native launch failed. Ensure helper installed.');
+                  alert(resp?.error || t('Native launch failed. Ensure helper installed.'));
                 }
               });
             } catch {
-              alert('Native messaging unavailable in this context.');
+              alert(t('Native messaging unavailable in this context.'));
             }
           }
         });
@@ -535,7 +536,7 @@ export function renderGroups() {
           titleEl.addEventListener('mousedown', (e) => e.stopPropagation());
           titleEl.addEventListener('blur', () => {
             let txt = titleEl.textContent.trim();
-            if (!txt) txt = 'Program';
+            if (!txt) txt = t('Program');
             if (txt !== p.title) { p.title = txt; saveState(); }
             titleEl.textContent = txt;
           });
@@ -597,7 +598,7 @@ export function renderGroups() {
         if (w.type === 'uptime-robot') {
           wrap.innerHTML = `
             <div class="uptime-meta-line${globalEdit ? ' has-delete' : ''}" data-state="loading">
-              <div class="uptime-left"><span class="uptime-name">Loading...</span></div>
+              <div class="uptime-left"><span class="uptime-name">${t("Loading…")}</span></div>
               ${globalEdit ? '' : ''}
             </div>
             <div class="uptime-bar-line" data-bar></div>`;
@@ -641,17 +642,18 @@ export function renderGroups() {
           wrap.style.borderRadius = '14px';
           wrap.style.background = 'var(--panel-2)';
           const initUnits = (w.options?.units === 'imperial') ? '°F' : '°C';
+          const locationName = ((w.options?.city || '').trim()) || t("Location");
           wrap.innerHTML = `<div class="weather-body">
             <div class="ww-header">
-              <div class="ww-title"><span class="ww-icon">☁️</span><span class="ow-loc" title="${(w.options?.city||'')||'Location'}">${(w.options?.city||'')||'Location'}</span></div>
-              ${globalEdit ? '<button class="uptime-delete-btn" data-act="deleteWidget" title="Remove widget">✕</button>' : ''}
+              <div class="ww-title"><span class="ww-icon">☁️</span><span class="ow-loc" title="${locationName}">${locationName}</span></div>
+              ${globalEdit ? `<button class="uptime-delete-btn" data-act="deleteWidget" title="${t("Remove widget")}">✕</button>` : ''}
             </div>
             <div class="ow-main">
               <div class="ow-temp-col"><div class="ow-temp">--${initUnits}</div></div>
-              <div class="ow-cond-wrap"><div class="ow-icon-big">☁️</div><div class="ow-cond">Loading…</div></div>
+              <div class="ow-cond-wrap"><div class="ow-icon-big">☁️</div><div class="ow-cond">${t("Loading…")}</div></div>
             </div>
             <div class="ow-meta"></div>
-            <div class="ww-footer"><button class="ww-toggle-details" data-act="wwToggleDetails">Show Less</button></div>
+            <div class="ww-footer"><button class="ww-toggle-details" data-act="wwToggleDetails">${t("Show Less")}</button></div>
           </div>`;
         } else if (isRSS) {
           // RSS widget styles
@@ -693,13 +695,13 @@ export function renderGroups() {
           const highlightNew = !!w.options?.highlightNew;
           const size = w.options?.size || 'large';
       wrap.innerHTML = `<div class="rss-head">
-              <button class="rss-collapse" data-act="rssToggle" title="Collapse">▾</button>
+              <button class="rss-collapse" data-act="rssToggle" title="${t("Collapse")}">▾</button>
               <img class="rss-fav" alt="" />
-              <span class="rss-title" title="${w.options?.url||'Feed'}">${(w.options?.title||'Feed')}</span>
-        <span class="rss-proxy-badge" title="Using proxy due to CORS">PROXY</span>
-              ${globalEdit?'<button class="uptime-delete-btn" data-act="deleteWidget" title="Remove widget">✕</button>':''}
+              <span class="rss-title" title="${w.options?.url||t("Feed")}">${(w.options?.title||t("Feed"))}</span>
+        <span class="rss-proxy-badge" title="${t("Using proxy due to CORS")}">PROXY</span>
+              ${globalEdit ? `<button class="uptime-delete-btn" data-act="deleteWidget" title="${t("Remove widget")}">✕</button>` : ''}
             </div>
-            <div class="rss-body"><div class="rss-empty">${w.options?.url?'Loading…':'Configure feed URL'}</div></div>
+            <div class="rss-body"><div class="rss-empty">${w.options?.url ? t("Loading…") : t("Configure feed URL")}</div></div>
             <div class="rss-footer"><span class="rss-last" style="opacity:.45;">--</span></div>`;
         } else if (isIframe) {
           // IFrame widget styles (one-time)
@@ -742,12 +744,12 @@ export function renderGroups() {
           wrap.innerHTML = `
             <div class="if-head">
               <span class="if-icon">🌐</span>
-              <span class="if-title" title="${escapeHtml(url||'IFrame')}">${escapeHtml(domain||url||'IFrame')}</span>
-              <button class="if-refresh" data-act="iframeRefresh" title="Reload iframe">↻</button>
-              ${globalEdit?'<button class="uptime-delete-btn" data-act="deleteWidget" title="Remove widget">✕</button>':''}
+              <span class="if-title" title="${escapeHtml(url||t("IFrame"))}">${escapeHtml(domain||url||t("IFrame"))}</span>
+              <button class="if-refresh" data-act="iframeRefresh" title="${t("Reload iframe")}">↻</button>
+              ${globalEdit ? `<button class="uptime-delete-btn" data-act="deleteWidget" title="${t("Remove widget")}">✕</button>` : ''}
             </div>
-            ${url?`<iframe src="${escapeHtml(url)}" data-ifrm sandbox="${sandboxAttr}" ${allowFullscreen?'allowfullscreen':''} style="${widthOpt?`width:${widthOpt}px;`:'width:100%;'}"></iframe>`:`<div class="if-msg">Configure iframe URL</div>`}
-            ${!url?'' : '<div class="if-msg" data-ifmsg style="display:none;">If content fails to load the site may block embedding (X-Frame-Options / CSP).</div>'}
+            ${url ? `<iframe src="${escapeHtml(url)}" data-ifrm sandbox="${sandboxAttr}" ${allowFullscreen?'allowfullscreen':''} style="${widthOpt?`width:${widthOpt}px;`:'width:100%;'}"></iframe>` : `<div class="if-msg">${t("Configure iframe URL")}</div>`}
+            ${!url ? '' : `<div class="if-msg" data-ifmsg style="display:none;">${t("If content fails to load the site may block embedding (X-Frame-Options / CSP).")}</div>`}
           `;
           wrap.classList.add('size-'+(cardSize==='small'?'small':cardSize==='large'?'large':cardSize==='xlarge'?'xlarge':'normal'));
           if (noBorder) wrap.classList.add('noborder');
@@ -827,21 +829,22 @@ export function renderGroups() {
               .widget-covid .cv-refresh:hover { opacity:.95; background:rgba(255,255,255,.08); }
             `);
           const country = (w.options?.country||'').trim();
+          const displayCountry = country ? escapeHtml(country) : t("Global");
           const refreshMins = w.options?.refreshMins || 60;
           wrap.innerHTML = `
             <div class="cv-head">
               <span class="cv-emoji">☣️</span>
-              <span class="cv-title" title="${country?escapeHtml(country):'Global'}">Covid-19 Status</span>
-              <button class="cv-refresh" data-act="covidRefresh" title="Refresh">↻</button>
-              ${globalEdit?'<button class="uptime-delete-btn" data-act="deleteWidget" title="Remove widget">✕</button>':''}
+              <span class="cv-title" title="${displayCountry}">${t("Covid-19 Status")}</span>
+              <button class="cv-refresh" data-act="covidRefresh" title="${t("Refresh")}">↻</button>
+              ${globalEdit ? `<button class="uptime-delete-btn" data-act="deleteWidget" title="${t("Remove widget")}">✕</button>` : ''}
             </div>
             <div class="cv-grid" data-cvgrid>
-              <div class="cv-box"><h4>Total Confirmed</h4><div class="cv-val cv-confirmed">--</div></div>
-              <div class="cv-box"><h4>Active Cases</h4><div class="cv-val cv-active">--</div></div>
-              <div class="cv-box"><h4>Total Recovered</h4><div class="cv-val cv-recovered">--</div></div>
-              <div class="cv-box"><h4>Total Deaths</h4><div class="cv-val cv-deaths">--</div></div>
+              <div class="cv-box"><h4>${t("Total Confirmed")}</h4><div class="cv-val cv-confirmed">--</div></div>
+              <div class="cv-box"><h4>${t("Active Cases")}</h4><div class="cv-val cv-active">--</div></div>
+              <div class="cv-box"><h4>${t("Total Recovered")}</h4><div class="cv-val cv-recovered">--</div></div>
+              <div class="cv-box"><h4>${t("Total Deaths")}</h4><div class="cv-val cv-deaths">--</div></div>
             </div>
-            <div class="cv-meta"><span data-cvupdated>—</span><span>${country?escapeHtml(country):'Global'}</span></div>
+            <div class="cv-meta"><span data-cvupdated>—</span><span>${displayCountry}</span></div>
           `;
           wrap.dataset.refreshMins = refreshMins;
           // Fetch logic: use disease.sh API (public). Minimal caching window (5m) inside session.
@@ -881,7 +884,7 @@ export function renderGroups() {
           wrap.style.border = '1px solid var(--border)';
           wrap.style.borderRadius = '12px';
           wrap.style.background = 'var(--panel-2)';
-          wrap.innerHTML = `<div class="widget-body"><em style='opacity:.55;'>Loading...</em></div>`;
+          wrap.innerHTML = `<div class="widget-body"><em style='opacity:.55;'>${t("Loading…")}</em></div>`;
         }
 
   const metaLine = wrap.querySelector('.uptime-meta-line');
@@ -902,8 +905,8 @@ export function renderGroups() {
               <span class="uptime-bullet">•</span>
               <span class="uptime-pct ${pctClass}">${ratioStr}</span>
             </div>
-            <div class="uptime-right ${isUp ? '' : 'down'}"><span>${isUp ? 'Service Operational' : 'Service Down'}</span><span class="uptime-dot"></span></div>
-            ${globalEdit ? '<button class="uptime-delete-btn" data-act="deleteWidget" title="Remove widget">✕</button>' : ''}`;
+            <div class="uptime-right ${isUp ? '' : 'down'}"><span>${isUp ? t("Service Operational") : t("Service Down")}</span><span class="uptime-dot"></span></div>
+            ${globalEdit ? `<button class="uptime-delete-btn" data-act="deleteWidget" title="${t("Remove widget")}">✕</button>` : ''}`;
           // bar line
           barLine.textContent = '';
           let segments = 100;
@@ -915,11 +918,11 @@ export function renderGroups() {
         if (w.type === 'uptime-robot') {
           if (!w.options) w.options = {};
           if (!w.options?.apiKey) {
-            metaLine.innerHTML = '<div class="uptime-left"><span class="uptime-name" style="opacity:.6;">Configure widget</span></div>';
+            metaLine.innerHTML = `<div class="uptime-left"><span class="uptime-name" style="opacity:.6;">${t("Configure widget")}</span></div>`;
           } else {
             const apiKey = w.options.apiKey;
             const applyData = (data) => {
-              if (!data || data.stat!=='ok' || !data.monitors?.length) { metaLine.innerHTML = '<div class="uptime-left"><span class="uptime-name" style="opacity:.6;">No monitors</span></div>'; return; }
+              if (!data || data.stat!=='ok' || !data.monitors?.length) { metaLine.innerHTML = `<div class="uptime-left"><span class="uptime-name" style="opacity:.6;">${t("No monitors")}</span></div>`; return; }
               if (w.options.monitorIndex == null) { const siblings = g.widgets.filter(x => x.type==='uptime-robot'); w.options.monitorIndex = siblings.indexOf(w); saveState(); }
               const chosen = data.monitors[w.options.monitorIndex % data.monitors.length];
               renderMonitor(chosen);
@@ -928,9 +931,9 @@ export function renderGroups() {
               window.__uptimeRobotMgr.get(apiKey)
                 .then(d => {
                   if (d && d.stat === 'rate_limited') {
-                    metaLine.innerHTML = '<div class="uptime-left"><span class="uptime-name" style="opacity:.6;">Rate limited…</span></div>';
+                    metaLine.innerHTML = `<div class="uptime-left"><span class="uptime-name" style="opacity:.6;">${t("Rate limited…")}</span></div>`;
                   } else if (!d) {
-                    metaLine.innerHTML = '<div class="uptime-left"><span class="uptime-name" style="opacity:.6;">Failed</span></div>';
+                    metaLine.innerHTML = `<div class="uptime-left"><span class="uptime-name" style="opacity:.6;">${t("Failed")}</span></div>`;
                   } else {
                     applyData(d);
                   }
@@ -971,33 +974,33 @@ export function renderGroups() {
               }
               const resolveAndFetch = () => {
                 const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(w.options.lat)}&longitude=${encodeURIComponent(w.options.lon)}&current=temperature_2m,relative_humidity_2m,apparent_temperature,pressure_msl,weather_code,wind_speed_10m,cloud_cover,visibility&daily=temperature_2m_max,temperature_2m_min&forecast_days=1&temperature_unit=${units==='imperial'?'fahrenheit':'celsius'}&wind_speed_unit=${units==='imperial'?'mph':'ms'}&timezone=auto`;
-                condEl.textContent='Loading…'; tempEl.style.opacity='.6';
+                condEl.textContent = t("Loading…"); tempEl.style.opacity='.6';
                 fetch(apiUrl).then(r=>r.ok?r.json():{__err:true,status:r.status}).then(data=>{
-                  if(!data || data.__err){ condEl.textContent=(data && data.status===404)?'Not found':'Error'; tempEl.style.opacity='.5'; wrap.__owTimeout=setTimeout(fetchWeather,60000); return; }
-                  if(!data.current){ condEl.textContent='No data'; tempEl.style.opacity='.5'; wrap.__owTimeout=setTimeout(fetchWeather,60000); return; }
+                  if(!data || data.__err){ condEl.textContent=(data && data.status===404)?t("Not found"):t("Error"); tempEl.style.opacity='.5'; wrap.__owTimeout=setTimeout(fetchWeather,60000); return; }
+                  if(!data.current){ condEl.textContent=t("No data"); tempEl.style.opacity='.5'; wrap.__owTimeout=setTimeout(fetchWeather,60000); return; }
                   owCache.store[cacheKey]=data; owCache.ts[cacheKey]=Date.now();
                   applyWeather(data);
-                }).catch(()=>{ condEl.textContent='Error'; tempEl.style.opacity='.5'; wrap.__owTimeout=setTimeout(fetchWeather,60000); }).finally(()=>{ if(!wrap.__owTimeout) schedule(); });
+                }).catch(()=>{ condEl.textContent=t("Error"); tempEl.style.opacity='.5'; wrap.__owTimeout=setTimeout(fetchWeather,60000); }).finally(()=>{ if(!wrap.__owTimeout) schedule(); });
               };
               if (hasCoords) {
                 resolveAndFetch();
               } else {
-                condEl.textContent='Locating…'; tempEl.style.opacity='.6';
+                condEl.textContent = t("Locating…"); tempEl.style.opacity='.6';
                 const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?count=1&language=en&format=json&name=${encodeURIComponent(city)}`;
                 fetch(geoUrl).then(r=>r.ok?r.json():{__err:true,status:r.status}).then(g=>{
-                  if(!g || g.__err || !g.results || !g.results[0]) { condEl.textContent='Not found'; tempEl.style.opacity='.5'; return; }
+                  if(!g || g.__err || !g.results || !g.results[0]) { condEl.textContent=t("Not found"); tempEl.style.opacity='.5'; return; }
                   const r0 = g.results[0];
                   w.options.lat = r0.latitude; w.options.lon = r0.longitude; // persist
                   resolveAndFetch();
-                }).catch(()=>{ condEl.textContent='Error'; tempEl.style.opacity='.5'; });
+                }).catch(()=>{ condEl.textContent=t("Error"); tempEl.style.opacity='.5'; });
               }
             };
             const applyWeather = (d) => {
               const current = d.current || {};
-              const t = Math.round(current.temperature_2m);
+              const tempRounded = Math.round(current.temperature_2m);
               const symbol = units === 'imperial' ? '°F' : '°C';
-              tempEl.textContent = (isFinite(t)?t:'--') + symbol;
-              const codeMap = { 0:['Clear','☀️'],1:['Mainly Clear','🌤️'],2:['Partly Cloudy','⛅'],3:['Overcast','☁️'],45:['Fog','🌫️'],48:['Fog','🌫️'],51:['Drizzle','🌦️'],53:['Drizzle','🌦️'],55:['Drizzle','🌦️'],61:['Rain','🌧️'],63:['Rain','🌧️'],65:['Heavy Rain','🌧️'],71:['Snow','🌨️'],73:['Snow','🌨️'],75:['Snow','🌨️'],80:['Showers','🌦️'],81:['Showers','🌦️'],82:['Heavy Showers','🌧️'],95:['Thunder','⛈️'],96:['Thunder','⛈️'],99:['Thunder','⛈️'] };
+              tempEl.textContent = (isFinite(tempRounded)?tempRounded:'--') + symbol;
+              const codeMap = { 0:[t("Clear"),'☀️'],1:[t("Mainly Clear"),'🌤️'],2:[t("Partly Cloudy"),'⛅'],3:[t("Overcast"),'☁️'],45:[t("Fog"),'🌫️'],48:[t("Fog"),'🌫️'],51:[t("Drizzle"),'🌦️'],53:[t("Drizzle"),'🌦️'],55:[t("Drizzle"),'🌦️'],61:[t("Rain"),'🌧️'],63:[t("Rain"),'🌧️'],65:[t("Heavy Rain"),'🌧️'],71:[t("Snow"),'🌨️'],73:[t("Snow"),'🌨️'],75:[t("Snow"),'🌨️'],80:[t("Showers"),'🌦️'],81:[t("Showers"),'🌦️'],82:[t("Heavy Showers"),'🌧️'],95:[t("Thunder"),'⛈️'],96:[t("Thunder"),'⛈️'],99:[t("Thunder"),'⛈️'] };
               const code = current.weather_code;
               const pair = codeMap[code] || ['—','☁️'];
               condEl.textContent = pair[0];
@@ -1099,17 +1102,24 @@ export function renderGroups() {
                 try { const testLink = items[0]?.link || url; favDomain = new URL(testLink).hostname.replace(/^www\./,''); } catch {}
                 const favEl = wrap.querySelector('.rss-fav');
                 if (favEl && favDomain) {
-                  const primary = 'https://logo.dev/'+favDomain+'?size=32';
-                  const fallback = 'https://logo.clearbit.com/'+favDomain;
+                  // const primary = 'https://logo.clearbit.com/'+favDomain+'?size=32';
+                  // const fallback = 'https://logo.clearbit.com/'+favDomain;
+
+                  const primary = 'https://logo.clearbit.com/'+favDomain;
+                  const fallback = 'https://www.google.com/s2/favicons?domain='+favDomain;
+
                   favEl.src = primary;
                   favEl.classList.add('visible');
-                  favEl.addEventListener('error', ()=>{ if (favEl.src!==fallback) favEl.src=fallback; });
+                  favEl.addEventListener('error', ()=>{ if (favEl.src !== fallback) favEl.src=fallback; });
                 }
+
                 wrap.__rssFavSet = true;
               }
+
               // store last render time
               wrap.querySelector('.rss-last').textContent = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
               // schedule auto-refresh
+
               const mins = parseInt(wrap.dataset.refreshMins,10)||15;
               clearTimeout(wrap.__rssTimeout);
               wrap.__rssTimeout = setTimeout(()=>{ fetchFeed(true); }, mins*60000);
@@ -1118,7 +1128,7 @@ export function renderGroups() {
               const now = Date.now();
               const cache = getCache('rss');
               if (!force && cache.store[cacheKey] && (now - cache.ts[cacheKey] < RSS_TTL)) { renderFeed(cache.store[cacheKey]); return; }
-              bodyEl.innerHTML = '<div class="rss-empty">Loading…</div>';
+              bodyEl.innerHTML = `<div class="rss-empty">${t("Loading…")}</div>`;
               // Proxy decision (persist per host after first CORS failure)
               let host=''; try { host = new URL(url).hostname; } catch {}
               let blockedDomains=[]; try { blockedDomains = JSON.parse(localStorage.getItem('__rssBlockedDomains')||'[]'); } catch {}
@@ -1229,7 +1239,7 @@ export function renderGroups() {
                   if (next) return doFetch(next, true);
                 }
                 const isFeedBurner = /feedburner\.com/i.test(url);
-                bodyEl.innerHTML = `<div class=\"rss-empty\">${corsLike? 'Feed unavailable' : 'Error loading feed'}</div>`;
+                bodyEl.innerHTML = `<div class=\"rss-empty\">${corsLike ? t("Feed unavailable") : t("Error loading feed")}</div>`;
                 if (window.__RSS_DEBUG && !isFeedBurner) console.warn('[RSS] fetch failed', { url, corsLike, err });
               });
               // Launch initial request sequence:
@@ -1243,7 +1253,7 @@ export function renderGroups() {
                   if (/cloaked\.com|feedburner\.com/i.test(url)) {
                     const jinaUrl = 'https://r.jina.ai/' + url.replace(/^https?:\/\//,'https://');
                     quietFetch(jinaUrl).then(r=> r ? r.text() : '').then(txt => {
-                      if (!txt) { bodyEl.innerHTML = '<div class="rss-empty">Feed unavailable</div>'; return; }
+                      if (!txt) { bodyEl.innerHTML = `<div class="rss-empty">${t("Feed unavailable")}</div>`; return; }
                       // Heuristic: split lines, filter for sufficiently long content.
                       const lines = txt.split(/\n+/).map(l=>l.trim()).filter(l=>l.length>25).slice(0,10);
                       const items = lines.map((l,i)=>({
@@ -1257,11 +1267,11 @@ export function renderGroups() {
                         cache.store[cacheKey]=items; cache.ts[cacheKey]=Date.now();
                         renderFeed(items);
                       } else {
-                        bodyEl.innerHTML = '<div class="rss-empty">Feed unavailable</div>';
+                        bodyEl.innerHTML = `<div class="rss-empty">${t("Feed unavailable")}</div>`;
                       }
-                    }).catch(()=>{ bodyEl.innerHTML = '<div class="rss-empty">Feed unavailable</div>'; });
+                    }).catch(()=>{ bodyEl.innerHTML = `<div class="rss-empty">${t("Feed unavailable")}</div>`; });
                   } else {
-                    bodyEl.innerHTML = '<div class="rss-empty">Feed unavailable</div>';
+                    bodyEl.innerHTML = `<div class="rss-empty">${t("Feed unavailable")}</div>`;
                   }
                 });
               } else {
@@ -1291,7 +1301,7 @@ export function renderGroups() {
                 blockedMeta[host] = Date.now(); try { localStorage.setItem('__rssBlockedMeta', JSON.stringify(blockedMeta)); } catch {}
                 // Force a minimal re-render (not full groups) to keep scroll state; call internal fetch function if accessible.
                 const bodyEl = wrap.querySelector('.rss-body');
-                if (bodyEl) bodyEl.innerHTML = '<div class="rss-empty">Loading…</div>';
+                if (bodyEl) bodyEl.innerHTML = `<div class="rss-empty">${t("Loading…")}</div>`;
                 // Minimal inline fetch replication (proxy-only path)
                 try {
                   const feedUrl = w.options.url;
@@ -1308,7 +1318,7 @@ export function renderGroups() {
                       const raw = doc||txt; try { items = parseFeed(raw); } catch {}
                       if (items.length) { bodyEl.innerHTML=''; renderFeed(items); return; }
                     }
-                    bodyEl.innerHTML = '<div class="rss-empty">Feed unavailable</div>';
+                    bodyEl.innerHTML = `<div class="rss-empty">${t("Feed unavailable")}</div>`;
                   };
                   parseAttempt();
                 } catch {}
@@ -1328,8 +1338,8 @@ export function renderGroups() {
           } else if (act === 'wwToggleDetails') {
             wrap.classList.toggle('collapsed');
             const btn = e.target;
-            if (wrap.classList.contains('collapsed')) { btn.textContent = 'Show More'; }
-            else { btn.textContent = 'Show Less'; }
+            if (wrap.classList.contains('collapsed')) { btn.textContent = t('Show More'); }
+            else { btn.textContent = t('Show Less'); }
           } else if (act === 'iframeRefresh') {
             const ifrm = wrap.querySelector('iframe[data-ifrm]');
             if (ifrm) {
@@ -1415,8 +1425,8 @@ export function renderGroups() {
     addCard.className = "group-add-card";
     addCard.type = "button";
     addCard.dataset.action = "addGroup";
-    addCard.setAttribute("title", "Create a new group");
-    addCard.innerHTML = `<span class="group-add-label">Create Group</span>`;
+    addCard.setAttribute("title", t("Create a new group"));
+    addCard.innerHTML = `<span class="group-add-label">${t("Create Group")}</span>`;
     container.appendChild(addCard);
   }
 

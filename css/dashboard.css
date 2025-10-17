@@ -1,0 +1,1216 @@
+/* --- Material/desktop look without external libs (MV3-safe) --- */
+:root {
+  /* Core palette */
+  --bg: #0c0f14;
+  --bg-elev: rgba(17, 21, 29, 0.72);
+  --panel: rgba(24, 29, 41, 0.65);
+  --panel-2: rgba(36, 44, 62, 0.6);
+  --text: #e7ebf2;
+  --muted: #a9b2c2;
+  --accent: #6aa8ff;
+  --accent-2: #a07bff;
+  --danger: #ff5a6e;
+  --ok: #78e08f;
+  --border: #2b3447;
+  --tile: rgba(24, 29, 41, 0.5);
+  --tile-hover: rgba(39, 49, 73, 0.6);
+
+  /* Elevation + radii */
+  --shadow-1: 0 6px 20px rgba(0,0,0,.35);
+  --shadow-2: 0 10px 30px rgba(0,0,0,.45);
+  --shadow-inset: inset 0 1px 0 rgba(255,255,255,0.04);
+
+  --radius: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+
+  /* App icon sizing */
+  --icon-size: 80px;
+
+  /* Focus ring */
+  --focus: 0 0 0 3px color-mix(in srgb, var(--accent) 42%, transparent);
+
+  /* Wallpapers */
+  --wallpaper-1: radial-gradient(1200px 600px at 10% 0%,
+                    rgba(64, 113, 255, 0.20), transparent 60%),
+                  radial-gradient(900px 600px at 90% -10%,
+                    rgba(160, 123, 255, 0.20), transparent 60%),
+                  radial-gradient(900px 700px at 50% 120%,
+                    rgba(39, 196, 146, 0.15), transparent 60%);
+
+  /* Global glow customisation (user-adjustable) */
+  --glow-color: #8b1234; /* default burgundy */
+  --glow-ring-1: 0 0 0 1px color-mix(in srgb, var(--glow-color) 60%, transparent);
+  --glow-ring-2: 0 0 0 6px color-mix(in srgb, var(--glow-color) 35%, transparent);
+  --glow-bloom: 0 0 28px -4px color-mix(in srgb, var(--glow-color) 55%, transparent);
+  --glow-stack: var(--glow-ring-1), var(--glow-ring-2), var(--glow-bloom);
+  /* If needed we can add an auto-adjust: --glow-color-effective for low-contrast colors. */
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f3f6fb;
+    --bg-elev: rgba(255,255,255,0.82);
+    --panel: rgba(255,255,255,0.78);
+    --panel-2: rgba(247,249,253,0.86);
+    --text: #101319;
+    --muted: #5b6678;
+    --accent: #0a67ff;
+    --accent-2: #6a42ff;
+    --danger: #dc3545;
+    --ok: #198754;
+    --border: #dfe6f1;
+    --tile: rgba(255,255,255,0.82);
+    --tile-hover: rgba(243,246,252,0.92);
+    --shadow-1: 0 6px 20px rgba(16,24,40,.08);
+    --shadow-2: 0 12px 40px rgba(16,24,40,.12);
+    --wallpaper-1:
+      radial-gradient(1200px 600px at 15% -10%, rgba(88, 142, 255, 0.25), transparent 60%),
+      radial-gradient(900px 600px at 100% -10%, rgba(160, 123, 255, 0.18), transparent 60%),
+      radial-gradient(900px 700px at 50% 120%, rgba(50, 205, 154, 0.12), transparent 60%);
+  }
+}
+
+/* Explicit overrides regardless of OS */
+:root[data-theme="light"] {
+  --bg: #f6f7fb;
+  --bg-elev: #ffffff;
+  --panel: #ffffff;
+  --panel-2: #f1f3f7;
+  --text: #111418;
+  --muted: #5c6677;
+  --accent: #0a67ff;
+  --danger: #dc3545;
+  --ok: #198754;
+  --border: #e3e7ee;
+  --tile: #ffffff;
+  --tile-hover: #eef2f8;
+  --shadow: 0 6px 20px rgba(16,24,40,.08);
+}
+
+:root[data-theme="dark"] {
+  --bg: #0f1115;
+  --bg-elev: #151922;
+  --panel: #1c2230;
+  --panel-2: #2a3346;
+  --text: #e6e9ef;
+  --muted: #a8b0bd;
+  --accent: #5aa7ff;
+  --danger: #ff5a6e;
+  --ok: #78e08f;
+  --border: #2a3346;
+  --tile: #1c2230;
+  --tile-hover: #273047;
+  --shadow: 0 6px 20px rgba(0,0,0,.35);
+}
+
+/* Crimson Dark theme (inspired by provided reference) */
+:root[data-theme="crimson"] {
+  --bg: #070709;
+  --bg-elev: #0d0d13;
+  --panel: #111119;
+  --panel-2: #181820;
+  --text: #f2f4f8;
+  --muted: #a3a7b5;
+  --accent: #ff2e63; /* vivid pinkish red for primary accents */
+  --accent-2: #ff5f87;
+  --danger: #ff3b47; /* slightly different from accent for destructive */
+  --ok: #2ecc71;
+  --border: #2a2a33;
+  --tile: #13131c;
+  --tile-hover: #1b1b26;
+  --shadow-1: 0 6px 24px rgba(0,0,0,.55);
+  --shadow-2: 0 10px 36px rgba(0,0,0,.65);
+  --wallpaper-1: radial-gradient(1200px 600px at 10% 0%, rgba(255,46,99,0.18), transparent 60%),
+                   radial-gradient(900px 600px at 90% -10%, rgba(255,95,135,0.18), transparent 60%),
+                   radial-gradient(900px 700px at 50% 120%, rgba(108,92,231,0.18), transparent 60%);
+}
+
+/* --- Base / Wallpaper --- */
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: var(--app-font-stack, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans");
+  color: var(--text);
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,0)) fixed,
+    var(--wallpaper-1), var(--bg);
+  background-attachment: fixed, fixed, fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* { box-sizing: border-box; }
+:focus-visible { outline: none; box-shadow: var(--focus); border-radius: 10px; }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* --- App layout --- */
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100dvh;
+}
+
+/* --- Top bar: glass, compact, desktop-like --- */
+.topbar {
+  position: sticky; top: 0; z-index: 5;
+  display: grid;
+  grid-template-rows: auto auto;       /* title row | toolbar row */
+  grid-template-columns: 1fr auto;     /* pages | actions */
+  align-items: center;                 /* vertical centring for all grid items */
+  gap: 10px 14px;                      /* row-gap column-gap */
+  padding: 10px 18px 12px;
+  background: var(--bg-elev);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  backdrop-filter: blur(14px) saturate(1.15);
+  box-shadow: var(--shadow-inset);
+}
+
+/* Ensure every direct child sits on the same centre line */
+.topbar > * { align-self: center; }
+
+/* Full-width centered title on first row */
+.topbar-title {
+  grid-column: 1 / -1;          /* span all columns */
+  justify-self: center;         /* center horizontally */
+  align-self: center;           /* center vertically */
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: .3px;
+  opacity: .96;
+  margin-bottom: 4px;           /* extra space above tabs */
+}
+
+.topbar-title .logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+/* Brand block: icon + title perfectly centred */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 24px;
+}
+
+.brand .logo {
+  width: 24px;
+  height: 24px;
+  display: block;
+  object-fit: contain;
+}
+
+.brand-title {
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: 1.02rem;
+  line-height: 1;   /* prevents vertical wobble */
+  opacity: .95;
+}
+
+/* Centre the middle nav and right-side actions as well */
+.pages { align-self: center; justify-self: start; grid-column: 1; }
+
+.topbar-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: center;
+  grid-column: 2;
+  justify-self: end;
+}
+
+
+/* --- Page chips (Android-style tab chips) --- */
+.pages {
+  position: relative;           /* let dropdowns overflow vertically */
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  overflow-y: visible;          /* critical: don't clip menus */
+  padding: 6px 4px;
+  scrollbar-width: none;        /* Firefox */
+}
+.pages::-webkit-scrollbar { display: none; }
+
+/* Base + layout */
+.page-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1;
+  white-space: nowrap;
+  padding: 8px 12px 8px 12px;
+  padding-right: 6px;           /* room for menu button */
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--panel) 88%, transparent),
+      color-mix(in srgb, var(--panel) 70%, transparent));
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 1px 0 rgba(255,255,255,.03) inset;
+  transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+  color: var(--text);
+}
+.page-pill:hover { transform: translateY(-1px); }
+.page-pill:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow-color) 60%, transparent),
+    0 0 0 6px color-mix(in srgb, var(--glow-color) 32%, transparent),
+    0 0 28px -4px color-mix(in srgb, var(--glow-color) 55%, transparent),
+    0 1px 0 rgba(255,255,255,.03) inset;
+  border-color: color-mix(in srgb, var(--glow-color) 55%, var(--border));
+}
+.page-pill.active {
+  border-color: color-mix(in srgb, var(--glow-color) 60%, var(--border));
+  outline: 2px solid color-mix(in srgb, var(--glow-color) 35%, transparent);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--glow-color) 18%, var(--panel)),
+      color-mix(in srgb, var(--glow-color) 14%, var(--panel)));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow-color) 60%, transparent),
+    0 0 0 6px color-mix(in srgb, var(--glow-color) 30%, transparent),
+    0 0 30px -6px color-mix(in srgb, var(--glow-color) 55%, transparent),
+    var(--shadow-1);
+}
+
+/* Keep your stronger page name */
+.page-pill .page-name {
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: 1.02rem;
+  line-height: 1;
+  opacity: .95;
+  max-width: 180px; /* prevent extreme growth */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Subtle focus ring for keyboard users */
+.page-pill:focus-visible,
+.page-pill:focus-within {
+  outline: none;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow-color) 65%, transparent),
+    0 0 0 6px color-mix(in srgb, var(--glow-color) 38%, transparent),
+    0 0 26px -4px color-mix(in srgb, var(--glow-color) 60%, transparent),
+    0 1px 0 rgba(255,255,255,.03) inset;
+  border-radius: 999px;
+}
+
+/* Kebab button */
+.pill-menu-btn {
+  appearance: none;
+  width: 26px; height: 26px; min-width: 26px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--panel) 92%, transparent),
+      color-mix(in srgb, var(--panel) 80%, transparent));
+  display: inline-grid; place-items: center;
+  cursor: pointer;
+  padding: 0;
+  color: var(--text);            /* ensure â‹® is visible */
+  font-size: 16px; line-height: 1; font-weight: 600;
+  box-shadow: 0 1px 0 rgba(255,255,255,.03) inset;
+  transition: transform .08s ease, filter .18s ease, border-color .18s ease;
+}
+.pill-menu-btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.pill-menu-btn:active { transform: translateY(0); }
+
+
+/* Dropdown menu */
+.pill-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 160px;
+  padding: 6px;
+  background: var(--panel);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 10px;
+  box-shadow: var(--shadow-2);
+  display: none;                 /* default hidden */
+  transition: box-shadow .18s ease, transform .12s ease, filter .18s ease;
+  z-index: 1000;                 /* above top bar contents */
+.pill-menu-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--glow-ring-1), 0 0 0 5px color-mix(in srgb, var(--glow-color) 30%, transparent), 0 0 22px -4px color-mix(in srgb, var(--glow-color) 55%, transparent), 0 1px 0 rgba(255,255,255,.04) inset;
+  border-color: color-mix(in srgb, var(--glow-color) 55%, var(--border));
+}
+.pill-menu-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow-color) 65%, transparent),
+    0 0 0 6px color-mix(in srgb, var(--glow-color) 35%, transparent),
+    0 0 26px -4px color-mix(in srgb, var(--glow-color) 65%, transparent),
+    0 1px 0 rgba(255,255,255,.05) inset;
+}
+.pill-menu-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow-color) 65%, transparent),
+    0 0 0 6px color-mix(in srgb, var(--glow-color) 38%, transparent),
+    0 0 26px -4px color-mix(in srgb, var(--glow-color) 60%, transparent),
+    0 1px 0 rgba(255,255,255,.05) inset;
+}
+}
+
+/* Body-level flyout for page pill menu */
+.pill-flyout {
+  position: fixed;            /* anchored to viewport */
+  min-width: 160px;
+  padding: 6px;
+  display: grid;
+  gap: 4px;
+  background: var(--panel);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 10px;
+  box-shadow: var(--shadow-2);
+  z-index: 2000;              /* above header contents */
+}
+
+.pill-item {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.pill-item:hover {
+  background: color-mix(in srgb, var(--tile-hover) 70%, transparent);
+}
+.pill-item.danger { color: var(--danger); }
+
+
+
+
+
+/* --- Buttons: subtle, desktop-like --- */
+.topbar-actions { display: flex; gap: 8px; }
+
+.btn {
+  appearance: none;
+  border: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--panel) 92%, transparent),
+      color-mix(in srgb, var(--panel) 80%, transparent));
+  color: var(--text);
+  padding: 9px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform .08s ease, box-shadow .18s ease, filter .18s ease;
+  box-shadow: 0 1px 0 rgba(255,255,255,.03) inset, var(--shadow-1);
+  margin: 10px;
+}
+.btn:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+  box-shadow: var(--glow-ring-1), 0 0 0 4px color-mix(in srgb, var(--glow-color) 32%, transparent), 0 0 22px -2px color-mix(in srgb, var(--glow-color) 55%, transparent), 0 1px 0 rgba(255,255,255,.03) inset, var(--shadow-1);
+}
+.btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow-color) 70%, transparent),
+    0 0 0 5px color-mix(in srgb, var(--glow-color) 38%, transparent),
+    0 0 28px -2px color-mix(in srgb, var(--glow-color) 65%, transparent),
+    0 1px 0 rgba(255,255,255,.03) inset,
+    var(--shadow-1);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow-color) 65%, transparent),
+    0 0 0 5px color-mix(in srgb, var(--glow-color) 40%, transparent),
+    0 0 26px -2px color-mix(in srgb, var(--glow-color) 60%, transparent),
+    0 1px 0 rgba(255,255,255,.03) inset,
+    var(--shadow-1);
+}
+.btn.small { padding: 7px 12px; font-size: 0.92rem; }
+.btn.text { border: none; background: transparent; padding: 6px 8px; box-shadow: none; }
+
+.btn.file input[type=file] { display: none; }
+.btn.danger {
+  border-color: color-mix(in srgb, var(--danger) 55%, var(--border));
+  color: var(--danger);
+}
+.close-btn {
+  float: right;
+}
+
+
+/* --- Content area --- */
+.content {
+  padding: clamp(16px, 2.5vw, 28px);
+}
+
+/* --- Groups (folders) with glass panels --- */
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: clamp(14px, 1.8vw, 20px);
+  align-items: start;
+}
+.groups.center {
+  margin-left: auto;
+  margin-right: auto;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  /* Ensure columns don't stretch excessively on ultra-wide; cap width */
+  max-width: 1800px;
+  width: 100%;
+  justify-content: center;
+}
+
+.group {
+  background: var(--panel);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2);
+  backdrop-filter: blur(12px) saturate(1.2);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 240px;
+  overflow: clip;
+  position: relative;
+  transition: box-shadow .28s ease, border-color .28s ease, filter .3s ease;
+}
+.group.group-centered {
+  max-width: 1080px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Dynamic glow on hover (only if group contains content tiles) */
+.group:hover {
+  box-shadow: var(--glow-ring-1), 0 0 0 6px color-mix(in srgb, var(--glow-color) 38%, transparent), 0 0 28px 4px color-mix(in srgb, var(--glow-color) 55%, transparent), var(--shadow-2);
+  border-color: color-mix(in srgb, var(--glow-color) 60%, var(--border));
+}
+/* Slight scale for internal content to create depth illusion */
+.group:hover .tiles { transform: translateY(-1px); }
+.tiles { transition: transform .25s ease; }
+
+/* Crimson theme no longer overrides group hover glow; dynamic picker drives color */
+
+.group-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  cursor: grab; user-select: none;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--panel-2) 82%, transparent),
+      color-mix(in srgb, var(--panel) 75%, transparent));
+}
+.group-title {
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: 1.02rem;
+  line-height: 1;
+  opacity: .95;
+}
+.group-title[contenteditable="true"] { outline: none; border-radius: 8px; padding: 2px 6px; }
+.group-title[contenteditable="true"]:focus { box-shadow: var(--focus); }
+
+.group-actions { display: flex; gap: 8px; }
+
+/* Large button tile for adding a group */
+.group-add-card {
+  width: 50%;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  border: 2px dashed color-mix(in srgb, var(--accent) 55%, var(--border));
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--panel) 72%, transparent),
+      color-mix(in srgb, var(--panel) 58%, transparent));
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: var(--shadow-1);
+  transition: transform .14s ease, box-shadow .18s ease,
+              border-color .18s ease, background .18s ease, filter .18s ease;
+}
+
+.group-add-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  border-color: color-mix(in srgb, var(--accent) 75%, var(--border));
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--tile-hover) 86%, transparent),
+      color-mix(in srgb, var(--tile-hover) 68%, transparent));
+  box-shadow: var(--shadow-2);
+  filter: brightness(1.03);
+}
+
+.group-add-card:active {
+  transform: translateY(0) scale(0.995);
+}
+
+.group-add-card:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.group-add-label {
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: 1rem;
+  opacity: .95;
+}
+
+/* (Reverted dense packing grid changes) */
+
+
+/* --- Tiles grid: app launcher look --- */
+.tiles {
+  padding: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 14px;
+}
+
+/* App tile as icon + caption; URL revealed on hover */
+.tile {
+  position: relative;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--tile) 92%, transparent),
+      color-mix(in srgb, var(--tile) 70%, transparent));
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: var(--radius);
+  padding: 12px 10px 12px;
+  display: grid;
+  grid-template-rows: var(--icon-size) auto auto;
+  gap: 10px;
+  cursor: pointer; user-select: none;
+  transition: transform .14s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+.tile:hover {
+  transform: translateY(-2px) scale(1.01);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--tile-hover) 96%, transparent),
+      color-mix(in srgb, var(--tile-hover) 75%, transparent));
+  border-color: color-mix(in srgb, var(--glow-color) 55%, var(--border));
+  box-shadow: var(--glow-ring-1), 0 0 0 4px color-mix(in srgb, var(--glow-color) 30%, transparent), 0 0 18px 2px color-mix(in srgb, var(--glow-color) 50%, transparent), var(--shadow-2);
+}
+.tile:active { transform: translateY(0) scale(0.995); }
+
+/* Centre ripple (no JS) for tactile feel */
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(240px 240px at center,
+              color-mix(in srgb, var(--accent) 15%, transparent), transparent 60%);
+  opacity: 0; transition: opacity .25s ease;
+}
+.tile:active::after { opacity: .7; }
+
+/* Icon as rounded square â€œapp iconâ€ */
+.tile-icon {
+  width: var(--icon-size); height: var(--icon-size);
+  border-radius: 22%;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--panel-2) 92%, transparent),
+      color-mix(in srgb, var(--panel-2) 76%, transparent));
+  justify-self: center; display: grid; place-items: center; overflow: hidden;
+
+}
+.tile-icon img {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  border-radius: 22%;
+
+}
+
+/* Caption and secondary line */
+.tile-title {
+  text-align: center; font-weight: 650; font-size: 0.7rem; line-height: 1.25;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tile-url {
+  text-align: center; color: var(--muted); font-size: 0.78rem;
+  word-break: break-all; opacity: 0; transform: translateY(2px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.tile:hover .tile-url { opacity: .9; transform: translateY(0); }
+
+/* --- Settings panel: glass slide-out --- */
+.settings {
+  position: fixed; inset: 0 0 0 auto;
+  width: clamp(340px, 32vw, 520px);
+  transform: translateX(100%);
+  transition: transform .22s ease-in-out;
+  background: var(--panel);
+  border-left: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  box-shadow: var(--shadow-2);
+  backdrop-filter: blur(12px) saturate(1.2);
+  z-index: 10; display: grid; grid-template-rows: auto 1fr;
+}
+.settings.open { transform: translateX(0); }
+.settings-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px; border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+}
+.settings-body {
+  padding: 16px;
+  display: grid;
+  gap: 16px;
+  align-content: start; /* keep sections pinned to the top */
+}
+.muted { color: var(--muted); }
+.settings h3 { margin: 0 0 8px 0; }
+
+/* --- Settings Tabs --- */
+.settings-tabs {
+  display: flex; gap: 4px; margin: 0 0 12px 0;
+  background: color-mix(in srgb, var(--panel-2) 70%, transparent);
+  padding: 4px; border-radius: 12px; position: sticky; top: 0; z-index: 2;
+  backdrop-filter: blur(6px) saturate(1.1);
+}
+.settings-tabs button[role=tab] {
+  flex: 1; border: none; background: transparent; color: var(--text);
+  padding: 8px 10px; font: inherit; cursor: pointer; border-radius: 8px;
+  transition: background .15s ease, color .15s ease, box-shadow .2s ease;
+  position: relative;
+}
+.settings-tabs button[role=tab][aria-selected=true] {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--panel) 92%, transparent),
+    color-mix(in srgb, var(--panel-2) 85%, transparent));
+  box-shadow: 0 1px 2px rgba(0,0,0,.32), 0 0 0 1px color-mix(in srgb, var(--border) 55%, transparent) inset;
+}
+.settings-tabs button[role=tab]:hover:not([aria-selected=true]) {
+  background: color-mix(in srgb, var(--tile-hover) 60%, transparent);
+}
+.tab-panels { display: grid; gap: 20px; }
+.tab-panel { display: grid; gap: 20px; animation: fadeIn .25s ease; }
+.tab-panel[hidden] { display: none; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity:1; transform: translateY(0); } }
+
+/* --- Credits tab --- */
+.tab-credits section { display: grid; gap: 16px; }
+.credits-list {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.credit-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--panel) 95%, transparent),
+    color-mix(in srgb, var(--panel-2) 90%, transparent));
+  border: 1px solid color-mix(in srgb, var(--border) 68%, transparent);
+  box-shadow: var(--shadow-1);
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.credit-item:hover,
+.credit-item:focus-within {
+  border-color: color-mix(in srgb, var(--glow-color) 58%, var(--border));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow-color) 45%, transparent),
+    0 14px 30px rgba(0,0,0,.35);
+  transform: translateY(-2px);
+}
+.credit-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--panel) 94%, transparent);
+}
+.credit-info {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+  min-width: 0;
+}
+.credit-name {
+  font-weight: 700;
+  letter-spacing: .2px;
+  font-size: 1rem;
+}
+/* .credit-heading {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  row-gap: 6px;
+} */
+.credit-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+}
+.credit-heading--inline .credit-name {
+  white-space: nowrap;
+}
+.credit-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--panel-2) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 62%, transparent);
+  color: var(--text);
+}
+.credit-body {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.credit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  opacity: .92;
+  overflow-wrap: anywhere;
+}
+.credit-link::after {
+  content: "->";
+  font-weight: 500;
+  opacity: .65;
+}
+.credit-link:hover,
+.credit-link:focus-visible {
+  color: var(--text);
+  text-decoration: underline;
+}
+.credit-description {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.credit-footer {
+  display: block;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* --- Inputs --- */
+input[type="text"], input[type="url"], input[type="number"], select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  background: color-mix(in srgb, var(--panel-2) 88%, transparent);
+  color: var(--text);
+  transition: box-shadow .18s ease, border-color .18s ease;
+}
+/* Enhanced dark select styling */
+select {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--panel-2) 85%, #000) 0%, color-mix(in srgb, var(--panel) 90%, #000) 100%);
+  color: var(--text);
+  appearance: none;
+  position: relative;
+  background-repeat: no-repeat;
+  background-origin: border-box;
+}
+select:focus { outline: none; }
+select::-ms-expand { display: none; }
+/* Fallback custom arrow using a background SVG (data URI) */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23a9b2c2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-position: right 12px center;
+  background-size: 14px 14px;
+  padding-right: 40px; /* room for arrow */
+}
+
+/* Dynamic glow styling for selects ties into global --glow-color */
+select#prefFont, select#prefTheme {
+  border: 1px solid color-mix(in srgb, var(--glow-color) 70%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow-color) 50%, transparent) inset;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+select#prefFont:hover, select#prefTheme:hover {
+  border-color: color-mix(in srgb, var(--glow-color) 80%, transparent);
+  box-shadow: var(--glow-ring-1), 0 0 0 3px color-mix(in srgb, var(--glow-color) 35%, transparent), 0 0 22px -4px color-mix(in srgb, var(--glow-color) 55%, transparent), 0 0 0 1px color-mix(in srgb, var(--glow-color) 40%, transparent) inset;
+}
+select#prefFont:focus-visible, select#prefTheme:focus-visible,
+select#prefFont:active, select#prefTheme:active {
+  border-color: color-mix(in srgb, var(--glow-color) 88%, transparent);
+  box-shadow: var(--glow-ring-1), 0 0 0 4px color-mix(in srgb, var(--glow-color) 40%, transparent), 0 0 26px -2px color-mix(in srgb, var(--glow-color) 60%, transparent), 0 0 0 1px color-mix(in srgb, var(--glow-color) 45%, transparent) inset;
+}
+/* Crimson variant no longer overrides with fixed RGBA; dynamic glow handles theme accent */
+
+.font-search-row input[type=text] {
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--panel-2) 85%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  color: var(--text);
+}
+.font-search-row input[type=text]:focus-visible { box-shadow: var(--focus); }
+
+/* Burgundy glow for font search input (hover/focus) */
+.font-search-row input[type=text]:hover {
+  border-color: color-mix(in srgb, var(--glow-color) 65%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow-color) 55%, transparent) inset, 0 0 14px 4px color-mix(in srgb, var(--glow-color) 35%, transparent);
+}
+.font-search-row input[type=text]:focus-visible {
+  border-color: color-mix(in srgb, var(--glow-color) 75%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow-color) 70%, transparent) inset, 0 0 18px 6px color-mix(in srgb, var(--glow-color) 40%, transparent);
+}
+
+/* Tabs: apply burgundy glow on hover/active similar to panels */
+.settings-tabs button[role=tab] {
+  position: relative;
+}
+.settings-tabs button[role=tab]:hover {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow-color) 60%, transparent), 0 0 16px 6px color-mix(in srgb, var(--glow-color) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--glow-color) 55%, transparent);
+}
+.settings-tabs button[role=tab][aria-selected=true] {
+  border: 1px solid color-mix(in srgb, var(--glow-color) 55%, transparent);
+}
+.settings-tabs button[role=tab][aria-selected=true]:hover,
+.settings-tabs button[role=tab][aria-selected=true]:focus-visible {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow-color) 65%, transparent), 0 0 20px 6px color-mix(in srgb, var(--glow-color) 40%, transparent);
+  border-color: color-mix(in srgb, var(--glow-color) 65%, transparent);
+}
+option { background: color-mix(in srgb, var(--panel) 85%, #000); color: var(--text); }
+option:checked { background: color-mix(in srgb, var(--accent) 45%, var(--panel)) !important; }
+option:hover { background: color-mix(in srgb, var(--panel-2) 75%, #000); }
+
+/* --- Modal specific opaque inputs --- */
+.modal-card input[type="text"],
+.modal-card input[type="url"],
+.modal-card input[type="number"],
+.modal-card select,
+.modal-card textarea {
+  background: var(--panel-2) !important; /* fully solid */
+  border: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.02) inset;
+}
+.modal-card input[type="text"]:focus,
+.modal-card input[type="url"]:focus,
+.modal-card input[type="number"]:focus,
+.modal-card select:focus,
+.modal-card textarea:focus {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: var(--focus);
+}
+.modal-card option { background: color-mix(in srgb, var(--panel) 80%, #000); }
+.modal-card option:checked { background: color-mix(in srgb, var(--accent) 50%, var(--panel)) !important; }
+input[type="file"] { color: var(--text); }
+input[type="text"]:focus, input[type="url"]:focus, input[type="number"]:focus, select:focus {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  box-shadow: var(--focus);
+}
+
+/* Remove default number spinners for a cleaner, unified appearance */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin:0; }
+input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+label small { color: var(--muted); display: block; }
+
+/* --- Modal --- */
+.modal[hidden] { display: none; }
+.modal { position: fixed; inset: 0; z-index: 20; }
+.modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.45); backdrop-filter: blur(2px);
+}
+.modal-card {
+  position: absolute; inset: 8% 0 auto; margin: 0 auto; max-width: 760px;
+  /* Solid opaque (no see-through) */
+  background: linear-gradient(145deg, var(--panel-2) 0%, var(--panel) 100%), var(--panel);
+  border: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2), 0 0 0 1px rgba(255,255,255,0.02) inset;
+  display: grid; grid-template-rows: auto 1fr auto; overflow: hidden;
+  color: var(--text);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  min-height: 48px;
+  background: var(--panel-2); /* opaque */
+}
+.modal-footer {
+  border-top: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-bottom: none;
+  display: flex; justify-content: flex-end; gap: 10px;
+  padding:5px;
+  background: var(--panel-2); /* opaque */
+}
+.modal-body { padding: 16px; display: grid; gap: 12px; }
+
+/* Pages switcher (collage) */
+.pages-switcher-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
+  gap: 12px;
+  padding: 4px;
+  max-height: 60vh;
+  overflow: auto;
+}
+.page-switcher-item {
+  background: color-mix(in srgb, var(--panel-2) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 14px;
+  padding: 14px 10px;
+  font: inherit;
+  color: var(--text);
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.page-switcher-item:hover { background: color-mix(in srgb, var(--panel) 88%, transparent); }
+.page-switcher-item.active { outline: 2px solid color-mix(in srgb, var(--accent) 55%, transparent); }
+.page-switcher-item.add { border-style: dashed; font-weight: 600; }
+.page-switcher-item.add:hover { background: color-mix(in srgb, var(--panel) 80%, transparent); }
+
+/* Overflow pill */
+.page-pill.overflow {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--panel) 75%, transparent), color-mix(in srgb, var(--panel-2) 75%, transparent));
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+}
+.page-pill.overflow:hover { background: color-mix(in srgb, var(--panel-2) 82%, transparent); }
+.page-pill.overflow:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--glow-color) 60%, transparent),
+    0 0 0 6px color-mix(in srgb, var(--glow-color) 30%, transparent),
+    0 0 26px -6px color-mix(in srgb, var(--glow-color) 55%, transparent),
+    0 1px 0 rgba(255,255,255,.03) inset;
+  border-color: color-mix(in srgb, var(--glow-color) 55%, var(--border));
+}
+
+/* Dynamic overflow dropdown */
+.page-overflow-wrapper { position: relative; }
+.overflow-trigger { font-weight:600; }
+.full-collapse-trigger { font-weight:700; padding-right:14px; color: var(--text); }
+.full-collapse-trigger .caret { margin-left:6px; font-size:.85rem; opacity:.8; }
+.pages-overflow-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 6px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--panel) 92%, transparent), color-mix(in srgb, var(--panel-2) 92%, transparent));
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 16px;
+  box-shadow: var(--shadow-2);
+  padding: 8px;
+  display: grid;
+  gap: 4px;
+  min-width: 220px;
+  max-height: 60vh;
+  overflow: auto;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity .18s ease, transform .18s ease;
+  z-index: 40;
+}
+.pages-overflow-menu.open { opacity:1; pointer-events:auto; transform: translateY(0); }
+.pages-overflow-menu.floating {
+  position: fixed;
+  top: 0; left: 0; /* JS repositions */
+  right: auto;     /* override base rule to avoid full stretch */
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 60;
+  width: max-content;
+  max-width: 420px;
+  min-width: 200px; /* keep a nice panel size */
+}
+.overflow-item { white-space: nowrap; }
+.overflow-item-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: stretch;
+  gap: 6px;
+  background: color-mix(in srgb, var(--panel-2) 85%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: background .15s ease, border-color .15s ease;
+}
+.overflow-item-row.active { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
+.overflow-item-row:hover { background: color-mix(in srgb, var(--panel) 85%, transparent); }
+.overflow-item-row button { font: inherit; color: var(--text); }
+.overflow-item-row .overflow-item.main {
+  display: block; text-align: left; background: transparent; border: none; padding: 10px 12px; cursor: pointer;
+}
+.overflow-mini-actions { display: inline-flex; gap: 2px; padding: 6px 6px 6px 0; }
+.overflow-mini-actions .mini {
+  background: color-mix(in srgb, var(--panel) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  border-radius: 8px; padding: 6px 8px; cursor: pointer; line-height: 1; font-size: .8rem;
+  transition: background .15s ease, border-color .15s ease;
+}
+.overflow-mini-actions .mini:hover { background: color-mix(in srgb, var(--panel-2) 85%, transparent); }
+.overflow-mini-actions .mini.delete { color: var(--danger); }
+.overflow-mini-actions .mini.rename { color: var(--accent); }
+
+/* Switch (edit mode) */
+.switch { position: relative; display: inline-flex; align-items: center; cursor: pointer; gap:8px; }
+.switch input { position: absolute; opacity:0; inset:0; margin:0; cursor: pointer; }
+.switch-track {
+  --w: 54px; --h: 28px;
+  width: var(--w); height: var(--h);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--danger) 55%, var(--panel)),
+    color-mix(in srgb, var(--danger) 35%, var(--panel)));
+  border: 1px solid color-mix(in srgb, var(--danger) 65%, var(--border));
+  border-radius: 999px; position: relative; transition: background .25s ease, border-color .25s ease;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.4);
+}
+.switch-track::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 24px; height: 24px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--panel) 92%, transparent), color-mix(in srgb, var(--panel-2) 92%, transparent));
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.04) inset;
+  transition: transform .28s cubic-bezier(.6,.2,.25,1), background .3s ease, border-color .3s ease;
+}
+.switch input:not(:checked) + .switch-track { background: linear-gradient(180deg, color-mix(in srgb, var(--danger) 60%, var(--panel)), color-mix(in srgb, var(--danger) 40%, var(--panel))); border-color: color-mix(in srgb, var(--danger) 65%, var(--border)); }
+.switch input:checked + .switch-track { background: linear-gradient(180deg, color-mix(in srgb, var(--ok) 60%, var(--panel)), color-mix(in srgb, var(--ok) 40%, var(--panel))); border-color: color-mix(in srgb, var(--ok) 65%, var(--border)); }
+.switch input:checked + .switch-track::after { transform: translateX(26px); }
+.switch input:focus-visible + .switch-track { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent); }
+.switch-label-on, .switch-label-off { font-size:.7rem; font-weight:600; letter-spacing:.5px; text-transform:uppercase; opacity:.6; transition:opacity .25s ease; }
+.switch-label-on { order: 2; }
+.switch-label-off { order: 3; }
+.switch input:checked ~ .switch-label-on { opacity:.95; }
+.switch input:checked ~ .switch-label-off { opacity:.25; }
+.switch input:not(:checked) ~ .switch-label-off { opacity:.95; }
+.switch input:not(:checked) ~ .switch-label-on { opacity:.25; }
+.overflow-item {
+  background: color-mix(in srgb, var(--panel-2) 85%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+.overflow-item:hover { background: color-mix(in srgb, var(--panel) 85%, transparent); }
+.overflow-item.active { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px 16px;
+  align-items: center;
+}
+
+/* --- Drag visual --- */
+.drag-over {
+  outline: 3px dashed color-mix(in srgb, var(--accent) 55%, transparent);
+  outline-offset: -4px;
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 30%, transparent));
+}
+
+/* --- Utilities --- */
+.hidden { display: none !important; }
+
+/* --- Compact breakpoints for smaller screens --- */
+@media (max-width: 900px) {
+  .groups { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .tiles { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+  :root { --icon-size: 72px; }
+}
+@media (max-width: 600px) {
+  .groups { grid-template-columns: 1fr; }
+  .tiles { grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); }
+  :root { --icon-size: 68px; }
+}
+
+/* ===================== Global Glow Disable ====================== */
+body.disable-glow .btn:hover,
+body.disable-glow .btn:active,
+body.disable-glow .btn:focus-visible,
+body.disable-glow .page-pill:hover,
+body.disable-glow .page-pill.active,
+body.disable-glow .page-pill:focus-visible,
+body.disable-glow .page-pill:focus-within,
+body.disable-glow .pill-menu-btn:hover,
+body.disable-glow .pill-menu-btn:active,
+body.disable-glow .pill-menu-btn:focus-visible,
+body.disable-glow select:hover,
+body.disable-glow .settings-tabs [role=tab]:hover,
+body.disable-glow .settings-tabs [role=tab][aria-selected=true],
+body.disable-glow input#prefFontSearch:hover,
+body.disable-glow .group:hover,
+body.disable-glow .group:focus-within {
+  box-shadow: none !important;
+  outline: none !important;
+  filter: none !important;
+}
+body.disable-glow .group { box-shadow: var(--shadow-2); transition: box-shadow .25s ease; }
+/* ================================================================= */
+
+/* Glow color input styling */
+#prefGlowColor {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow-color) 55%, transparent) inset;
+  transition: box-shadow .25s ease, border-color .25s ease;
+}
+#prefGlowColor:hover, #prefGlowColor:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--glow-color) 70%, var(--border));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow-color) 60%, transparent) inset,
+              0 0 14px 4px color-mix(in srgb, var(--glow-color) 40%, transparent);
+}
+body.disable-glow #prefGlowColor:hover, body.disable-glow #prefGlowColor:focus-visible {
+  box-shadow: none; border-color: var(--border);
+}

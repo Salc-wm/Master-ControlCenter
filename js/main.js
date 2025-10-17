@@ -1,25 +1,34 @@
 // main.js — application bootstrap (load state, initial render, global listeners)
 import { $ } from "./utils.js";
-import { loadState, migrateSettings } from "./state.js";
+import { loadState, migrateSettings, STATE } from "./state.js";
 import { renderPagesBar } from "./render-pages.js";
 import { renderGroups } from "./render-groups.js";
 import { renderPrefs, initSettingsBindings } from "./settings.js";
 import { wireClickDelegation } from "./events.js";
 import { closeModal } from "./modals.js";
+import { initI18n, onLanguageChange, applyTranslations } from "./languages/i18n.js";
 
 function render() {
   renderPagesBar();   // tabs bar
   renderGroups();     // groups + tiles grid
   renderPrefs();      // sync settings UI
+
+  applyTranslations();
 }
 
 (async function init() { // bootstrap IIFE
   await loadState();   // hydrate STATE from storage
   migrateSettings();   // apply migrations (e.g., remove deprecated settings)
-  render();            // first paint
+  initI18n(STATE.settings?.interfaceLanguage || "en");
+  onLanguageChange(() => {
+    render();
+  });
+
+  render();  // first paint
 
   wireClickDelegation();
   initSettingsBindings();
+
   // Listen for font fallback events and log structured JSON (could be surfaced in UI later)
   window.addEventListener('sdFontFallback', (e)=>{
     if (window.__fontFallbackLogged) return; // log only once per session

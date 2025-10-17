@@ -6,7 +6,7 @@
     name="viewport"
     content="width=device-width,initial-scale=1,viewport-fit=cover"
   />
-  <title>Master Control Center</title>
+  <title data-i18n="Master Control Center">Master Control Center</title>
   <link rel="icon" type="image/svg+xml" href="assets/icon/stackdash.svg" />
   <link rel="icon" type="image/png" sizes="16x16" href="assets/icon/stackdash-16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icon/stackdash-32.png" />
@@ -20,13 +20,13 @@
 <header class="topbar">
       <div class="topbar-title">
         <img class="logo" src="assets/icon/stackdash-128.png" alt="Master Control Center icon" />
-        <span>Master Control Center</span>
+        <span data-i18n="Master Control Center">Master Control Center</span>
       </div>
       <nav class="pages" id="pagesBar" aria-label="Pages"></nav>
 
       <div class="topbar-actions">
-        <button class="btn small" data-action="addPage" title="Add page">Add Page</button>
-        <button class="btn small" data-action="toggleSettings" title="Settings">Settings</button>
+        <button class="btn small" data-action="addPage" data-i18n="Add Page" data-i18n-title="Add Page" title="Add Page">Add Page</button>
+        <button class="btn small" data-action="toggleSettings" data-i18n="Settings" data-i18n-title="Settings" title="Settings">Settings</button>
       </div>
     </header>
 
@@ -37,155 +37,217 @@
     <!-- Slide-out settings -->
         <aside id="settingsPanel" class="settings" aria-label="Settings">
           <div class="settings-header">
-              <h2>Settings</h2>
-              <button class="btn" data-action="toggleSettings" title="Close">Close</button>
+              <h2 data-i18n="Settings">Settings</h2>
+              <button class="btn" data-action="toggleSettings" data-i18n="Close" data-i18n-title="Close" title="Close">Close</button>
           </div>
           <div class="settings-body">
             <!-- Tabs -->
             <div class="settings-tabs" role="tablist" aria-label="Settings Tabs">
-              <button role="tab" id="tab-general"   data-tab="general"   aria-controls="panel-general"   aria-selected="true">General</button>
-              <button role="tab" id="tab-data"      data-tab="data"      aria-controls="panel-data"      aria-selected="false">Data</button>
-              <button role="tab" id="tab-api"       data-tab="api"       aria-controls="panel-api"       aria-selected="false">APIS</button>
-              <button role="tab" id="tab-advanced"  data-tab="advanced"  aria-controls="panel-advanced"  aria-selected="false">Advanced</button>
-              <button role="tab" id="tab-credits"   data-tab="credits"   aria-controls="panel-credits"   aria-selected="false">Credits</button>
+              <button role="tab" id="tab-general"   data-tab="general"   aria-controls="panel-general"   aria-selected="true" data-i18n="General">General</button>
+              <button role="tab" id="tab-data"      data-tab="data"      aria-controls="panel-data"      aria-selected="false" data-i18n="Data">Data</button>
+              <button role="tab" id="tab-api"       data-tab="api"       aria-controls="panel-api"       aria-selected="false" data-i18n="APIS">APIS</button>
+              <button role="tab" id="tab-advanced"  data-tab="advanced"  aria-controls="panel-advanced"  aria-selected="false" data-i18n="Advanced">Advanced</button>
+              <button role="tab" id="tab-credits"   data-tab="credits"   aria-controls="panel-credits"   aria-selected="false" data-i18n="Credits">Credits</button>
             </div>
 
             <div class="tab-panels">
               <!-- General Tab -->
               <div id="panel-general" class="tab-panel active" role="tabpanel" aria-labelledby="tab-general">
                 <section>
-                  <h3>Theme</h3>
-                  <div class="form-grid" style="grid-template-columns:140px 1fr; align-items:center;">
-                    <label for="prefTheme">Theme</label>
-                    <select id="prefTheme">
-                      <option value="system">System</option>
-                      <option value="light">Light</option>
-                      <option value="dark">Dark</option>
-                      <option value="crimson">Crimson Dark</option>
+                  <h3 data-i18n="Localization">Localization</h3>
+                  <p data-i18n="Customize basic dashboard preferences. Additional options coming soon.">Customize basic dashboard preferences. Additional options coming soon.</p>
+                  <div class="form-grid" style="grid-template-columns:160px 1fr;align-items:center;">
+                    <label for="prefInterfaceLanguage" data-i18n="Interface language">Interface language</label>
+                    <select id="prefInterfaceLanguage" name="prefInterfaceLanguage">
+                      <option value="en" selected data-i18n="English">English</option>
+                      <option value="es" data-i18n="Spanish">Spanish</option>
+                      <option value="fr" data-i18n="French">French</option>
+                      <option value="de" data-i18n="German">German</option>
+                      <option value="de-ch" data-i18n="Swiss German">Swiss German</option>
+                      <option value="nl" data-i18n="Dutch">Dutch</option>
+                      <option value="it" data-i18n="Italian">Italian</option>
+                      <option value="pt" data-i18n="Portuguese">Portuguese</option>
                     </select>
-                    <label for="prefFont">Font</label>
+                  </div>
+                  <small class="muted" data-i18n="Choose how the dashboard text is translated.">Choose how the dashboard text is translated.</small>
+                </section>
+                <section>
+                  <h3 data-i18n="Theme">Theme</h3>
+                  <div class="form-grid" style="grid-template-columns:140px 1fr; align-items:center;">
+                    <label for="prefTheme" data-i18n="Theme">Theme</label>
+                    <select id="prefTheme">
+                      <option value="system" data-i18n="System">System</option>
+                      <option value="light" data-i18n="Light">Light</option>
+                      <option value="dark" data-i18n="Dark">Dark</option>
+                      <option value="crimson" data-i18n="Crimson Dark">Crimson Dark</option>
+                    </select>
+                    <label for="prefFont" data-i18n="Font">Font</label>
                     <select id="prefFont"></select>
                   </div>
                   <div class="font-search-row" style="margin-top:8px;">
-                    <input id="prefFontSearch" type="text" placeholder="Search fonts…" aria-label="Search fonts" />
-                    <button id="prefFontTest" class="btn small" type="button" style="margin-left:8px;">Select Font</button>
+                    <input id="prefFontSearch" type="text" placeholder="Search fonts…" aria-label="Search fonts" data-i18n-placeholder="Search fonts…" data-i18n-aria-label="Search fonts…" />
+                    <button id="prefFontTest" class="btn small" type="button" style="margin-left:8px;" data-i18n="Select Font" data-i18n-title="Select Font" title="Select Font">Select Font</button>
                   </div>
-                  <div class="glow-controls" style="display:flex;align-items:center;gap:20px;margin-top:14px;flex-wrap:wrap;">
-                    <label class="switch" aria-label="Glow effect toggle" style="display:inline-flex;align-items:center;gap:8px;">
+                    <div class="glow-controls" style="display:flex;align-items:center;gap:20px;margin-top:14px;flex-wrap:wrap;">
+                    <label class="switch" aria-label="Glow effect toggle" data-i18n-aria-label="Glow effect toggle" style="display:inline-flex;align-items:center;gap:8px;">
                       <input id="prefGlowEnabled" type="checkbox" checked />
                       <span class="switch-track" aria-hidden="true"></span>
-                      <span class="switch-label-on" aria-hidden="true">On</span>
-                      <span class="switch-label-off" aria-hidden="true">Off</span>
+                      <span class="switch-label-on" aria-hidden="true" data-i18n="On">On</span>
+                      <span class="switch-label-off" aria-hidden="true" data-i18n="Off">Off</span>
                     </label>
                     <label style="display:flex;align-items:center;gap:10px;">
-                      <span style="font-weight:600;">Glow Color</span>
-                      <input id="prefGlowColor" type="color" value="#8b1234" style="width:46px;height:32px;padding:0;border-radius:8px;border:1px solid var(--border);background:var(--panel);cursor:pointer;" aria-label="Glow color" />
+                      <span style="font-weight:600;" data-i18n="Glow Color">Glow Color</span>
+                      <input id="prefGlowColor" type="color" value="#8b1234" style="width:46px;height:32px;padding:0;border-radius:8px;border:1px solid var(--border);background:var(--panel);cursor:pointer;" aria-label="Glow color" data-i18n-aria-label="Glow color" />
                     </label>
                   </div>
-                  <small class="muted">Choose light / dark or follow system preference.</small>
+                  <small class="muted" data-i18n="Choose light / dark or follow system preference.">Choose light / dark or follow system preference.</small>
                   <div style="margin-top:10px;">
-                    <button id="prefGlowReset" type="button" class="btn small" title="Reset glow color to default">Reset Glow</button>
+                    <button id="prefGlowReset" type="button" class="btn small" title="Reset glow color to default" data-i18n="Reset Glow" data-i18n-title="Reset glow color to default">Reset Glow</button>
                   </div>
                 </section>
                 <section>
-                  <h3>Edit Mode</h3>
+                  <h3 data-i18n="Edit Mode">Edit Mode</h3>
                   <div class="form-grid" style="grid-template-columns:auto;align-items:center;">
-                    <label class="switch" style="justify-self:start;" aria-label="Edit toggle">
+                    <label class="switch" style="justify-self:start;" aria-label="Edit toggle" data-i18n-aria-label="Edit toggle">
                       <input id="prefEditMode" type="checkbox" />
                       <span class="switch-track" aria-hidden="true"></span>
-                      <span class="switch-label-on" aria-hidden="true">On</span>
-                      <span class="switch-label-off" aria-hidden="true">Off</span>
+                      <span class="switch-label-on" aria-hidden="true" data-i18n="On">On</span>
+                      <span class="switch-label-off" aria-hidden="true" data-i18n="Off">Off</span>
                     </label>
                   </div>
-                  <small class="muted">Turn off to hide menus, drag handles, and add buttons.</small>
+                  <small class="muted" data-i18n="Turn off to hide menus, drag handles, and add buttons.">Turn off to hide menus, drag handles, and add buttons.</small>
                 </section>
               </div>
 
               <!-- Data Tab -->
               <div id="panel-data" class="tab-panel" role="tabpanel" aria-labelledby="tab-data" hidden>
                 <section>
-                  <h3>Backup</h3>
+                  <h3 data-i18n="Backup">Backup</h3>
                   <div class="row">
-                    <button class="btn" data-action="exportJson">Export JSON</button>
+                    <button class="btn" data-action="exportJson" data-i18n="Export JSON" data-i18n-title="Export JSON">Export JSON</button>
                     <label class="btn file">
-                      Import JSON
+                      <span data-i18n="Import JSON">Import JSON</span>
                       <input type="file" id="importJsonFile" accept="application/json" />
                     </label>
                   </div>
+                </section>
+                <section>
+                  <h3 data-i18n="Danger ⚠️">Danger ⚠️</h3>
+                  <button class="btn danger" data-action="resetAll" data-i18n="Reset all data" data-i18n-title="Reset all data">Reset all data</button>
                 </section>
               </div>
 
               <!-- API Tab -->
               <div id="panel-api" class="tab-panel" role="tabpanel" aria-labelledby="tab-api" hidden>
                 <section>
-                  <h3>logo.dev</h3>
+                  <h3 data-i18n="logo.dev">logo.dev</h3>
                   <div class="form-grid">
-                    <label for="prefLogoDevKey">API Key</label>
-                    <input id="prefLogoDevKey" type="text" placeholder="sk_xxx..." autocomplete="off" />
+                    <label for="prefLogoDevKey" data-i18n="API Key">API Key</label>
+                    <input id="prefLogoDevKey" type="text" placeholder="sk_xxx..." autocomplete="off" data-i18n-placeholder="sk_xxx..." />
                   </div>
-                  <small class="muted">Stored locally. Used for automatic logo resolution when adding apps.</small>
+                  <small class="muted" data-i18n="Stored locally. Used for automatic logo resolution when adding apps.">Stored locally. Used for automatic logo resolution when adding apps.</small>
                 </section>
               </div>
 
               <!-- Advanced Tab -->
               <div id="panel-advanced" class="tab-panel" role="tabpanel" aria-labelledby="tab-advanced" hidden>
                 <section>
-                  <h3>Performance</h3>
+                  <h3 data-i18n="Performance">Performance</h3>
                   <div class="form-grid" style="grid-template-columns:140px 1fr;align-items:center;">
-                    <label for="prefPruneAge">Cache Max Age (hrs)</label>
-                    <input id="prefPruneAge" type="number" min="1" max="48" step="1" placeholder="6" />
-                    <label for="prefPruneEntries">Cache Max Entries</label>
-                    <input id="prefPruneEntries" type="number" min="50" max="2000" step="50" placeholder="250" />
-                    <label for="prefPerfPanel">Perf Panel</label>
+                    <label for="prefPruneAge" data-i18n="Cache Max Age (hrs)">Cache Max Age (hrs)</label>
+                    <input id="prefPruneAge" type="number" min="1" max="48" step="1" placeholder="6" data-i18n-placeholder="6" />
+                    <label for="prefPruneEntries" data-i18n="Cache Max Entries">Cache Max Entries</label>
+                    <input id="prefPruneEntries" type="number" min="50" max="2000" step="50" placeholder="250" data-i18n-placeholder="250" />
+                    <label for="prefPerfPanel" data-i18n="Perf Panel">Perf Panel</label>
                     <label class="switch" style="justify-self:start;">
                       <input id="prefPerfPanel" type="checkbox" />
                       <span class="switch-track" aria-hidden="true"></span>
-                      <span class="switch-label-on" aria-hidden="true">On</span>
-                      <span class="switch-label-off" aria-hidden="true">Off</span>
+                      <span class="switch-label-on" aria-hidden="true" data-i18n="On">On</span>
+                      <span class="switch-label-off" aria-hidden="true" data-i18n="Off">Off</span>
                     </label>
                   </div>
-                  <small class="muted">Adjust in-memory cache pruning (weather, RSS, etc.). </small>
-                </section>
-                <section>
-                  <h3>Danger ⚠️</h3>
-                  <button class="btn danger" data-action="resetAll">Reset all data</button>
+                  <small class="muted" data-i18n="Adjust in-memory cache pruning (weather, RSS, etc.). ">Adjust in-memory cache pruning (weather, RSS, etc.). </small>
                 </section>
               </div>
 
               <div id="panel-credits" class="tab-credits" role="tabpanel" aria-labelledby="tab-credits" hidden>
                 <section>
-                  <div class="credits-list" style="display: flex; flex-direction: column; gap: 15px;">
-                    <div class="credit-item" style="display: flex; align-items: center; gap: 12px;">
-                      <img src="https://cdn.discordapp.com/avatars/333686085106401281/a4e4ab5a699a39fdc5c17170df54a48f.webp?size=128"
-                        alt="Contributor Avatar"
-                        style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+                  <div class="credits-list">
+                    <div class="credit-item">
+                      <img class="credit-avatar"
+                        src="https://cdn.discordapp.com/avatars/333686085106401281/a4e4ab5a699a39fdc5c17170df54a48f.webp?size=128"
+                        alt="Salc_RCC avatar">
                       <div class="credit-info">
-                        <span style="font-weight: 600;">Salc_RCC</span><br>
-                        <a href="https://example.com" target="_blank" rel="noopener noreferrer">https://github.com/Salc-wm</a>
-                        <small class="muted" style="margin-top: 6px; display: block;">Full Stack Senior.</small>
-                      </div>
-                    </div>
-                   <div class="credit-item" style="display: flex; align-items: center; gap: 12px;">
-                     <img src="https://cdn.discordapp.com/avatars/1237801313648246794/8bce95cb2d9f94195c34bef8b1f0acd9.webp?size=128"
-                       alt="Contributor Avatar"
-                       style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
-                     <div class="credit-info">
-                       <span style="font-weight: 600;">Sergio Marquina</span><br>
-                       <a href="https://anotherexample.dev" target="_blank" rel="noopener noreferrer">https://cybersecurity-solution.net/</a>
-                       <small class="muted" style="margin-top: 6px; display: block;">Software Engineer & UX Designer.</small>
-                     </div>
-                   </div>
-                   <div class="credit-item" style="display: flex; align-items: center; gap: 12px;">
-                       <img src="https://cdn.discordapp.com/avatars/848850740592377887/0c3a5f28465d4b582480c8ce7489154c.webp?size=128"
-                         alt="Contributor Avatar"
-                          style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
-                        <div class="credit-info">
-                            <span style="font-weight: 600;">Folke™</span><br>
-                          <small class="muted" style="margin-top: 6px; display: block;">Mental/Emotional support...</small>
+                        <div class="credit-heading credit-heading--inline">
+                          <span class="credit-name">Calixto</span>
+                          <span class="credit-tag" data-i18n="Senior Full Stack Developer">Senior Full Stack Developer</span>
+                        </div>
+                        <div class="credit-body">
+                          <a class="credit-link" href="https://github.com/Salc-wm" target="_blank" rel="noopener noreferrer">https://github.com/Salc-wm</a>
+                          <p class="credit-description" data-i18n="Leads the system architecture and ensures the Control Center remains stable, efficient, and scalable.">Leads the system architecture and ensures the Control Center remains stable, efficient, and scalable.</p>
                         </div>
                       </div>
                     </div>
-                  <small class="muted" style="margin-top: 12px; display: block;">Thank you to all contributors who helped make this possible!</small>
+                    <div class="credit-item">
+                      <img class="credit-avatar"
+                        src="https://cdn.discordapp.com/avatars/1237801313648246794/8bce95cb2d9f94195c34bef8b1f0acd9.webp?size=128"
+                        alt="Sergio Marquina avatar">
+                      <div class="credit-info">
+                        <div class="credit-heading credit-heading--inline">
+                          <span class="credit-name">Sergio Marquina</span>
+                          <span class="credit-tag" data-i18n="Jr. Software & UX Designer">Jr. Software & UX Designer</span>
+                        </div>
+                        <div class="credit-body">
+                          <a class="credit-link" href="https://cybersecurity-solution.net/" target="_blank" rel="noopener noreferrer">https://cybersecurity-solution.net/</a>
+                          <p class="credit-description" data-i18n="Leads UX direction and design systems that keep every flow intuitive.">Leads UX direction and design systems that keep every flow intuitive.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="credit-item">
+                      <img class="credit-avatar"
+                        src="https://cdn.discordapp.com/avatars/848850740592377887/0c3a5f28465d4b582480c8ce7489154c.webp?size=128"
+                        alt="Folke avatar">
+                      <div class="credit-info">
+                        <div class="credit-heading credit-heading--inline">
+                          <span class="credit-name">Folke™</span>
+                          <span class="credit-tag" data-i18n="Dashboard Developer">Dashboard Developer</span>
+                        </div>
+                        <div class="credit-body">
+                          <p class="credit-description" data-i18n="Designs engaging game title mechanics for the dashboard feature that dynamically pulls game titles, keeping creativity and team morale high between releases.">Designs engaging game title mechanics for the dashboard feature that dynamically pulls game titles, keeping creativity and team morale high between releases.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="credit-item">
+                      <img class="credit-avatar"
+                        src="https://cdn.discordapp.com/avatars/343810250039754762/e0a43b22a94ccb88312f47ca31f729a5.webp?size=128"
+                        alt="Autismo Skuba avatar">
+                      <div class="credit-info">
+                        <div class="credit-heading credit-heading--inline">
+                          <span class="credit-name">Autismo Skuba</span>
+                          <span class="credit-tag" data-i18n="UI Effects Engineer">UI Effects Engineer</span>
+                        </div>
+                        <div class="credit-body">
+                          <a class="credit-link" href="https://github.com/AutismoSkuba" target="_blank" rel="noopener noreferrer">https://github.com/AutismoSkuba</a>
+                          <p class="credit-description" data-i18n="Engineers the glow system and polishes the dashboard's visual depth.">Engineers the glow system and polishes the dashboard's visual depth.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="credit-item">
+                      <img class="credit-avatar"
+                        src="https://cdn.discordapp.com/avatars/502273377906458624/a17b641b6cc118fffecc4596950b9163.webp?size=128"
+                        alt="Stefan Schwarz avatar">
+                      <div class="credit-info">
+                        <div class="credit-heading credit-heading--inline">
+                          <span class="credit-name">Stefan Schwarz</span>
+                          <span class="credit-tag" data-i18n="Swiss Representative & Language Expert">Swiss Representative & Language Expert</span>
+                        </div>
+                        <div class="credit-body">
+                          <p class="credit-description" data-i18n="Providing multi-lingual access for worldwide support.">Providing multi-lingual access for worldwide support.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <small class="muted credit-footer" data-i18n="Thank you to all contributors who helped make this possible!">Thank you to all contributors who helped make this possible!</small>
                 </section>
               </div>
             </div>

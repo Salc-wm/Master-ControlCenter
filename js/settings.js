@@ -3,6 +3,7 @@ import { $, on } from "./utils.js";
 import { STATE, saveState, saveStateNow, applyTheme } from "./state.js";
 import { renderGroups } from "./render-groups.js";
 import { FONT_CATALOG, getFontMeta } from './fonts.js';
+import { SUPPORTED_LANGUAGES, setLanguage } from "./languages/i18n.js";
 
 /**
  * Render current settings into the slide-out UI.
@@ -19,6 +20,7 @@ export function renderPrefs() {
   const fontSel = $('#prefFont');
   const glowToggle = $('#prefGlowEnabled');
   const glowColor = $('#prefGlowColor');
+  const languageSel = $("#prefInterfaceLanguage");
 
   if (openNew)  openNew.checked = !!STATE.settings.openInNewTab;
   if (themeSel) themeSel.value  = STATE.settings.theme ?? "system";
@@ -37,6 +39,10 @@ export function renderPrefs() {
     if (pruneEntries) pruneEntries.value = cfg.maxEntries || '';
   } catch {}
   try { if (perfPanel) perfPanel.checked = localStorage.getItem('sdPerfPanel') === '1'; } catch {}
+  if (languageSel) {
+    const lang = (STATE.settings.interfaceLanguage || 'en').toLowerCase();
+    languageSel.value = lang;
+  }
 }
 
 /**
@@ -71,7 +77,16 @@ function applyDynamicGlowColor(raw) {
 /** Ensure required settings keys exist and are valid. */
 function normaliseSettingsObject(s) {
   const out = Object.assign(
-    { openInNewTab: true, theme: "system", logoDevApiKey: "", editMode: true, selectedFont: 'inter', glowEnabled: true, glowColor: '#8b1234' },
+    {
+      openInNewTab: true,
+      theme: "system",
+      logoDevApiKey: "",
+      editMode: true,
+      selectedFont: "inter",
+      glowEnabled: true,
+      glowColor: "#8b1234",
+      interfaceLanguage: "en"
+    },
     (s && typeof s === "object") ? s : {}
   );
 
@@ -82,6 +97,12 @@ function normaliseSettingsObject(s) {
   if (typeof out.selectedFont !== 'string' || !out.selectedFont.trim()) out.selectedFont = 'inter';
   out.glowEnabled = out.glowEnabled !== false; // default true
   if (typeof out.glowColor !== 'string' || !/^#([0-9a-f]{3,8})$/i.test(out.glowColor)) out.glowColor = '#8b1234';
+  if (typeof out.interfaceLanguage !== 'string') {
+    out.interfaceLanguage = 'en';
+  } else {
+    out.interfaceLanguage = out.interfaceLanguage.toLowerCase();
+    if (!SUPPORTED_LANGUAGES.includes(out.interfaceLanguage)) out.interfaceLanguage = 'en';
+  }
   // If previous selection points to removed font, fallback to original_default
   const validIds = new Set((window?.FONT_CATALOG || []).map(f=>f.fontName));
   try {
@@ -354,6 +375,14 @@ export function initSettingsBindings() {
     } finally {
       e.target.value = ""; // reset file input
     }
+  });
+
+  on("#prefInterfaceLanguage", "change", (e) => {
+    const raw = (e.target.value || "en").toLowerCase();
+    const lang = SUPPORTED_LANGUAGES.includes(raw) ? raw : "en";
+    STATE.settings.interfaceLanguage = lang;
+    saveState();
+    setLanguage(lang);
   });
 
   // Optional legacy toggles (OK if the controls were removed from the DOM)

@@ -9,7 +9,16 @@ const setLinkPlace = (name, url, icon) => {
 }};
 
 export const DEFAULT_STATE = {
-  settings: { openInNewTab: true, theme: "system", logoDevApiKey: "", editMode: true, selectedFont: 'inter', glowEnabled: true, glowColor: '#8b1234' },
+  settings: {
+    openInNewTab: true,
+    theme: "system",
+    logoDevApiKey: "",
+    editMode: true,
+    selectedFont: "inter",
+    glowEnabled: true,
+    glowColor: "#8b1234",
+    interfaceLanguage: "en"
+  },
   pages: [
     {
       id: `page_${Math.random().toString(36).slice(2, 8)}`,
