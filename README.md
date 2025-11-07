@@ -40,6 +40,9 @@
 </div>
 
 ---
+# The principal project has been modified to:
+here it will be for tests, and debugs...
+https://github.com/cyberfox1337x/Master-Control-Center
 
 <details>
   <summary><img src="https://img.shields.io/badge/📑-Table%20of%20Contents-1E1E1E?style=flat-square&labelColor=111111" /></summary>
